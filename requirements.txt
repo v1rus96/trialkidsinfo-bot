@@ -1,0 +1,9 @@
+colorama==0.3.7
+decorator==4.0.11
+dnspython==1.15.0
+numpy==1.12.1
+pathlib2==2.1.0
+psutil==5.0.1
+pycrypto==2.6.1
+pysmbc==1.0.15.6
+six==1.10.0
