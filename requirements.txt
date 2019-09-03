@@ -8,3 +8,5 @@ pycrypto==2.6.1
 six==1.10.0
 gunicorn==19.7.1
 Flask==1.0.2
+requests==2.16.5
+python-telegram-bot==12.0.0
