@@ -6,3 +6,4 @@ pathlib2==2.1.0
 psutil==5.0.1
 pycrypto==2.6.1
 six==1.10.0
+gunicorn==19.7.1
