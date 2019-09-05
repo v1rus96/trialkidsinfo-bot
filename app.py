@@ -33,7 +33,7 @@ def respond():
     img.paste(Image.open("images/background.png"))
     draw = ImageDraw.Draw(img)
     fnt = ImageFont.truetype('images/Quicksand-Bold.ttf', 48)
-    draw.text((135,35),"KIDO12345",(255,255,255),font=fnt)
+    draw.text((135,35),response,(255,255,255),font=fnt)
     img.save('final.png')
     bio = BytesIO()
     bio.name = 'image.png'
