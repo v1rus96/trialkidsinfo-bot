@@ -37,10 +37,9 @@ def respond():
     query = update.callback_query
     bot.send_photo(chat_id, photo=bio, reply_markup=keyboard)
     if query.data == "1":
-        bot.sendMessage(chat_id=query.message.chat.id, text="Пыщь")
-    # Если сообщение из инлайн-режима
+        bot.sendMessage(chat_id=chat_id, text="Пыщь")
     elif query.data == "2":
-        bot.sendMessage(chat_id=query.message.chat.id, text="Бдыщь")
+        bot.sendMessage(chat_id=chat_id, text="Бдыщь")
 
     return 'ok'
 
