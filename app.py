@@ -7,6 +7,8 @@ from flask import Flask, request
 from telegram import InlineKeyboardMarkup, InlineKeyboardButton
 from telebot.credentials import bot_token, bot_user_name,URL
 from telebot.mastermind import get_response
+from telegram.ext import Updater
+from telegram.ext import CommandHandler, CallbackQueryHandler
 
 global bot
 global TOKEN
@@ -34,14 +36,15 @@ def respond():
                    [InlineKeyboardButton(text='Press me', callback_data='1')],
                    [InlineKeyboardButton(text='Press me', callback_data='2')],
                ])
-    query = update.callback_query
     bot.send_photo(chat_id, photo=bio, reply_markup=keyboard)
-    if query.data == "1":
-        bot.sendMessage(chat_id=chat_id, text="Пыщь")
-    elif query.data == "2":
-        bot.sendMessage(chat_id=chat_id, text="Бдыщь")
 
     return 'ok'
+
+def updateImage(bot, update):
+  query = update.callback_query
+  bot.editMessageMedia(chat_id=query.message.chat_id,
+                        message_id=query.message.message_id,
+                        media=generateImage(kID=123456))
 
 def generateImage(kID):
     img = Image.new("RGB", (500,550), color="red")
@@ -58,6 +61,12 @@ def generateImage(kID):
     img.save(bio, 'PNG')
     bio.seek(0)
     return bio
+
+updater = Updater('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
+
+updater.dispatcher.add_handler(CallbackQueryHandler(updateImage, pattern='1'))
+
+updater.start_polling()
 
 @app.route('/set_webhook', methods=['GET', 'POST'])
 def set_webhook():
