@@ -14,7 +14,10 @@ bot = telegram.Bot(token=TOKEN)
 app = Flask(__name__)
 
 @app.route('/{}'.format(TOKEN), methods=['POST'])
+
 def respond():
+    updates = bot.get_updates()
+    print([u.message.photo for u in updates if u.message.photo])
     # retrieve the message in JSON and then transform it to Telegram object
     update = telegram.Update.de_json(request.get_json(force=True), bot)
 
