@@ -35,10 +35,7 @@ def respond():
                    [InlineKeyboardButton(text='Press me', callback_data='2')],
                ])
     query = update.callback_query
-    if query.data == 1:
-        bot.send_message(chat_id=query.message.chat_id,text='hi')
-    else:
-        bot.send_photo(chat_id, photo=bio, reply_markup=keyboard)
+    bot.send_photo(chat_id, photo=bio, reply_markup=keyboard)
     
     return 'ok'
 
