@@ -37,9 +37,7 @@ def respond():
                    [InlineKeyboardButton(text='Press me', callback_data='2')],
                ])
     bot.send_photo(chat_id, photo=bio, reply_markup=keyboard)
-    bot.editMessageMedia(chat_id=chat_id,
-                        message_id=msg_id,
-                        media=generateImage(kID=123456))
+
     return 'ok'
 
 def updateImage(bot, update):
