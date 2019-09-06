@@ -62,9 +62,6 @@ def generateImage(kID):
     bio.seek(0)
     return bio
 
-updater = Updater('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
-updater.dispatcher.add_handler(CallbackQueryHandler(updateImage, pattern='1'))
-
 @app.route('/set_webhook', methods=['GET', 'POST'])
 def set_webhook():
     s = bot.setWebhook('{URL}{HOOK}'.format(URL=URL, HOOK=TOKEN))
