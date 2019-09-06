@@ -41,12 +41,6 @@ def respond():
 
     return 'ok'
 
-def updateImage(bot, update):
-  query = update.callback_query
-  bot.editMessageMedia(chat_id=query.message.chat_id,
-                        message_id=query.message.message_id,
-                        media=generateImage(kID=123456))
-
 def generateImage(kID):
     img = Image.new("RGB", (500,550), color="red")
     #x,y = img.size
@@ -54,7 +48,7 @@ def generateImage(kID):
     img.paste(Image.open("images/background.png"))
     draw = ImageDraw.Draw(img)
     fnt = ImageFont.truetype('images/Quicksand-Bold.ttf', 48)
-    width, height = draw.textsize(kID, fnt)
+    width = draw.textsize(kID, fnt)
     draw.text(((500-width)/2,35),kID,(255,255,255),font=fnt)
     #img.save('final.png')
     bio = BytesIO()
