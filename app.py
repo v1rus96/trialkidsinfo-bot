@@ -36,7 +36,14 @@ def respond():
                ])
     query = update.callback_query
     bot.send_photo(chat_id, photo=bio, reply_markup=keyboard)
-    
+    if query.message:
+        if query.data == "1":
+            bot.edit_message_text(chat_id=query.message.chat.id, message_id=query.message.message_id, text="Пыщь")
+    # Если сообщение из инлайн-режима
+    elif query.inline_message_id:
+        if query.data == "2":
+            bot.edit_message_text(inline_message_id=query.inline_message_id, text="Бдыщь")
+
     return 'ok'
 
 def generateImage(kID):
