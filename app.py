@@ -7,8 +7,6 @@ from flask import Flask, request
 from telegram import InlineKeyboardMarkup, InlineKeyboardButton
 from telebot.credentials import bot_token, bot_user_name,URL
 from telebot.mastermind import get_response
-#from telegram.ext import Updater
-#from telegram.ext import CommandHandler, CallbackQueryHandler
 
 global bot
 global TOKEN
@@ -26,16 +24,15 @@ def respond():
     msg_id = update.message.message_id
 
     # Telegram understands UTF-8, so encode text for unicode compatibility
-    if update.message.text is not None:
-        text = update.message.text.encode('utf-8').decode()
-        print("got text message :", text)
+    text = update.message.text.encode('utf-8').decode()
+    print("got text message :", text)
 
     response = get_response(text)
     bot.sendMessage(chat_id=chat_id, text=response, reply_to_message_id=msg_id)
     bio = generateImage(kID=text)
     keyboard = InlineKeyboardMarkup(inline_keyboard=[
-                   [InlineKeyboardButton(text='Press me', callback_data='1')],
-                   [InlineKeyboardButton(text='Press me', callback_data='2')],
+                   [InlineKeyboardButton(text='Press me', callback_data='press')],
+                   [InlineKeyboardButton(text='Press me', callback_data='press')],
                ])
     bot.send_photo(chat_id, photo=bio, reply_markup=keyboard)
 
@@ -48,7 +45,7 @@ def generateImage(kID):
     img.paste(Image.open("images/background.png"))
     draw = ImageDraw.Draw(img)
     fnt = ImageFont.truetype('images/Quicksand-Bold.ttf', 48)
-    width = draw.textsize(kID, fnt)
+    width, height = draw.textsize(kID, fnt)
     draw.text(((500-width)/2,35),kID,(255,255,255),font=fnt)
     #img.save('final.png')
     bio = BytesIO()
