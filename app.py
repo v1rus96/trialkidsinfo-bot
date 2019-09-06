@@ -63,10 +63,7 @@ def generateImage(kID):
     return bio
 
 updater = Updater('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
-
 updater.dispatcher.add_handler(CallbackQueryHandler(updateImage, pattern='1'))
-
-updater.start_polling()
 
 @app.route('/set_webhook', methods=['GET', 'POST'])
 def set_webhook():
