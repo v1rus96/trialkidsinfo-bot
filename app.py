@@ -34,8 +34,8 @@ def respond():
     img.paste(Image.open("images/background.png"))
     draw = ImageDraw.Draw(img)
     fnt = ImageFont.truetype('images/Quicksand-Bold.ttf', 48)
-    w = draw.textsize(text)
-    draw.text(((500-w)/2,35),text,(255,255,255),font=fnt)
+    width, height = draw.textsize(text)
+    draw.text(((500-width)/2,35),text,(255,255,255),font=fnt)
     #img.save('final.png')
     bio = BytesIO()
     bio.name = 'image.png'
