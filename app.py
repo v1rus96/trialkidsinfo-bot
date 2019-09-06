@@ -15,6 +15,21 @@ bot = telegram.Bot(token=TOKEN)
 app = Flask(__name__)
 
 @app.route('/{}'.format(TOKEN), methods=['POST'])
+def generateImage(kID):
+    img = Image.new("RGB", (500,550), color="red")
+    #x,y = img.size
+    #offset = x // 12, y // 5
+    img.paste(Image.open("images/background.png"))
+    draw = ImageDraw.Draw(img)
+    fnt = ImageFont.truetype('images/Quicksand-Bold.ttf', 48)
+    width, height = draw.textsize(kID, fnt)
+    draw.text(((500-width)/2,35),kID,(255,255,255),font=fnt)
+    #img.save('final.png')
+    bio = BytesIO()
+    bio.name = 'image.png'
+    img.save(bio, 'PNG')
+    bio.seek(0)
+    return bio
 
 def respond():
     # retrieve the message in JSON and then transform it to Telegram object
@@ -29,19 +44,7 @@ def respond():
 
     response = get_response(text)
     bot.sendMessage(chat_id=chat_id, text=response, reply_to_message_id=msg_id)
-    img = Image.new("RGB", (500,550), color="red")
-    #x,y = img.size
-    #offset = x // 12, y // 5
-    img.paste(Image.open("images/background.png"))
-    draw = ImageDraw.Draw(img)
-    fnt = ImageFont.truetype('images/Quicksand-Bold.ttf', 48)
-    width, height = draw.textsize(text, fnt)
-    draw.text(((500-width)/2,35),text,(255,255,255),font=fnt)
-    #img.save('final.png')
-    bio = BytesIO()
-    bio.name = 'image.png'
-    img.save(bio, 'PNG')
-    bio.seek(0)
+    bio = generateImage(text)
     keyboard = InlineKeyboardMarkup(inline_keyboard=[
                    [InlineKeyboardButton(text='Press me', callback_data='press')],
                    [InlineKeyboardButton(text='Press me', callback_data='press')],
