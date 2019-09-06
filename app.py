@@ -38,7 +38,7 @@ def respond():
                ])
     bot.send_photo(chat_id, photo=bio, reply_markup=keyboard)
 
-    return 'ok'
+    return updateImage
 
 def updateImage(bot, update):
   query = update.callback_query
