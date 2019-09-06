@@ -41,9 +41,8 @@ def respond():
     bio.name = 'image.png'
     img.save(bio, 'PNG')
     bio.seek(0)
-    custom_keyboard = [['top-left', 'top-right'], 
-                   ['bottom-left', 'bottom-right']]
-    reply_markup = telegram.ReplyKeyboardMarkup(custom_keyboard)
+    custom_keyboard = [['top-left',]]
+    reply_markup = telegram.InlineKeyboardButton(custom_keyboard)
     bot.send_photo(chat_id, photo=bio, reply_markup=reply_markup)
 
     return 'ok'
