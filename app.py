@@ -7,8 +7,8 @@ from flask import Flask, request
 from telegram import InlineKeyboardMarkup, InlineKeyboardButton
 from telebot.credentials import bot_token, bot_user_name,URL
 from telebot.mastermind import get_response
-from telegram.ext import Updater
-from telegram.ext import CommandHandler, CallbackQueryHandler
+#from telegram.ext import Updater
+#from telegram.ext import CommandHandler, CallbackQueryHandler
 
 global bot
 global TOKEN
