@@ -18,10 +18,9 @@ app = Flask(__name__)
 def respond():
     # retrieve the message in JSON and then transform it to Telegram object
     update = telegram.Update.de_json(request.get_json(force=True), bot)
-
+    print (update)
     chat_id = update.message.chat.id
     msg_id = update.message.message_id
-    messagePhoto = [u.message.photo for u in update if u.message.photo]
 
     # Telegram understands UTF-8, so encode text for unicode compatibility
     text = update.message.text.encode('utf-8').decode()
@@ -29,7 +28,6 @@ def respond():
 
     response = get_response(text)
     bot.sendMessage(chat_id=chat_id, text=response, reply_to_message_id=msg_id)
-    bot.sendMessage(chat_id=chat_id, text=messagePhoto, reply_to_message_id=msg_id)
     img = Image.new("RGB", (500,550), color="red")
     #x,y = img.size
     #offset = x // 12, y // 5
