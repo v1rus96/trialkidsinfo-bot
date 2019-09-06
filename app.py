@@ -31,11 +31,15 @@ def respond():
     bot.sendMessage(chat_id=chat_id, text=response, reply_to_message_id=msg_id)
     bio = generateImage(kID=text)
     keyboard = InlineKeyboardMarkup(inline_keyboard=[
-                   [InlineKeyboardButton(text='Press me', callback_data='press')],
-                   [InlineKeyboardButton(text='Press me', callback_data='press')],
+                   [InlineKeyboardButton(text='Press me', callback_data='1')],
+                   [InlineKeyboardButton(text='Press me', callback_data='2')],
                ])
-    bot.send_photo(chat_id, photo=bio, reply_markup=keyboard)
-
+    query = update.callback_query
+    if query.data == 1:
+        bot.send_message(chat_id=query.message.chat_id,text='hi')
+    else:
+        bot.send_photo(chat_id, photo=bio, reply_markup=keyboard)
+    
     return 'ok'
 
 def generateImage(kID):
