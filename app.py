@@ -15,6 +15,29 @@ bot = telegram.Bot(token=TOKEN)
 app = Flask(__name__)
 
 @app.route('/{}'.format(TOKEN), methods=['POST'])
+
+def respond():
+    # retrieve the message in JSON and then transform it to Telegram object
+    update = telegram.Update.de_json(request.get_json(force=True), bot)
+    print (update)
+    chat_id = update.message.chat.id
+    msg_id = update.message.message_id
+
+    # Telegram understands UTF-8, so encode text for unicode compatibility
+    text = update.message.text.encode('utf-8').decode()
+    print("got text message :", text)
+
+    response = get_response(text)
+    bot.sendMessage(chat_id=chat_id, text=response, reply_to_message_id=msg_id)
+    bio = generateImage(kID=text)
+    keyboard = InlineKeyboardMarkup(inline_keyboard=[
+                   [InlineKeyboardButton(text='Press me', callback_data='press')],
+                   [InlineKeyboardButton(text='Press me', callback_data='press')],
+               ])
+    bot.send_photo(chat_id, photo=bio, reply_markup=keyboard)
+
+    return 'ok'
+
 def generateImage(kID):
     img = Image.new("RGB", (500,550), color="red")
     #x,y = img.size
@@ -30,28 +53,6 @@ def generateImage(kID):
     img.save(bio, 'PNG')
     bio.seek(0)
     return bio
-
-def respond():
-    # retrieve the message in JSON and then transform it to Telegram object
-    update = telegram.Update.de_json(request.get_json(force=True), bot)
-    print (update)
-    chat_id = update.message.chat.id
-    msg_id = update.message.message_id
-
-    # Telegram understands UTF-8, so encode text for unicode compatibility
-    text = update.message.text.encode('utf-8').decode()
-    print("got text message :", text)
-
-    response = get_response(text)
-    bot.sendMessage(chat_id=chat_id, text=response, reply_to_message_id=msg_id)
-    bio = generateImage(text)
-    keyboard = InlineKeyboardMarkup(inline_keyboard=[
-                   [InlineKeyboardButton(text='Press me', callback_data='press')],
-                   [InlineKeyboardButton(text='Press me', callback_data='press')],
-               ])
-    bot.send_photo(chat_id, photo=bio, reply_markup=keyboard)
-
-    return 'ok'
 
 @app.route('/set_webhook', methods=['GET', 'POST'])
 def set_webhook():
