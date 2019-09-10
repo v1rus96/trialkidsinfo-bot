@@ -1,6 +1,5 @@
 import telegram
 import telebot
-import pyTelegramBotAPI
 from PIL import ImageFont
 from PIL import ImageDraw
 from PIL import Image
