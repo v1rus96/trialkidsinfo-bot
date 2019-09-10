@@ -8,8 +8,8 @@ from io import BytesIO
 from flask import Flask, request
 from telegram import InlineKeyboardMarkup, InlineKeyboardButton
 from telegram.ext import Updater, CommandHandler, CallbackQueryHandler, ConversationHandler
-from telebots.credentials import bot_token, bot_user_name,URL
-from telebots.mastermind import get_response
+from telebot.credentials import bot_token, bot_user_name,URL
+from telebot.mastermind import get_response
 import re
 from telebot import types
 
