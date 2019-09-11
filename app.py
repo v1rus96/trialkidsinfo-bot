@@ -38,7 +38,7 @@ def respond():
     second_button = types.InlineKeyboardButton(text="2button", callback_data="second")
     keyboardmain.add(first_button, second_button)
     #bot.send_photo(chat_id, photo=bio, reply_markup=keyboardmain)
-    bot.send_message(chat.id, "testing kb", reply_markup=keyboardmain)
+    bot.send_message(chat_id, "testing kb", reply_markup=keyboardmain)
 
     return 'ok'
 
