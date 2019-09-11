@@ -20,7 +20,7 @@ app = Flask(__name__)
 @app.route('/{}'.format(TOKEN), methods=['POST'])
 
 @bot.message_handler(content_types=["text"])
-def any_msg(message):
+def any_msg(message=None):
     keyboardmain = types.InlineKeyboardMarkup(row_width=2)
     first_button = types.InlineKeyboardButton(text="1button", callback_data="first")
     second_button = types.InlineKeyboardButton(text="2button", callback_data="second")
