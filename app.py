@@ -60,7 +60,11 @@ def respond():
 #     return bio
 @bot.message_handler(content_types=["text"])
 def echo(m):
-    bot.send_message(m.chat.id, m.text)
+    keyboardmain = types.InlineKeyboardMarkup(row_width=2)
+    first_button = types.InlineKeyboardButton(text="1button", callback_data="first")
+    second_button = types.InlineKeyboardButton(text="2button", callback_data="second")
+    keyboardmain.add(first_button, second_button)
+    bot.send_message(m.chat.id, m.text, reply_markup=keyboardmain)
 # @bot.message_handler(content_types=["text"])
 # def any_msg(message):
 #     keyboardmain = types.InlineKeyboardMarkup(row_width=2)
