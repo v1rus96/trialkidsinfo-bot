@@ -64,6 +64,15 @@ def generateImage(kID):
 #     second_button = types.InlineKeyboardButton(text="2button", callback_data="second")
 #     keyboardmain.add(first_button, second_button)
 #     bot.send_message(message.chat.id, "testing kb", reply_markup=keyboardmain)
+def button(bot, update):
+    query = update.callback_query
+    #bot.send_photo(chat_id, photo=bio, reply_markup=keyboardmain)
+    bot.edit_message_media(chat_id=query.message.chat_id,
+                          message_id=query.message.message_id,
+                          media=generateImage(kID='KIDO12345'))
+
+updater = Updater(TOKEN)
+updater.dispatcher.add_handler(CallbackQueryHandler(button))
 
 @bot.callback_query_handler(func=lambda call:True)
 def callback_inline(call):
