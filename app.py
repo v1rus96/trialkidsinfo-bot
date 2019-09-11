@@ -37,9 +37,18 @@ def respond():
     first_button = types.InlineKeyboardButton(text="1button", callback_data="first")
     second_button = types.InlineKeyboardButton(text="2button", callback_data="second")
     keyboardmain.add(first_button, second_button)
-    bot.send_photo(chat_id, photo=bio, reply_markup=keyboardmain)
+    #bot.send_photo(chat_id, photo=bio, reply_markup=keyboardmain)
+    bot.send_message(chat.id, "testing kb", reply_markup=keyboardmain)
 
     return 'ok'
+
+# @bot.message_handler(content_types=["text"])
+# def any_msg(message):
+#     keyboardmain = types.InlineKeyboardMarkup(row_width=2)
+#     first_button = types.InlineKeyboardButton(text="1button", callback_data="first")
+#     second_button = types.InlineKeyboardButton(text="2button", callback_data="second")
+#     keyboardmain.add(first_button, second_button)
+#     bot.send_message(message.chat.id, "testing kb", reply_markup=keyboardmain)
 
 @bot.callback_query_handler(func=lambda call:True)
 def callback_inline(call):
