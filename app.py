@@ -64,7 +64,7 @@ def generateImage(kID):
 #     second_button = types.InlineKeyboardButton(text="2button", callback_data="second")
 #     keyboardmain.add(first_button, second_button)
 #     bot.send_message(message.chat.id, "testing kb", reply_markup=keyboardmain)
-def button(bot, update):
+def button(update, context):
     query = update.callback_query
     #bot.send_photo(chat_id, photo=bio, reply_markup=keyboardmain)
     print(query.message.chat_id + query.message.message_id)
@@ -121,5 +121,5 @@ def index():
 
 if __name__ == '__main__':
     app.run(threaded=True)
-    updater = Updater(TOKEN)
+    updater = Updater(TOKEN, use_context=True)
     updater.dispatcher.add_handler(CallbackQueryHandler(button))
