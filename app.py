@@ -65,10 +65,11 @@ def generateImage(kID):
 #     keyboardmain.add(first_button, second_button)
 #     bot.send_message(message.chat.id, "testing kb", reply_markup=keyboardmain)
 
-def process_callback(bot, update):
-    if update.callback_query.data == 'first':
-        message_id=update.callback_query.message.message_id,
-        chat_id=update.callback_query.message.chat.id,
+@bot.callback_query_handler(lambda query: query.data == "sdss")
+def process_callback(query):
+    if query.data == 'first':
+        message_id=query.message.message_id,
+        chat_id=query.message.chat.id,
         bot.edit_message_media(chat_id=chat_id,
                             message_id=message_id,
                             media=generateImage(kID='KIDO12345'))
