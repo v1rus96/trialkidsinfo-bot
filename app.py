@@ -1,62 +1,66 @@
-import telegram
+# import telegram
 import telebot
-from PIL import ImageFont
-from PIL import ImageDraw
-from PIL import Image
-from io import BytesIO
+# from PIL import ImageFont
+# from PIL import ImageDraw
+# from PIL import Image
+# from io import BytesIO
 from flask import Flask, request
-from telegram import InlineKeyboardMarkup, InlineKeyboardButton
-from telegram.ext import Updater, CommandHandler, CallbackQueryHandler, ConversationHandler
+# from telegram import InlineKeyboardMarkup, InlineKeyboardButton
+# from telegram.ext import Updater, CommandHandler, CallbackQueryHandler, ConversationHandler
 from telebotic.credentials import bot_token, bot_user_name,URL
-from telebotic.mastermind import get_response
-import re
+# from telebotic.mastermind import get_response
+# import re
 from telebot import types
 
 global bot
 global TOKEN
 TOKEN = bot_token
-bot = telebot.TeleBot(token=TOKEN)
+bot = telebot.TeleBot(token=TOKEN, threaded=False)
 app = Flask(__name__)
 
 @app.route('/{}'.format(TOKEN), methods=['POST'])
 def respond():
     # retrieve the message in JSON and then transform it to Telegram object
-    update = telegram.Update.de_json(request.get_json(force=True), bot)
+    # update = telegram.Update.de_json(request.get_json(force=True), bot)
+    update = telebot.types.Update.de_json(request.stream.read().decode('utf-8'))
     print (update)
-    chat_id = update.message.chat.id
-    msg_id = update.message.message_id
+    bot.process_new_updates([update])
+    # chat_id = update.message.chat.id
+    # msg_id = update.message.message_id
 
-    # Telegram understands UTF-8, so encode text for unicode compatibility
-    text = update.message.text.encode('utf-8').decode()
-    print("got text message :", text)
+    # # Telegram understands UTF-8, so encode text for unicode compatibility
+    # text = update.message.text.encode('utf-8').decode()
+    # print("got text message :", text)
 
-    response = get_response(text)
-    #bot.send_message(chat_id=chat_id, text=response, reply_to_message_id=msg_id)
-    bio = generateImage(kID=text)
-    keyboardmain = types.InlineKeyboardMarkup(row_width=2)
-    first_button = types.InlineKeyboardButton(text="1button", callback_data="first")
-    second_button = types.InlineKeyboardButton(text="2button", callback_data="second")
-    keyboardmain.add(first_button, second_button)
-    bot.send_photo(chat_id, photo=bio, reply_markup=keyboardmain)
+    # response = get_response(text)
+    # #bot.send_message(chat_id=chat_id, text=response, reply_to_message_id=msg_id)
+    # bio = generateImage(kID=text)
+    # keyboardmain = types.InlineKeyboardMarkup(row_width=2)
+    # first_button = types.InlineKeyboardButton(text="1button", callback_data="first")
+    # second_button = types.InlineKeyboardButton(text="2button", callback_data="second")
+    # keyboardmain.add(first_button, second_button)
+    # bot.send_photo(chat_id, photo=bio, reply_markup=keyboardmain)
 
     return 'ok'
 
-def generateImage(kID):
-    img = Image.new("RGB", (500,550), color="red")
-    #x,y = img.size
-    #offset = x // 12, y // 5
-    img.paste(Image.open("images/background.png"))
-    draw = ImageDraw.Draw(img)
-    fnt = ImageFont.truetype('images/Quicksand-Bold.ttf', 48)
-    width, height = draw.textsize(kID, fnt)
-    draw.text(((500-width)/2,35),kID,(255,255,255),font=fnt)
-    #img.save('final.png')
-    bio = BytesIO()
-    bio.name = 'image.png'
-    img.save(bio, 'PNG')
-    bio.seek(0)
-    return bio
-
+# def generateImage(kID):
+#     img = Image.new("RGB", (500,550), color="red")
+#     #x,y = img.size
+#     #offset = x // 12, y // 5
+#     img.paste(Image.open("images/background.png"))
+#     draw = ImageDraw.Draw(img)
+#     fnt = ImageFont.truetype('images/Quicksand-Bold.ttf', 48)
+#     width, height = draw.textsize(kID, fnt)
+#     draw.text(((500-width)/2,35),kID,(255,255,255),font=fnt)
+#     #img.save('final.png')
+#     bio = BytesIO()
+#     bio.name = 'image.png'
+#     img.save(bio, 'PNG')
+#     bio.seek(0)
+#     return bio
+@bot.message_handler(content_types=["text"])
+def echo(m):
+    bot.send_message(m.chat.id, m.text)
 # @bot.message_handler(content_types=["text"])
 # def any_msg(message):
 #     keyboardmain = types.InlineKeyboardMarkup(row_width=2)
