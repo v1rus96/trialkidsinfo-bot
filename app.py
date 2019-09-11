@@ -23,7 +23,7 @@ def respond():
     # retrieve the message in JSON and then transform it to Telegram object
     update = telegram.Update.de_json(request.get_json(force=True), bot)
     print (update)
-    chat_id = update.message.chat_id
+    chat_id = update.message.chat.id
     msg_id = update.message.message_id
 
     # Telegram understands UTF-8, so encode text for unicode compatibility
@@ -65,10 +65,12 @@ def generateImage(kID):
 #     keyboardmain.add(first_button, second_button)
 #     bot.send_message(message.chat.id, "testing kb", reply_markup=keyboardmain)
 
-@bot.callback_query_handler(lambda query: query.data == "first")
-def process_callback_1(query):
-    bot.edit_message_media(chat_id=query.message.chat_id,
-                            message_id=query.message.message_id,
+def process_callback(bot, update):
+    if update.callback_query.data == 'first':
+        message_id=update.callback_query.message.message_id,
+        chat_id=update.callback_query.message.chat.id,
+        bot.edit_message_media(chat_id=chat_id,
+                            message_id=message_id,
                             media=generateImage(kID='KIDO12345'))
 
 
