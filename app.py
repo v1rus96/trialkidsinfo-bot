@@ -71,8 +71,6 @@ def button(bot, update):
                           message_id=query.message.message_id,
                           media=generateImage(kID='KIDO12345'))
 
-updater = Updater(TOKEN)
-updater.dispatcher.add_handler(CallbackQueryHandler(button))
 
 @bot.callback_query_handler(func=lambda call:True)
 def callback_inline(call):
@@ -122,3 +120,5 @@ def index():
 
 if __name__ == '__main__':
     app.run(threaded=True)
+    updater = Updater(TOKEN)
+    updater.dispatcher.add_handler(CallbackQueryHandler(button))
