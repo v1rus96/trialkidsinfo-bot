@@ -48,7 +48,7 @@ def generateImage(kID):
     img.paste(Image.open("images/background.png"))
     draw = ImageDraw.Draw(img)
     fnt = ImageFont.truetype('images/Quicksand-Bold.ttf', 48)
-    width = draw.textsize(kID, fnt)
+    width, height = draw.textsize(kID, fnt)
     draw.text(((500-width)/2,35),kID,(255,255,255),font=fnt)
     #img.save('final.png')
     bio = BytesIO()
@@ -56,7 +56,7 @@ def generateImage(kID):
     img.save(bio, 'PNG')
     bio.seek(0)
     return bio
-    
+
 # @bot.message_handler(content_types=["text"])
 # def any_msg(message):
 #     keyboardmain = types.InlineKeyboardMarkup(row_width=2)
