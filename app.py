@@ -77,9 +77,9 @@ def echo(m):
 def process_callback(query):
     message_id=query.message.message_id,
     chat_id=query.message.chat.id,
-    bot.edit_message_media(chat_id=chat_id,
+    bot.edit_message_text(chat_id=chat_id,
                         message_id=message_id,
-                        media=generateImage(kID='KIDO12345'))
+                        text="Changed")
 
 
 # @bot.callback_query_handler(func=lambda call:True)
