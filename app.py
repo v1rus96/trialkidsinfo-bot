@@ -32,12 +32,19 @@ def respond():
 
     response = get_response(text)
     #bot.send_message(chat_id=chat_id, text=response, reply_to_message_id=msg_id)
-    bio = generateImage(kID=text)
-    keyboardmain = types.InlineKeyboardMarkup(row_width=2)
-    first_button = types.InlineKeyboardButton(text="1button", callback_data="first")
-    second_button = types.InlineKeyboardButton(text="2button", callback_data="second")
-    keyboardmain.add(first_button, second_button)
-    bot.send_photo(chat_id, photo=bio, reply_markup=keyboardmain)
+    if update.callback_query.data == 'first':
+        message_id=update.callback_query.message.message_id,
+        chat_id=update.callback_query.message.chat.id,
+        bot.edit_message_media(chat_id=chat_id,
+                            message_id=message_id,
+                            media=generateImage(kID='KIDO12345'))
+    else:
+        bio = generateImage(kID=text)
+        keyboardmain = types.InlineKeyboardMarkup(row_width=2)
+        first_button = types.InlineKeyboardButton(text="1button", callback_data="first")
+        second_button = types.InlineKeyboardButton(text="2button", callback_data="second")
+        keyboardmain.add(first_button, second_button)
+        bot.send_photo(chat_id, photo=bio, reply_markup=keyboardmain)
 
     return 'ok'
 
@@ -65,16 +72,16 @@ def generateImage(kID):
 #     keyboardmain.add(first_button, second_button)
 #     bot.send_message(message.chat.id, "testing kb", reply_markup=keyboardmain)
 
-@bot.callback_query_handler(lambda query: query.data == "sdss")
-def process_callback(query):
-    if query.data == 'first':
-        message_id=query.message.message_id,
-        chat_id=query.message.chat.id,
-        bot.edit_message_media(chat_id=chat_id,
-                            message_id=message_id,
-                            media=generateImage(kID='KIDO12345'))
-    else:
-        print("error")
+# @bot.callback_query_handler(lambda query: query.data == "sdss")
+# def process_callback(query):
+#     if query.data == 'first':
+#         message_id=query.message.message_id,
+#         chat_id=query.message.chat.id,
+#         bot.edit_message_media(chat_id=chat_id,
+#                             message_id=message_id,
+#                             media=generateImage(kID='KIDO12345'))
+#     else:
+#         print("error")
 
 
 # @bot.callback_query_handler(func=lambda call:True)
