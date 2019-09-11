@@ -1,19 +1,18 @@
-import telegram
+# import telegram
 import telebot
-from PIL import ImageFont
-from PIL import ImageDraw
-from PIL import Image
-from io import BytesIO
+# from PIL import ImageFont
+# from PIL import ImageDraw
+# from PIL import Image
+# from io import BytesIO
 from flask import Flask, request
-from telegram import InlineKeyboardMarkup, InlineKeyboardButton
-from telegram.ext import Updater, CommandHandler, CallbackQueryHandler, ConversationHandler
+# from telegram import InlineKeyboardMarkup, InlineKeyboardButton
+# from telegram.ext import Updater, CommandHandler, CallbackQueryHandler, ConversationHandler
 from telebotic.credentials import bot_token, bot_user_name,URL
-from telebotic.mastermind import get_response
-import re
+#from telebotic.mastermind import get_response
+# import re
 from telebot import types
 
-global bot
-global TOKEN
+
 TOKEN = bot_token
 bot = telebot.TeleBot(token=TOKEN)
 app = Flask(__name__)
