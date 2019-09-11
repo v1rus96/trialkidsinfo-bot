@@ -31,17 +31,32 @@ def respond():
     print("got text message :", text)
 
     response = get_response(text)
-    bot.send_message(chat_id=chat_id, text=response, reply_to_message_id=msg_id)
+    #bot.send_message(chat_id=chat_id, text=response, reply_to_message_id=msg_id)
     bio = generateImage(kID=text)
     keyboardmain = types.InlineKeyboardMarkup(row_width=2)
     first_button = types.InlineKeyboardButton(text="1button", callback_data="first")
     second_button = types.InlineKeyboardButton(text="2button", callback_data="second")
     keyboardmain.add(first_button, second_button)
-    #bot.send_photo(chat_id, photo=bio, reply_markup=keyboardmain)
-    bot.send_message(chat_id, "testing kb", reply_markup=keyboardmain)
+    bot.send_photo(chat_id, photo=bio, reply_markup=keyboardmain)
 
     return 'ok'
 
+def generateImage(kID):
+    img = Image.new("RGB", (500,550), color="red")
+    #x,y = img.size
+    #offset = x // 12, y // 5
+    img.paste(Image.open("images/background.png"))
+    draw = ImageDraw.Draw(img)
+    fnt = ImageFont.truetype('images/Quicksand-Bold.ttf', 48)
+    width = draw.textsize(kID, fnt)
+    draw.text(((500-width)/2,35),kID,(255,255,255),font=fnt)
+    #img.save('final.png')
+    bio = BytesIO()
+    bio.name = 'image.png'
+    img.save(bio, 'PNG')
+    bio.seek(0)
+    return bio
+    
 # @bot.message_handler(content_types=["text"])
 # def any_msg(message):
 #     keyboardmain = types.InlineKeyboardMarkup(row_width=2)
@@ -82,22 +97,6 @@ def callback_inline(call):
         button = types.InlineKeyboardButton(text="lastlayer", callback_data="ll")
         keyboard3.add(button)
         bot.edit_message_text(chat_id=call.message.chat.id,message_id=call.message.message_id, text="last layer",reply_markup=keyboard3)
-
-def generateImage(kID):
-    img = Image.new("RGB", (500,550), color="red")
-    #x,y = img.size
-    #offset = x // 12, y // 5
-    img.paste(Image.open("images/background.png"))
-    draw = ImageDraw.Draw(img)
-    fnt = ImageFont.truetype('images/Quicksand-Bold.ttf', 48)
-    width = draw.textsize(kID, fnt)
-    draw.text(((500-width)/2,35),kID,(255,255,255),font=fnt)
-    #img.save('final.png')
-    bio = BytesIO()
-    bio.name = 'image.png'
-    img.save(bio, 'PNG')
-    bio.seek(0)
-    return bio
 
 @app.route('/set_webhook', methods=['GET', 'POST'])
 def set_webhook():
