@@ -64,17 +64,10 @@ def generateImage(kID):
 #     second_button = types.InlineKeyboardButton(text="2button", callback_data="second")
 #     keyboardmain.add(first_button, second_button)
 #     bot.send_message(message.chat.id, "testing kb", reply_markup=keyboardmain)
-def button(bot, update):
-    query = update.callback_query
-    #bot.send_photo(chat_id, photo=bio, reply_markup=keyboardmain)
-    if query.data == "first":
-        keyboard = types.InlineKeyboardMarkup()
-        rele1 = types.InlineKeyboardButton(text="1t", callback_data="1")
-        rele2 = types.InlineKeyboardButton(text="2t", callback_data="2")
-        rele3 = types.InlineKeyboardButton(text="3t", callback_data="3")
-        backbutton = types.InlineKeyboardButton(text="back", callback_data="mainmenu")
-        keyboard.add(rele1, rele2, rele3, backbutton)
-        bot.edit_message_media(chat_id=query.message.chat_id,
+
+@bot.callback_query_handler(lambda query: query.data == "first")
+def process_callback_1(query):
+    bot.edit_message_media(chat_id=query.message.chat_id,
                             message_id=query.message.message_id,
                             media=generateImage(kID='KIDO12345'))
 
@@ -127,5 +120,3 @@ def index():
 
 if __name__ == '__main__':
     app.run(threaded=True)
-    updater = Updater(TOKEN)
-    updater.dispatcher.add_handler(CallbackQueryHandler(button))
