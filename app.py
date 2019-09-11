@@ -43,28 +43,28 @@ def respond():
 
     return 'ok'
 
-# def generateImage(kID):
-#     img = Image.new("RGB", (500,550), color="red")
-#     #x,y = img.size
-#     #offset = x // 12, y // 5
-#     img.paste(Image.open("images/background.png"))
-#     draw = ImageDraw.Draw(img)
-#     fnt = ImageFont.truetype('images/Quicksand-Bold.ttf', 48)
-#     width, height = draw.textsize(kID, fnt)
-#     draw.text(((500-width)/2,35),kID,(255,255,255),font=fnt)
-#     #img.save('final.png')
-#     bio = BytesIO()
-#     bio.name = 'image.png'
-#     img.save(bio, 'PNG')
-#     bio.seek(0)
-#     return bio
+def generateImage(kID):
+    img = Image.new("RGB", (500,550), color="red")
+    #x,y = img.size
+    #offset = x // 12, y // 5
+    img.paste(Image.open("images/background.png"))
+    draw = ImageDraw.Draw(img)
+    fnt = ImageFont.truetype('images/Quicksand-Bold.ttf', 48)
+    width, height = draw.textsize(kID, fnt)
+    draw.text(((500-width)/2,35),kID,(255,255,255),font=fnt)
+    #img.save('final.png')
+    bio = BytesIO()
+    bio.name = 'image.png'
+    img.save(bio, 'PNG')
+    bio.seek(0)
+    return bio
 @bot.message_handler(content_types=["text"])
 def echo(m):
     keyboardmain = types.InlineKeyboardMarkup(row_width=2)
     first_button = types.InlineKeyboardButton(text="1button", callback_data="first")
     second_button = types.InlineKeyboardButton(text="2button", callback_data="second")
     keyboardmain.add(first_button, second_button)
-    bot.send_message(m.chat.id, m.text, reply_markup=keyboardmain)
+    bot.send_photo(m.chat.id, photo=generateImage(kID=m.text), reply_markup=keyboardmain)
 # @bot.message_handler(content_types=["text"])
 # def any_msg(message):
 #     keyboardmain = types.InlineKeyboardMarkup(row_width=2)
@@ -77,9 +77,9 @@ def echo(m):
 def process_callback(query):
     message_id=query.message.message_id,
     chat_id=query.message.chat.id,
-    bot.edit_message_text(chat_id=chat_id,
+    bot.edit_message_media(chat_id=chat_id,
                         message_id=message_id,
-                        text="Changed")
+                        media=generateImage(kID='KIDO12345'))
 
 
 # @bot.callback_query_handler(func=lambda call:True)
