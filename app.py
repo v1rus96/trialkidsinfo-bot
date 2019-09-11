@@ -73,6 +73,8 @@ def process_callback(query):
         bot.edit_message_media(chat_id=chat_id,
                             message_id=message_id,
                             media=generateImage(kID='KIDO12345'))
+    else:
+        print("error")
 
 
 # @bot.callback_query_handler(func=lambda call:True)
@@ -122,4 +124,4 @@ def index():
 
 
 if __name__ == '__main__':
-    app.run(threaded=False)
+    app.run(threaded=True)
