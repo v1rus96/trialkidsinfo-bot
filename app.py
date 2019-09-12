@@ -10,7 +10,7 @@ from telebot import types
 global bot
 global TOKEN
 TOKEN = bot_token
-bot = telebot.TeleBot(token=TOKEN, threaded=False)
+bot = telebot.TeleBot(token=TOKEN, threaded=True)
 
 user_dict = {}
 
