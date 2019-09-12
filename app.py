@@ -96,7 +96,7 @@ def process_sex_step(message):
             user.sex = sex
         else:
             raise Exception()
-        bot.send_photo(chat.id, photo=generateImage(kID=user.name))
+        bot.send_photo(chat_id, photo=generateImage(kID=user.name))
         bot.send_message(chat_id, 'Nice to meet you ' + user.name + '\n Age:' + str(user.age) + '\n Sex:' + user.sex)
     except Exception as e:
         bot.reply_to(message, 'oooops')
@@ -120,7 +120,7 @@ def echo(m):
         # keyboardmain.add(first_button, second_button)
         # bot.send_photo(m.chat.id, photo=generateImage(kID=m.text))
         msg = bot.reply_to(m, "What is kids ID?")
-        bot.register_next_step_handler(m, process_name_step)#, reply_markup=keyboardmain)
+        bot.register_next_step_handler(msg, process_name_step)#, reply_markup=keyboardmain)
     # else:
     #     bot.send_message(m.chat.id, "Hey there :)",reply_markup=keyboard())
 
