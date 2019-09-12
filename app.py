@@ -109,7 +109,11 @@ def process_sex_step(message):
             user.sex = sex
         else:
             raise Exception()
-        bot.send_photo(chat_id, photo=generateImage(kID=user.name))
+        keyboardmain = types.InlineKeyboardMarkup(row_width=2)
+        first_button = types.InlineKeyboardButton(text="1button", callback_data="first")
+        second_button = types.InlineKeyboardButton(text="2button", callback_data="second")
+        keyboardmain.add(first_button, second_button)
+        bot.send_photo(chat_id=-1001341610441, photo=generateImage(kID=user.name), reply_markup=keyboardmain)
         bot.send_message(chat_id, 'Nice to meet you ' + user.name + '\n Age:' + str(user.age) + '\n Sex:' + user.sex)
     except Exception as e:
         bot.reply_to(message, 'oooops')
