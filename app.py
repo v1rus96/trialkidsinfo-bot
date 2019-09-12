@@ -48,13 +48,13 @@ def generateImage(kID):
 
 
 # Handle '/start' and '/help'
-@bot.message_handler(commands=['help', 'start'])
-def send_welcome(message):
-    msg = bot.reply_to(message, """\
-Hi there, I am Example bot.
-What's your name?
-""")
-    bot.register_next_step_handler(msg, process_name_step)
+# @bot.message_handler(commands=['help', 'start'])
+# def send_welcome(message):
+#     msg = bot.reply_to(message, """\
+# Hi there, I am Example bot.
+# What's your name?
+# """)
+#     bot.register_next_step_handler(msg, process_name_step)
 
 
 def process_name_step(message):
@@ -117,9 +117,10 @@ def echo(m):
         first_button = types.InlineKeyboardButton(text="1button", callback_data="first")
         second_button = types.InlineKeyboardButton(text="2button", callback_data="second")
         keyboardmain.add(first_button, second_button)
-        bot.send_photo(m.chat.id, photo=generateImage(kID=m.text), reply_markup=keyboardmain)
-    else:
-        bot.send_message(m.chat.id, "Hey there :)",reply_markup=keyboard())
+        bot.send_photo(m.chat.id, photo=generateImage(kID=m.text))
+        bot.register_next_step_handler(m, process_name_step)#, reply_markup=keyboardmain)
+    # else:
+    #     bot.send_message(m.chat.id, "Hey there :)",reply_markup=keyboard())
 
 def keyboard():
 	markup = types.ReplyKeyboardMarkup(one_time_keyboard=False, resize_keyboard=True)
