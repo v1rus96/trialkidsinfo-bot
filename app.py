@@ -123,8 +123,7 @@ def echo(m):
 
 def keyboard():
 	markup = types.ReplyKeyboardMarkup(one_time_keyboard=True, resize_keyboard=True)
-	btn1 = types.KeyboardButton('Add kid')
-	markup.add(btn1)
+	markup.add('Add KID')
 	return markup 
 
 @bot.callback_query_handler(lambda query: True)
