@@ -73,13 +73,14 @@ def echo(m):
 #     keyboardmain.add(first_button, second_button)
 #     bot.send_message(message.chat.id, "testing kb", reply_markup=keyboardmain)
 
-@bot.callback_query_handler(lambda query: query.data == "first")
+@bot.callback_query_handler(lambda query: True)
 def process_callback(query):
-    message_id=query.message.message_id,
-    chat_id=query.message.chat.id,
-    bot.edit_message_media(media=types.InputMediaPhoto(generateImage(kID='KIDO12345')),
-                        chat_id=chat_id,
-                        message_id=message_id)
+    message_id=query.message.message_id
+    chat_id=query.message.chat.id
+    if query.data == "first":
+        bot.edit_message_media(media=types.InputMediaPhoto(generateImage(kID='KIDO12345')),
+                            chat_id=chat_id,
+                            message_id=message_id)
 
 
 # @bot.callback_query_handler(func=lambda call:True)
