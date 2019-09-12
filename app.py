@@ -92,7 +92,7 @@ def process_sex_step(message):
         chat_id = message.chat.id
         sex = message.text
         user = user_dict[chat_id]
-        if (sex == u'Male') or (sex == u'Female'):
+        if (sex == 'Male') or (sex == 'Female'):
             user.sex = sex
         else:
             raise Exception()
