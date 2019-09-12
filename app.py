@@ -1,15 +1,10 @@
-# import telegram
 import telebot
 from PIL import ImageFont
 from PIL import ImageDraw
 from PIL import Image
 from io import BytesIO
 from flask import Flask, request
-# from telegram import InlineKeyboardMarkup, InlineKeyboardButton
-# from telegram.ext import Updater, CommandHandler, CallbackQueryHandler, ConversationHandler
 from telebotic.credentials import bot_token, bot_user_name,URL
-# from telebotic.mastermind import get_response
-# import re
 from telebot import types
 
 global bot
@@ -20,27 +15,9 @@ app = Flask(__name__)
 
 @app.route('/{}'.format(TOKEN), methods=['POST'])
 def respond():
-    # retrieve the message in JSON and then transform it to Telegram object
-    # update = telegram.Update.de_json(request.get_json(force=True), bot)
     update = telebot.types.Update.de_json(request.stream.read().decode('utf-8'))
     print (update)
     bot.process_new_updates([update])
-    # chat_id = update.message.chat.id
-    # msg_id = update.message.message_id
-
-    # # Telegram understands UTF-8, so encode text for unicode compatibility
-    # text = update.message.text.encode('utf-8').decode()
-    # print("got text message :", text)
-
-    # response = get_response(text)
-    # #bot.send_message(chat_id=chat_id, text=response, reply_to_message_id=msg_id)
-    # bio = generateImage(kID=text)
-    # keyboardmain = types.InlineKeyboardMarkup(row_width=2)
-    # first_button = types.InlineKeyboardButton(text="1button", callback_data="first")
-    # second_button = types.InlineKeyboardButton(text="2button", callback_data="second")
-    # keyboardmain.add(first_button, second_button)
-    # bot.send_photo(chat_id, photo=bio, reply_markup=keyboardmain)
-
     return 'ok'
 
 def generateImage(kID):
@@ -58,20 +35,21 @@ def generateImage(kID):
     img.save(bio, 'PNG')
     bio.seek(0)
     return bio
+
 @bot.message_handler(content_types=["text"])
 def echo(m):
-    keyboardmain = types.InlineKeyboardMarkup(row_width=2)
-    first_button = types.InlineKeyboardButton(text="1button", callback_data="first")
-    second_button = types.InlineKeyboardButton(text="2button", callback_data="second")
-    keyboardmain.add(first_button, second_button)
-    bot.send_photo(m.chat.id, photo=generateImage(kID=m.text), reply_markup=keyboardmain)
-# @bot.message_handler(content_types=["text"])
-# def any_msg(message):
-#     keyboardmain = types.InlineKeyboardMarkup(row_width=2)
-#     first_button = types.InlineKeyboardButton(text="1button", callback_data="first")
-#     second_button = types.InlineKeyboardButton(text="2button", callback_data="second")
-#     keyboardmain.add(first_button, second_button)
-#     bot.send_message(message.chat.id, "testing kb", reply_markup=keyboardmain)
+    if m.text == 'Add kid':
+        keyboardmain = types.InlineKeyboardMarkup(row_width=2)
+        first_button = types.InlineKeyboardButton(text="1button", callback_data="first")
+        second_button = types.InlineKeyboardButton(text="2button", callback_data="second")
+        keyboardmain.add(first_button, second_button)
+        bot.send_photo(m.chat.id, photo=generateImage(kID=m.text), reply_markup=keyboardmain)
+
+def keyboard():
+	markup = types.ReplyKeyboardMarkup(one_time_keyboard=True, resize_keyboard=True)
+	btn1 = types.KeyboardButton('Add kid')
+	markup.add(btn1)
+	return markup 
 
 @bot.callback_query_handler(lambda query: True)
 def process_callback(query):
@@ -86,39 +64,6 @@ def process_callback(query):
                             chat_id=chat_id,
                             message_id=message_id)
 
-
-# @bot.callback_query_handler(func=lambda call:True)
-# def callback_inline(call):
-#     if call.data == "mainmenu":
-
-#         keyboardmain = types.InlineKeyboardMarkup(row_width=2)
-#         first_button = types.InlineKeyboardButton(text="1button", callback_data="first")
-#         second_button = types.InlineKeyboardButton(text="2button", callback_data="second")
-#         keyboardmain.add(first_button, second_button)
-#         bot.edit_message_text(chat_id=call.message.chat.id,message_id=call.message.message_id, text="menu",reply_markup=keyboardmain)
-
-#     if call.data == "first":
-#         keyboard = types.InlineKeyboardMarkup()
-#         rele1 = types.InlineKeyboardButton(text="1t", callback_data="1")
-#         rele2 = types.InlineKeyboardButton(text="2t", callback_data="2")
-#         rele3 = types.InlineKeyboardButton(text="3t", callback_data="3")
-#         backbutton = types.InlineKeyboardButton(text="back", callback_data="mainmenu")
-#         keyboard.add(rele1, rele2, rele3, backbutton)
-#         bot.edit_message_text(chat_id=call.message.chat.id,message_id=call.message.message_id, text="replaced text",reply_markup=keyboard)
-
-#     elif call.data == "second":
-#         keyboard = types.InlineKeyboardMarkup()
-#         rele1 = types.InlineKeyboardButton(text="another layer", callback_data="gg")
-#         backbutton = types.InlineKeyboardButton(text="back", callback_data="mainmenu")
-#         keyboard.add(rele1,backbutton)
-#         bot.edit_message_text(chat_id=call.message.chat.id,message_id=call.message.message_id, text="replaced text",reply_markup=keyboard)
-
-#     elif call.data == "1" or call.data == "2" or call.data == "3":
-#         bot.answer_callback_query(callback_query_id=call.id, show_alert=True, text="alert")
-#         keyboard3 = types.InlineKeyboardMarkup()
-#         button = types.InlineKeyboardButton(text="lastlayer", callback_data="ll")
-#         keyboard3.add(button)
-#         bot.edit_message_text(chat_id=call.message.chat.id,message_id=call.message.message_id, text="last layer",reply_markup=keyboard3)
 
 @app.route('/set_webhook', methods=['GET', 'POST'])
 def set_webhook():
