@@ -78,7 +78,11 @@ def process_callback(query):
     message_id=query.message.message_id
     chat_id=query.message.chat.id
     if query.data == "first":
-        bot.edit_message_media(media=types.InputMediaPhoto(generateImage(kID='KIDO12345')),
+        bot.edit_message_media(media=types.InputMediaPhoto(generateImage(kID='FIRST')),
+                            chat_id=chat_id,
+                            message_id=message_id)
+    elif query.data == "second":
+        bot.edit_message_media(media=types.InputMediaPhoto(generateImage(kID='SECOND')),
                             chat_id=chat_id,
                             message_id=message_id)
 
