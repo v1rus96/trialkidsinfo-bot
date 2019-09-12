@@ -118,8 +118,8 @@ def echo(m):
         second_button = types.InlineKeyboardButton(text="2button", callback_data="second")
         keyboardmain.add(first_button, second_button)
         bot.send_photo(m.chat.id, photo=generateImage(kID=m.text), reply_markup=keyboardmain)
-    # else:
-    #     bot.send_message(m.chat.id, "Hey there :)",reply_markup=keyboard())
+    else:
+        bot.send_message(m.chat.id, "Hey there :)",reply_markup=keyboard())
 
 def keyboard():
 	markup = types.ReplyKeyboardMarkup(one_time_keyboard=False, resize_keyboard=True)
