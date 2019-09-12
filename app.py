@@ -56,7 +56,20 @@ def generateImage(kID):
 # """)
 #     bot.register_next_step_handler(msg, process_name_step)
 
+@bot.message_handler(content_types=["text"])
+def echo(m):
+    if m.text == 'Add kid':
+        # keyboardmain = types.InlineKeyboardMarkup(row_width=2)
+        # first_button = types.InlineKeyboardButton(text="1button", callback_data="first")
+        # second_button = types.InlineKeyboardButton(text="2button", callback_data="second")
+        # keyboardmain.add(first_button, second_button)
+        # bot.send_photo(m.chat.id, photo=generateImage(kID=m.text))
+        msg = bot.reply_to(m, "What is kids ID?")
+        bot.register_next_step_handler(msg, process_name_step)#, reply_markup=keyboardmain)
+    # else:
+    #     bot.send_message(m.chat.id, "Hey there :)",reply_markup=keyboard())
 
+@bot.message_handler(content_types=["text"])
 def process_name_step(message):
     try:
         chat_id = message.chat.id
@@ -68,7 +81,7 @@ def process_name_step(message):
     except Exception as e:
         bot.reply_to(message, 'oooops')
 
-
+@bot.message_handler(content_types=["text"])
 def process_age_step(message):
     try:
         chat_id = message.chat.id
@@ -86,7 +99,7 @@ def process_age_step(message):
     except Exception as e:
         bot.reply_to(message, 'oooops')
 
-
+@bot.message_handler(content_types=["text"])
 def process_sex_step(message):
     try:
         chat_id = message.chat.id
@@ -111,18 +124,6 @@ bot.enable_save_next_step_handlers(delay=2)
 # WARNING It will work only if enable_save_next_step_handlers was called!
 bot.load_next_step_handlers()
 
-@bot.message_handler(content_types=["text"])
-def echo(m):
-    if m.text == 'Add kid':
-        # keyboardmain = types.InlineKeyboardMarkup(row_width=2)
-        # first_button = types.InlineKeyboardButton(text="1button", callback_data="first")
-        # second_button = types.InlineKeyboardButton(text="2button", callback_data="second")
-        # keyboardmain.add(first_button, second_button)
-        # bot.send_photo(m.chat.id, photo=generateImage(kID=m.text))
-        msg = bot.reply_to(m, "What is kids ID?")
-        bot.register_next_step_handler(msg, process_name_step)#, reply_markup=keyboardmain)
-    # else:
-    #     bot.send_message(m.chat.id, "Hey there :)",reply_markup=keyboard())
 
 def keyboard():
 	markup = types.ReplyKeyboardMarkup(one_time_keyboard=False, resize_keyboard=True)
