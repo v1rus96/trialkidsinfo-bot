@@ -35,6 +35,7 @@ def respond():
     dblist = myclient.list_database_names()
     if "mydatabase" in dblist:
         print("The database exists.")
+    else: print("Nope")
     return 'ok'
 
 def generateImage(kID):
