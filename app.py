@@ -13,8 +13,7 @@ global TOKEN
 TOKEN = bot_token
 bot = telebot.TeleBot(token=TOKEN, threaded=False)
 myclient = pymongo.MongoClient("mongodb+srv://traildata:firik1996@cluster0-7t4l6.mongodb.net/test?retryWrites=true&w=majority")
-db = myclient.test
-#mydb = myclient["trialdata"]
+mydb = myclient["trialdata"]
 
 
 user_dict = {}
