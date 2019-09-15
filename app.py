@@ -14,7 +14,7 @@ global TOKEN
 TOKEN = bot_token
 bot = telebot.TeleBot(token=TOKEN, threaded=False)
 myclient = pymongo.MongoClient("mongodb://trialdata:firik1996@ds263127.mlab.com:63127/trialkids")
-mydb = myclient["trialdata"]
+#mydb = myclient["trialkids"]
 
 
 user_dict = {}
@@ -33,6 +33,9 @@ def respond():
     update = telebot.types.Update.de_json(request.stream.read().decode('utf-8'))
     print (update)
     bot.process_new_updates([update])
+    dblist = myclient.list_database_names()
+    if "trialkids" in dblist:
+        print("The database exists.")
     return 'ok'
 
 def generateImage(kID):
