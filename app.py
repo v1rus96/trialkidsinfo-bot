@@ -33,7 +33,6 @@ def respond():
     update = telebot.types.Update.de_json(request.stream.read().decode('utf-8'))
     print (update)
     bot.process_new_updates([update])
-    print(myclient.list_database_names())
     return 'ok'
 
 def generateImage(kID):
