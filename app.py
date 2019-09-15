@@ -33,7 +33,7 @@ def respond():
     print (update)
     bot.process_new_updates([update])
     dblist = myclient.list_database_names()
-    if "trialdata" in myclient:
+    if "trialdata" in dblist:
         print("The database exists.")
     else: print("Nope")
     return 'ok'
