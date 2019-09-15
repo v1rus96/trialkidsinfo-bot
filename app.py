@@ -6,11 +6,15 @@ from io import BytesIO
 from flask import Flask, request
 from telebotic.credentials import bot_token, bot_user_name,URL
 from telebot import types
+import pymongo
 
 global bot
 global TOKEN
 TOKEN = bot_token
 bot = telebot.TeleBot(token=TOKEN, threaded=False)
+myclient = pymongo.MongoClient("mongodb+srv://traildata:firik1996@cluster0-7t4l6.mongodb.net/test?retryWrites=true&w=majority")
+mydb = myclient["trialdata"]
+
 
 user_dict = {}
 
@@ -28,6 +32,9 @@ def respond():
     update = telebot.types.Update.de_json(request.stream.read().decode('utf-8'))
     print (update)
     bot.process_new_updates([update])
+    dblist = myclient.list_database_names()
+    if "mydatabase" in dblist:
+        print("The database exists.")
     return 'ok'
 
 def generateImage(kID):
@@ -69,7 +76,6 @@ def echo(m):
     # else:
     #     bot.send_message(m.chat.id, "Hey there :)",reply_markup=keyboard())
 
-@bot.message_handler(content_types=["text"])
 def process_name_step(message):
     try:
         chat_id = message.chat.id
@@ -81,7 +87,6 @@ def process_name_step(message):
     except Exception as e:
         bot.reply_to(message, 'oooops')
 
-@bot.message_handler(content_types=["text"])
 def process_age_step(message):
     try:
         chat_id = message.chat.id
@@ -99,7 +104,6 @@ def process_age_step(message):
     except Exception as e:
         bot.reply_to(message, 'oooops')
 
-@bot.message_handler(content_types=["text"])
 def process_sex_step(message):
     try:
         chat_id = message.chat.id
