@@ -14,4 +14,3 @@ Pillow==6.1.0
 telebot==0.0.3
 pyTelegramBotAPI==3.6.6
 pymongo==3.9.0
-dnspython==1.16.0
