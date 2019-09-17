@@ -33,7 +33,7 @@ def respond():
     update = telebot.types.Update.de_json(request.stream.read().decode('utf-8'))
     print (update)
     bot.process_new_updates([update])
-    dblist = myclient.admin.list_database_names()
+    dblist = myclient.list_database_names()
     if "trialkids" in dblist:
         print("The database exists.")
     return 'ok'
