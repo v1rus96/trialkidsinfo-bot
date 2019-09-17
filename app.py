@@ -6,9 +6,7 @@ from io import BytesIO
 from flask import Flask, request
 from telebotic.credentials import bot_token, bot_user_name,URL
 from telebot import types
-import pymongo
-from pymongo import MongoClient
-from telebotic.connectDB import DB
+from models.save import MessageModel
 
 global bot
 global TOKEN
@@ -24,17 +22,7 @@ class User:
         self.age = None
         self.sex = None
 
-    def insert(self):
-        if not DB.find_one("trialdata", {"name": self.name}):
-            DB.insert(collection='trialdata', data=self.json())
- 
-    def json(self):
-        return {
-            'name': self.name
-        }
-
 app = Flask(__name__)
-DB.init()
 
 @app.route('/{}'.format(TOKEN), methods=['POST'])
 def respond():
@@ -125,7 +113,11 @@ def process_sex_step(message):
         keyboardmain.add(first_button, second_button)
         bot.send_photo(chat_id=-1001341610441, photo=generateImage(kID=user.name), reply_markup=keyboardmain)
         bot.send_message(chat_id, 'Nice to meet you ' + user.name + '\n Age:' + str(user.age) + '\n Sex:' + user.sex,reply_markup=keyboard())
-        user.name.insert()
+        MessageModel.save_one({
+            'name': user.name,
+            'age': user.age,
+            'sex': user.sex
+        })
     except Exception as e:
         bot.reply_to(message, 'oooops')
 
