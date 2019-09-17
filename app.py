@@ -79,7 +79,8 @@ def process_name_step(message):
         name = message.text
         user = User(name)
         user_dict[chat_id] = user
-        msg = bot.reply_to(message, 'How old are you?')
+        markup = types.ForceReply(selective=False)
+        msg = bot.send_message(chat_id=chat_id, text="How old are you?", reply_markup=markup)
         bot.register_next_step_handler(msg, process_age_step)
     except Exception as e:
         bot.reply_to(message, 'oooops')
@@ -88,8 +89,9 @@ def process_age_step(message):
     try:
         chat_id = message.chat.id
         age = message.text
+        markup = types.ForceReply(selective=False)
         if not age.isdigit():
-            msg = bot.reply_to(message, 'Age should be a number. How old are you?')
+            msg = bot.send_message(chat_id=chat_id, text="Age should be a number. How old are you?", reply_markup=markup)
             bot.register_next_step_handler(msg, process_age_step)
             return
         user = user_dict[chat_id]
