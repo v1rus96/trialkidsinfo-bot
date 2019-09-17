@@ -66,13 +66,8 @@ def echo(m):
         # keyboardmain.add(first_button, second_button)
         # bot.send_photo(m.chat.id, photo=generateImage(kID=m.text))
         find = MessageModel.get_one(args={'name': '364884'}, filters={'_id': 0})
-        if find:
-            for c in find:
-                c_name = c.get('name')
-                c_age = c.get('age')
-                c_sex = c.get('sex')
-                ct = u'Name: {name}\nAge: {age}\nSex: {sex}'.format(name=c_name, age=c_age, sex=c_sex)
-        print (ct)
+
+        print (find)
         msg = bot.reply_to(m, "What is kids ID?")
         return bot.register_next_step_handler(msg, process_name_step)#, reply_markup=keyboardmain)
     # else:
