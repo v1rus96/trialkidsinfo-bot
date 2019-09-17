@@ -67,8 +67,7 @@ def echo(m):
         # bot.send_photo(m.chat.id, photo=generateImage(kID=m.text))
         find = MessageModel.get_one(args={'name': '364884'}, filters={'_id': 0})
         print (find)
-        markup = types.ForceReply(selective=False)
-        msg = bot.send_message(chat_id=m.chat.id, text="What is kids ID?", reply_markup=markup)
+        msg = bot.reply_to(m, "What is kids ID?")
         bot.register_next_step_handler(msg, process_name_step)#, reply_markup=keyboardmain)
     # else:
     #     bot.send_message(m.chat.id, "Hey there :)",reply_markup=keyboard())
@@ -79,8 +78,7 @@ def process_name_step(message):
         name = message.text
         user = User(name)
         user_dict[chat_id] = user
-        markup = types.ForceReply(selective=False)
-        msg = bot.send_message(chat_id=chat_id, text="How old are you?", reply_markup=markup)
+        msg = bot.reply_to(message, 'How old are you?')
         bot.register_next_step_handler(msg, process_age_step)
     except Exception as e:
         bot.reply_to(message, 'oooops')
@@ -89,9 +87,8 @@ def process_age_step(message):
     try:
         chat_id = message.chat.id
         age = message.text
-        markup = types.ForceReply(selective=False)
         if not age.isdigit():
-            msg = bot.send_message(chat_id=chat_id, text="Age should be a number. How old are you?", reply_markup=markup)
+            msg = bot.reply_to(message, 'Age should be a number. How old are you?')
             bot.register_next_step_handler(msg, process_age_step)
             return
         user = user_dict[chat_id]
@@ -136,6 +133,7 @@ bot.enable_save_next_step_handlers(delay=2)
 # WARNING It will work only if enable_save_next_step_handlers was called!
 bot.load_next_step_handlers()
 
+bot.polling()
 
 def keyboard():
 	markup = types.ReplyKeyboardMarkup(one_time_keyboard=False, resize_keyboard=True)
