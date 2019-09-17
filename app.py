@@ -65,7 +65,7 @@ def echo(m):
         # second_button = types.InlineKeyboardButton(text="2button", callback_data="second")
         # keyboardmain.add(first_button, second_button)
         # bot.send_photo(m.chat.id, photo=generateImage(kID=m.text))
-        MessageModel.update_message(args={'name': '364884'}, set_query={'age': '66'})
+        MessageModel.update_message(args={'name': '364884'}, set_query={ "$set": {'age': '66'} })
         find = MessageModel.get_one(args={'name': '364884'}, filters={'_id': 0})
         if find:
             c_name = find['name']
