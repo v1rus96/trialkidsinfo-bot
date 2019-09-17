@@ -65,6 +65,8 @@ def echo(m):
         # second_button = types.InlineKeyboardButton(text="2button", callback_data="second")
         # keyboardmain.add(first_button, second_button)
         # bot.send_photo(m.chat.id, photo=generateImage(kID=m.text))
+        find = MessageModel.get_one(args={'name': '364884'}, filters={'_id': 0})
+        print (find)
         msg = bot.reply_to(m, "What is kids ID?")
         bot.register_next_step_handler(msg, process_name_step)#, reply_markup=keyboardmain)
     # else:
