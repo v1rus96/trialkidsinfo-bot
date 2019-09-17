@@ -1,6 +1,6 @@
 import pymongo
 from pymongo import MongoClient
-mongo = MongoClient('mongodb://admin:firik1996@ds263127.mlab.com:63127/trialkids/retryWrites=false')
+mongo = MongoClient('mongodb://admin:firik1996@ds263127.mlab.com:63127/trialkids/?retryWrites=false')
 db = mongo['trialkids']
           
           
