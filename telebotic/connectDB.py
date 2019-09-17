@@ -3,7 +3,7 @@ import pymongo
           
 class DB(object):
           
-    URI = "mongodb://admin:firik1996@ds263127.mlab.com:63127/trialkidsmongodb://admin:firik1996@ds263127.mlab.com:63127/trialkids"
+    URI = "mongodb://admin:firik1996@ds263127.mlab.com:63127/trialkids"
           
     @staticmethod
     def init():
