@@ -68,7 +68,7 @@ def echo(m):
         find = MessageModel.get_one(args={'name': '364884'}, filters={'_id': 0})
         print (find)
         msg = bot.reply_to(m, "What is kids ID?")
-        bot.register_next_step_handler(msg, process_name_step)#, reply_markup=keyboardmain)
+        return bot.register_next_step_handler(msg, process_name_step)#, reply_markup=keyboardmain)
     # else:
     #     bot.send_message(m.chat.id, "Hey there :)",reply_markup=keyboard())
 
@@ -79,7 +79,7 @@ def process_name_step(message):
         user = User(name)
         user_dict[chat_id] = user
         msg = bot.reply_to(message, 'How old are you?')
-        bot.register_next_step_handler(msg, process_age_step)
+        return bot.register_next_step_handler(msg, process_age_step)
     except Exception as e:
         bot.reply_to(message, 'oooops')
 
@@ -96,7 +96,7 @@ def process_age_step(message):
         markups = types.ReplyKeyboardMarkup(one_time_keyboard=True)
         markups.add('Male', 'Female')
         msg = bot.reply_to(message, 'What is your gender', reply_markup=markups)
-        bot.register_next_step_handler(msg, process_sex_step)
+        return bot.register_next_step_handler(msg, process_sex_step)
     except Exception as e:
         bot.reply_to(message, 'oooops')
 
