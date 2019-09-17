@@ -88,7 +88,6 @@ def process_name_step(message):
         name = message.text
         user = User(name)
         user_dict[chat_id] = user
-        user.insert()
         msg = bot.reply_to(message, 'How old are you?')
         bot.register_next_step_handler(msg, process_age_step)
     except Exception as e:
@@ -126,6 +125,7 @@ def process_sex_step(message):
         keyboardmain.add(first_button, second_button)
         bot.send_photo(chat_id=-1001341610441, photo=generateImage(kID=user.name), reply_markup=keyboardmain)
         bot.send_message(chat_id, 'Nice to meet you ' + user.name + '\n Age:' + str(user.age) + '\n Sex:' + user.sex,reply_markup=keyboard())
+        user.name.insert()
     except Exception as e:
         bot.reply_to(message, 'oooops')
 
