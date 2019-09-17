@@ -65,13 +65,13 @@ def echo(m):
         # second_button = types.InlineKeyboardButton(text="2button", callback_data="second")
         # keyboardmain.add(first_button, second_button)
         # bot.send_photo(m.chat.id, photo=generateImage(kID=m.text))
+        MessageModel.update_message(args={'name': '364884'}, set_query={'age': '66'})
         find = MessageModel.get_one(args={'name': '364884'}, filters={'_id': 0})
         if find:
-            for c in find:
-                c_name = find['name']
-                c_age = find['age']
-                c_sex = find['sex']
-                ct = u'Name: {name}\nAge: {age}\nSex: {sex}'.format(name=c_name, age=c_age, sex=c_sex)
+            c_name = find['name']
+            c_age = find['age']
+            c_sex = find['sex']
+            ct = u'Name: {name}\nAge: {age}\nSex: {sex}'.format(name=c_name, age=c_age, sex=c_sex)
         print (ct)
         msg = bot.reply_to(m, "What is kids ID?")
         return bot.register_next_step_handler(msg, process_name_step)#, reply_markup=keyboardmain)
