@@ -155,6 +155,7 @@ def process_callback(query):
         second_button = types.InlineKeyboardButton(text="2button", callback_data="second")
         third_button = types.InlineKeyboardButton(text="3button", callback_data="third")
         keyboardmain.add(first_button, second_button,third_button)
+        bot.answer_callback_query(callback_query_id=query.id)
         bot.edit_message_media(media=types.InputMediaPhoto(generateImage(kID='FIRST')),
                             chat_id=chat_id,
                             message_id=message_id,
