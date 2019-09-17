@@ -8,14 +8,12 @@ from telebotic.credentials import bot_token, bot_user_name,URL
 from telebot import types
 import pymongo
 from pymongo import MongoClient
+from telebotic.connectDB import DB
 
 global bot
 global TOKEN
 TOKEN = bot_token
 bot = telebot.TeleBot(token=TOKEN, threaded=False)
-myclient = pymongo.MongoClient("mongodb://admin:firik1996@ds263127.mlab.com:63127/trialkids")
-db = myclient.admin
-mydb = myclient["trialkids"]
 
 user_dict = {}
 
@@ -26,16 +24,23 @@ class User:
         self.age = None
         self.sex = None
 
+    def insert(self):
+        if not DB.find_one("trialdata", {"name": self.name}):
+            DB.insert(collection='trialdata', data=self.json())
+ 
+    def json(self):
+        return {
+            'name': self.name
+        }
+
 app = Flask(__name__)
+DB.init()
 
 @app.route('/{}'.format(TOKEN), methods=['POST'])
 def respond():
     update = telebot.types.Update.de_json(request.stream.read().decode('utf-8'))
     print (update)
     bot.process_new_updates([update])
-    dblist = myclient.list_database_names()
-    if "trialkids" in dblist:
-        print("The database exists.")
     return 'ok'
 
 def generateImage(kID):
@@ -83,6 +88,7 @@ def process_name_step(message):
         name = message.text
         user = User(name)
         user_dict[chat_id] = user
+        user.insert()
         msg = bot.reply_to(message, 'How old are you?')
         bot.register_next_step_handler(msg, process_age_step)
     except Exception as e:
