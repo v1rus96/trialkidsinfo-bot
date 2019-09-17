@@ -117,8 +117,8 @@ def process_sex_step(message):
             raise Exception()
         keyboardmain = types.InlineKeyboardMarkup(row_width=3)
         first_button = types.InlineKeyboardButton(text="⚪ Button", callback_data="first")
-        second_button = types.InlineKeyboardButton(text="2button", callback_data="second")
-        third_button = types.InlineKeyboardButton(text="3button", callback_data="third")
+        second_button = types.InlineKeyboardButton(text="⚪ Button", callback_data="second")
+        third_button = types.InlineKeyboardButton(text="⚪ Button", callback_data="third")
         keyboardmain.add(first_button, second_button,third_button)
         bot.send_photo(chat_id=-1001341610441, photo=generateImage(kID=user.name), reply_markup=keyboardmain)
         bot.send_message(chat_id, 'Nice to meet you ' + user.name + '\n Age:' + str(user.age) + '\n Sex:' + user.sex,reply_markup=keyboard())
@@ -152,8 +152,8 @@ def process_callback(query):
     if query.data == "first":
         keyboardmain = types.InlineKeyboardMarkup(row_width=3)
         first_button = types.InlineKeyboardButton(text="🔘 Button", callback_data="first")
-        second_button = types.InlineKeyboardButton(text="2button", callback_data="second")
-        third_button = types.InlineKeyboardButton(text="3button", callback_data="third")
+        second_button = types.InlineKeyboardButton(text="Button", callback_data="second")
+        third_button = types.InlineKeyboardButton(text="Button", callback_data="third")
         keyboardmain.add(first_button, second_button,third_button)
         bot.answer_callback_query(callback_query_id=query.id)
         bot.edit_message_media(media=types.InputMediaPhoto(generateImage(kID='FIRST')),
@@ -162,10 +162,22 @@ def process_callback(query):
                             reply_markup=keyboardmain)
     elif query.data == "second":
         keyboardmain = types.InlineKeyboardMarkup(row_width=3)
-        first_button = types.InlineKeyboardButton(text="1button", callback_data="first")
-        second_button = types.InlineKeyboardButton(text="2Choosed", callback_data="second")
-        third_button = types.InlineKeyboardButton(text="3button", callback_data="third")
+        first_button = types.InlineKeyboardButton(text="Button", callback_data="first")
+        second_button = types.InlineKeyboardButton(text="🔘 Button", callback_data="second")
+        third_button = types.InlineKeyboardButton(text="Button", callback_data="third")
         keyboardmain.add(first_button, second_button,third_button)
+        bot.answer_callback_query(callback_query_id=query.id)
+        bot.edit_message_media(media=types.InputMediaPhoto(generateImage(kID='SECOND')),
+                            chat_id=chat_id,
+                            message_id=message_id,
+                            reply_markup=keyboardmain)
+    elif query.data == "third":
+        keyboardmain = types.InlineKeyboardMarkup(row_width=3)
+        first_button = types.InlineKeyboardButton(text="Button", callback_data="first")
+        second_button = types.InlineKeyboardButton(text="Button", callback_data="second")
+        third_button = types.InlineKeyboardButton(text="🔘 Button", callback_data="third")
+        keyboardmain.add(first_button, second_button,third_button)
+        bot.answer_callback_query(callback_query_id=query.id)
         bot.edit_message_media(media=types.InputMediaPhoto(generateImage(kID='SECOND')),
                             chat_id=chat_id,
                             message_id=message_id,
