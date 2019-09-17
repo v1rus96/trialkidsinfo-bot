@@ -67,7 +67,8 @@ def echo(m):
         # bot.send_photo(m.chat.id, photo=generateImage(kID=m.text))
         find = MessageModel.get_one(args={'name': '364884'}, filters={'_id': 0})
         print (find)
-        msg = bot.reply_to(m, "What is kids ID?")
+        markup = types.ForceReply(selective=False)
+        msg = bot.send_message(chat_id=m.chat.id, text="What is kids ID?", reply_markup=markup)
         bot.register_next_step_handler(msg, process_name_step)#, reply_markup=keyboardmain)
     # else:
     #     bot.send_message(m.chat.id, "Hey there :)",reply_markup=keyboard())
