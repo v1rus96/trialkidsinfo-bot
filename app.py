@@ -143,7 +143,7 @@ def process_callback(query):
         third_button = types.InlineKeyboardButton(text="⚪ Button", callback_data="third")
         keyboardmain.add(first_button, second_button,third_button)
         bot.answer_callback_query(callback_query_id=query.id)
-        bot.edit_message_media(media=types.InputMediaPhoto(generateImage(kID='FIRST')),
+        bot.edit_message_reply_markup(
                             chat_id=chat_id,
                             message_id=message_id,
                             reply_markup=keyboardmain)
@@ -154,7 +154,7 @@ def process_callback(query):
         third_button = types.InlineKeyboardButton(text="⚪ Button", callback_data="third")
         keyboardmain.add(first_button, second_button,third_button)
         bot.answer_callback_query(callback_query_id=query.id)
-        bot.edit_message_media(media=types.InputMediaPhoto(generateImage(kID='SECOND')),
+        bot.edit_message_reply_markup(
                             chat_id=chat_id,
                             message_id=message_id,
                             reply_markup=keyboardmain)
@@ -165,7 +165,7 @@ def process_callback(query):
         third_button = types.InlineKeyboardButton(text="🔘 Button", callback_data="third")
         keyboardmain.add(first_button, second_button,third_button)
         bot.answer_callback_query(callback_query_id=query.id)
-        bot.edit_message_media(media=types.InputMediaPhoto(generateImage(kID='SECOND')),
+        bot.edit_message_reply_markup(
                             chat_id=chat_id,
                             message_id=message_id,
                             reply_markup=keyboardmain)
