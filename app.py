@@ -60,11 +60,6 @@ def generateImage(kID):
 @bot.message_handler(content_types=["text"])
 def echo(m):
     if m.text == 'Add kid':
-        # keyboardmain = types.InlineKeyboardMarkup(row_width=2)
-        # first_button = types.InlineKeyboardButton(text="1button", callback_data="first")
-        # second_button = types.InlineKeyboardButton(text="2button", callback_data="second")
-        # keyboardmain.add(first_button, second_button)
-        # bot.send_photo(m.chat.id, photo=generateImage(kID=m.text))
         MessageModel.update_message(args={'name': '364884'}, set_query={ "$set": {'age': '66'} })
         find = MessageModel.get_one(args={'name': '364884'}, filters={'_id': 0})
         if find:
@@ -74,9 +69,7 @@ def echo(m):
             ct = u'Name: {name}\nAge: {age}\nSex: {sex}'.format(name=c_name, age=c_age, sex=c_sex)
         print (ct)
         msg = bot.reply_to(m, "What is kids ID?")
-        return bot.register_next_step_handler(msg, process_name_step)#, reply_markup=keyboardmain)
-    # else:
-    #     bot.send_message(m.chat.id, "Hey there :)",reply_markup=keyboard())
+        return bot.register_next_step_handler(msg, process_name_step)
 
 def process_name_step(message):
     try:
@@ -87,7 +80,7 @@ def process_name_step(message):
         msg = bot.reply_to(message, 'How old are you?')
         return bot.register_next_step_handler(msg, process_age_step)
     except Exception as e:
-        bot.reply_to(message, 'oooops')
+        bot.reply_to(message, 'oooops' + e)
 
 def process_age_step(message):
     try:
@@ -104,7 +97,7 @@ def process_age_step(message):
         msg = bot.reply_to(message, 'What is your gender', reply_markup=markups)
         return bot.register_next_step_handler(msg, process_sex_step)
     except Exception as e:
-        bot.reply_to(message, 'oooops')
+        bot.reply_to(message, 'oooops' + e)
 
 def process_sex_step(message):
     try:
@@ -128,16 +121,10 @@ def process_sex_step(message):
             'sex': user.sex
         })
     except Exception as e:
-        bot.reply_to(message, 'oooops')
+        bot.reply_to(message, 'oooops' + e)
 
-
-# Enable saving next step handlers to file "./.handlers-saves/step.save".
-# Delay=2 means that after any change in next step handlers (e.g. calling register_next_step_handler())
-# saving will hapen after delay 2 seconds.
 bot.enable_save_next_step_handlers(delay=2)
 
-# Load next_step_handlers from save file (default "./.handlers-saves/step.save")
-# WARNING It will work only if enable_save_next_step_handlers was called!
 bot.load_next_step_handlers()
 
 def keyboard():
