@@ -15,7 +15,6 @@ bot = telebot.TeleBot(token=TOKEN, threaded=False)
 
 user_dict = {}
 
-xczx
 class User:
     def __init__(self, name):
         self.name = name
