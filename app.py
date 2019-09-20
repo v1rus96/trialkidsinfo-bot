@@ -157,9 +157,13 @@ def query_text(query):
                 ))
             except Exception as e:
                 print(e)
-        bot.answer_inline_query(query.id, results_array, is_personal=True)
+        bot.answer_inline_query(query.id, results_array)
     except Exception as e:
         print("{!s}\n{!s}".format(type(e), str(e)))
+
+@bot.chosen_inline_handler(func=lambda chosen_inline_result: True)
+def test_chosen(chosen_inline_result):
+    print(chosen_inline_result)
 
 @bot.callback_query_handler(lambda query: True)
 def process_callback(query):
