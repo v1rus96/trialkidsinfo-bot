@@ -141,11 +141,12 @@ def query_text(query):
     except AttributeError as ex:
         return print("No match")
     num1, num2 = matches.group().split()
-    tasks = ['Mono','Square','Penta']
+    tasks = ["Mono","Square","Penta"]
     try:
         for i, val in enumerate(tasks): 
+            print(val)
             r_sum = types.InlineQueryResultArticle(
-                    id=i, title=val,
+                    id=str(i+1), title=val,
                     # Описание отображается в подсказке,
                     # message_text - то, что будет отправлено в виде сообщения
                     description="Результат: {!s}".format(val),
