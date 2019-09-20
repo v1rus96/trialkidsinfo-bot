@@ -116,7 +116,7 @@ def process_sex_step(message):
         third_button = types.InlineKeyboardButton(text="⚪ Button", callback_data="third")
         keyboardmain.add(first_button, second_button,third_button)
         sent = bot.send_photo(chat_id=-1001341610441, photo=generateImage(kID=user.name), reply_markup=keyboardmain)
-        print(sent)
+        print(sent.message_id)
         bot.send_message(chat_id, 'Nice to meet you ' + user.name + '\n Age:' + str(user.age) + '\n Sex:' + user.sex,reply_markup=keyboard())
         MessageModel.save_one({
             'chat_id': -1001341610441,
