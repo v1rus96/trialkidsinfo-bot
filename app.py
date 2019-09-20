@@ -142,18 +142,22 @@ def query_text(query):
         return print("No match")
     num1, num2 = matches.group().split()
     tasks = ["Mono","Square","Penta"]
+    results_array = []
     try:
         for i, val in enumerate(tasks): 
             print(val)
-            r_sum = types.InlineQueryResultArticle(
-                    id=str(i+1), title=val,
-                    # Описание отображается в подсказке,
-                    # message_text - то, что будет отправлено в виде сообщения
-                    description="Результат: {!s}".format(val),
-                    input_message_content=types.InputTextMessageContent(
-                    message_text="{!s} + {!s}".format(num1, num2))
-            )
-        bot.answer_inline_query(query.id, [r_sum])
+            try:
+                results_array.append(types.InlineQueryResultArticle(
+                        id=str(i+1), title=val,
+                        # Описание отображается в подсказке,
+                        # message_text - то, что будет отправлено в виде сообщения
+                        description="Результат: {!s}".format(val),
+                        input_message_content=types.InputTextMessageContent(
+                        message_text="{!s} + {!s}".format(num1, num2))
+                ))
+            except Exception as e:
+                print(e)
+        bot.answer_inline_query(query.id, results_array)
     except Exception as e:
         print("{!s}\n{!s}".format(type(e), str(e)))
 
