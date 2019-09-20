@@ -139,6 +139,7 @@ def keyboard():
 @bot.inline_handler(func=lambda query: len(query.query) is 0)
 def empty_query(query):
     find = MessageModel.get_all(args={'name': 1}, filters={'_id': 0})
+    print(find)
     hint = "Введите ровно 2 числа и получите результат!"
     results_array = []
     try:
