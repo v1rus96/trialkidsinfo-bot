@@ -103,6 +103,7 @@ def process_age_step(message):
 def process_sex_step(message):
     try:
         chat_id = message.chat.id
+        message_id = message.message_id
         sex = message.text
         user = user_dict[chat_id]
         if (sex == 'Male') or (sex == 'Female'):
@@ -117,6 +118,8 @@ def process_sex_step(message):
         bot.send_photo(chat_id=-1001341610441, photo=generateImage(kID=user.name), reply_markup=keyboardmain)
         bot.send_message(chat_id, 'Nice to meet you ' + user.name + '\n Age:' + str(user.age) + '\n Sex:' + user.sex,reply_markup=keyboard())
         MessageModel.save_one({
+            'chat_id': -1001341610441,
+            'message_id': message_id,
             'name': user.name,
             'age': user.age,
             'sex': user.sex
@@ -167,13 +170,14 @@ def test_chosen(chosen_inline_result):
     kID, estimate = chosen_inline_result.query.split()
     find = MessageModel.get_one(args={'name': str(kID)}, filters={'_id': 0})
     if find:
-        c_name = find['name']
-        c_age = find['age']
+        c_name = find['chat_id']
+        c_age = find['message_id']
         c_sex = find['sex']
         ct = u'Name: {name}\nAge: {age}\nSex: {sex}'.format(name=c_name, age=c_age, sex=c_sex)
     print (ct)
     MessageModel.update_message(args={'name': str(kID)}, set_query={ "$set": {'name': chosen_inline_result.result_id} })
     print(chosen_inline_result.query + chosen_inline_result.result_id)
+
 
 @bot.callback_query_handler(lambda query: True)
 def process_callback(query):
