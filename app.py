@@ -116,11 +116,10 @@ def process_sex_step(message):
         third_button = types.InlineKeyboardButton(text="⚪ Button", callback_data="third")
         keyboardmain.add(first_button, second_button,third_button)
         sent = bot.send_photo(chat_id=-1001341610441, photo=generateImage(kID=user.name), reply_markup=keyboardmain)
-        print(sent.message_id)
         bot.send_message(chat_id, 'Nice to meet you ' + user.name + '\n Age:' + str(user.age) + '\n Sex:' + user.sex,reply_markup=keyboard())
         MessageModel.save_one({
             'chat_id': -1001341610441,
-            'message_id': message_id,
+            'message_id': sent.message_id,
             'name': user.name,
             'age': user.age,
             'sex': user.sex
@@ -171,12 +170,15 @@ def test_chosen(chosen_inline_result):
     kID, estimate = chosen_inline_result.query.split()
     find = MessageModel.get_one(args={'name': str(kID)}, filters={'_id': 0})
     if find:
-        c_name = find['chat_id']
-        c_age = find['message_id']
-        c_sex = find['sex']
-        ct = u'Name: {name}\nAge: {age}\nSex: {sex}'.format(name=c_name, age=c_age, sex=c_sex)
+        chat_id = find['chat_id']
+        message_id = find['message_id']
+        name = find['name']
+        ct = u'Name: {name}\nAge: {age}\nSex: {sex}'.format(name=chat_id, age=message_id, sex=name)
     print (ct)
     MessageModel.update_message(args={'name': str(kID)}, set_query={ "$set": {'name': chosen_inline_result.result_id} })
+    bot.edit_message_media(media=types.InputMediaPhoto(generateImage(kID=chosen_inline_result.result_id)),
+                            chat_id=chat_id,
+                            message_id=message_id)
     print(chosen_inline_result.query + chosen_inline_result.result_id)
 
 
