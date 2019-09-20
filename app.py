@@ -139,8 +139,8 @@ def query_text(query):
     try:
         matches = re.match(digits_pattern, query.query)
     except AttributeError as ex:
-        return print("No match")
-    num1, num2 = matches.split()
+        return
+    num1, num2 = matches.group().split()
     tasks = ["Mono","Square","Penta"]
     results_array = []
     try:
