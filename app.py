@@ -7,6 +7,7 @@ from flask import Flask, request
 from telebotic.credentials import bot_token, bot_user_name,URL
 from telebot import types
 from models.save import MessageModel
+import re
 
 global bot
 global TOKEN
@@ -62,6 +63,13 @@ def echo(m):
     if m.text == 'Add kid':
         MessageModel.update_message(args={'name': '364884'}, set_query={ "$set": {'age': '66'} })
         find = MessageModel.get_one(args={'name': '364884'}, filters={'_id': 0})
+        digits_pattern = re.compile(r'^[0-9]+ estimate', re.MULTILINE)
+        try:
+            matches = re.match(digits_pattern, "123456 estimate")
+        except AttributeError as ex:
+            return print("No match")
+        num1, num2 = matches.group().split()
+        print(num1 + " " + num2)
         if find:
             c_name = find['name']
             c_age = find['age']
@@ -170,6 +178,13 @@ def process_callback(query):
                             message_id=message_id,
                             reply_markup=keyboardmain)
 
+def build_menu(buttons, n_cols, header_buttons=None, footer_buttons=None):
+    menu = [buttons[i:i + n_cols] for i in range(0, len(buttons), n_cols)]
+    if header_buttons:
+        menu.insert(0, [header_buttons])
+    if footer_buttons:
+        menu.append([footer_buttons])
+    return menu
 
 @app.route('/set_webhook', methods=['GET', 'POST'])
 def set_webhook():
