@@ -138,9 +138,10 @@ def query_text(query):
     digits_pattern = re.compile(r'^[0-9]+ estimate', re.MULTILINE)
     try:
         matches = re.match(digits_pattern, query.query)
+        num1, num2 = matches.group().split()
     except AttributeError as ex:
         return
-    num1, num2 = matches.group().split()
+    
     tasks = ["Mono","Square","Penta"]
     results_array = []
     try:
