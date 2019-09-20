@@ -133,7 +133,7 @@ def keyboard():
 	markup.add('Add kid')
 	return markup 
 
-@bot.inline_handler(func=lambda query: len(query.query) > 0)
+@bot.inline_handler(lambda query: len(query.query) > 0)
 def query_text(query):
     digits_pattern = re.compile(r'^[0-9]+ estimate', re.MULTILINE)
     try:
@@ -153,7 +153,7 @@ def query_text(query):
                     input_message_content=types.InputTextMessageContent(
                     message_text="{!s} + {!s}".format(num1, num2))
             )
-        bot.answer_inline_query(query.id, r_sum)
+        bot.answer_inline_query(query.id, tasks)
     except Exception as e:
         print("{!s}\n{!s}".format(type(e), str(e)))
 
