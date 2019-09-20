@@ -63,13 +63,6 @@ def echo(m):
     if m.text == 'Add kid':
         MessageModel.update_message(args={'name': '364884'}, set_query={ "$set": {'age': '66'} })
         find = MessageModel.get_one(args={'name': '364884'}, filters={'_id': 0})
-        digits_pattern = re.compile(r'^[0-9]+ estimate', re.MULTILINE)
-        try:
-            matches = re.match(digits_pattern, "123456 estimate")
-        except AttributeError as ex:
-            return print("No match")
-        num1, num2 = matches.group().split()
-        print(num1 + " " + num2)
         if find:
             c_name = find['name']
             c_age = find['age']
@@ -139,6 +132,29 @@ def keyboard():
 	markup = types.ReplyKeyboardMarkup(one_time_keyboard=False, resize_keyboard=True)
 	markup.add('Add kid')
 	return markup 
+
+@bot.inline_handler(func=lambda query: len(query.query) > 0)
+def query_text(query):
+    digits_pattern = re.compile(r'^[0-9]+ estimate', re.MULTILINE)
+    try:
+        matches = re.match(digits_pattern, "123456 estimate")
+    except AttributeError as ex:
+        return print("No match")
+    num1, num2 = matches.group().split()
+    tasks = ['Mono','Square','Penta']
+    try:
+        for i in tasks:
+            r_sum = types.InlineQueryResultArticle(
+                    id=i, title=tasks,
+                    # Описание отображается в подсказке,
+                    # message_text - то, что будет отправлено в виде сообщения
+                    description="Результат: {!s}".format(i),
+                    input_message_content=types.InputTextMessageContent(
+                    message_text="{!s} + {!s}".format(num1, num2))
+            )
+        bot.answer_inline_query(query.id, [r_sum])
+    except Exception as e:
+        print("{!s}\n{!s}".format(type(e), str(e)))
 
 @bot.callback_query_handler(lambda query: True)
 def process_callback(query):
