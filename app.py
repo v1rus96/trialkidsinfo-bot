@@ -157,7 +157,7 @@ def query_text(query):
                 ))
             except Exception as e:
                 print(e)
-        bot.answer_inline_query(query.id, results_array)
+        bot.answer_inline_query(query.id, results_array, is_personal=True)
     except Exception as e:
         print("{!s}\n{!s}".format(type(e), str(e)))
 
