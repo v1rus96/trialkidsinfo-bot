@@ -164,7 +164,7 @@ def query_text(query):
 
 @bot.chosen_inline_handler(lambda chosen_inline_result: True)
 def test_chosen(chosen_inline_result):
-    print("asdjasldjasldjasalskdjaskldjasljdaskljdaskldjaskldjaslkdjaskldasjklj")
+    print(chosen_inline_result)
 
 @bot.callback_query_handler(lambda query: True)
 def process_callback(query):
