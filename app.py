@@ -153,7 +153,7 @@ def query_text(query):
                     input_message_content=types.InputTextMessageContent(
                     message_text="{!s} + {!s}".format(num1, num2))
             )
-        bot.answer_inline_query(query.id, [r_sum])
+        bot.answer_inline_query(query.id, r_sum)
     except Exception as e:
         print("{!s}\n{!s}".format(type(e), str(e)))
 
