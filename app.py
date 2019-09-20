@@ -137,7 +137,7 @@ def keyboard():
 def query_text(query):
     digits_pattern = re.compile(r'^[0-9]+ estimate', re.MULTILINE)
     try:
-        matches = re.match(digits_pattern, "123456 estimate")
+        matches = re.match(digits_pattern, query.query)
     except AttributeError as ex:
         return print("No match")
     num1, num2 = matches.group().split()
