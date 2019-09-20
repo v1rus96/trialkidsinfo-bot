@@ -183,6 +183,7 @@ def test_chosen(chosen_inline_result):
 def process_callback(query):
     message_id=query.message.message_id
     chat_id=query.message.chat.id
+    print(query.message.message_id)
     if query.data == "first":
         keyboardmain = types.InlineKeyboardMarkup(row_width=3)
         first_button = types.InlineKeyboardButton(text="🔘 Button", callback_data="first")
