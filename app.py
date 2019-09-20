@@ -63,6 +63,8 @@ def echo(m):
     if m.text == 'Add kid':
         MessageModel.update_message(args={'name': '364884'}, set_query={ "$set": {'age': '66'} })
         find = MessageModel.get_one(args={'name': '364884'}, filters={'_id': 0})
+        find2 = MessageModel.get_all(args={'name': 1}, filters={'_id': 0})
+        print(find2)
         if find:
             c_name = find['name']
             c_age = find['age']
@@ -136,7 +138,7 @@ def keyboard():
 	markup.add('Add kid')
 	return markup 
 
-@bot.inline_handler(func=lambda query: len(query.query) is 0)
+@bot.inline_handler(lambda query: len(query.query) is 0)
 def empty_query(query):
     find = MessageModel.get_all(args={'name': 1}, filters={'_id': 0})
     print(find)
