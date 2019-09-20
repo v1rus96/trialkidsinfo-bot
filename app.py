@@ -164,6 +164,15 @@ def query_text(query):
 
 @bot.chosen_inline_handler(lambda chosen_inline_result: True)
 def test_chosen(chosen_inline_result):
+    kID, estimate = chosen_inline_result.query.split()
+    find = MessageModel.get_one(args={'name': str(kID)}, filters={'_id': 0})
+    if find:
+        c_name = find['name']
+        c_age = find['age']
+        c_sex = find['sex']
+        ct = u'Name: {name}\nAge: {age}\nSex: {sex}'.format(name=c_name, age=c_age, sex=c_sex)
+    print (ct)
+    MessageModel.update_message(args={'name': str(kID)}, set_query={ "$set": {'name': chosen_inline_result.result_id} })
     print(chosen_inline_result.query + chosen_inline_result.result_id)
 
 @bot.callback_query_handler(lambda query: True)
