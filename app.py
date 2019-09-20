@@ -149,7 +149,7 @@ def query_text(query):
             print(val)
             try:
                 results_array.append(types.InlineQueryResultArticle(
-                        id=str(i+1), title=val,
+                        id=val, title=val,
                         # Описание отображается в подсказке,
                         # message_text - то, что будет отправлено в виде сообщения
                         description="Результат: {!s}".format(val),
@@ -164,7 +164,7 @@ def query_text(query):
 
 @bot.chosen_inline_handler(lambda chosen_inline_result: True)
 def test_chosen(chosen_inline_result):
-    print(chosen_inline_result.query)
+    print(chosen_inline_result.query + chosen_inline_result.result_id)
 
 @bot.callback_query_handler(lambda query: True)
 def process_callback(query):
