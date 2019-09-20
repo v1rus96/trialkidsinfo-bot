@@ -136,6 +136,24 @@ def keyboard():
 	markup.add('Add kid')
 	return markup 
 
+@bot.inline_handler(func=lambda query: len(query.query) is 0)
+def empty_query(query):
+    find = MessageModel.get_all(args={'name': 1}, filters={'_id': 0})
+    hint = "Введите ровно 2 числа и получите результат!"
+    results_array = []
+    try:
+        for id in find:
+            results_array.append(types.InlineQueryResultArticle(
+                    id=id,
+                    title=id,
+                    description=hint,
+                    input_message_content=types.InputTextMessageContent(
+                    message_text="Эх, зря я не ввёл 2 числа :(")
+            ))
+        bot.answer_inline_query(query.id, results_array)
+    except Exception as e:
+        print(e)
+
 @bot.inline_handler(lambda query: len(query.query) > 0)
 def query_text(query):
     digits_pattern = re.compile(r'^[0-9]+ estimate', re.MULTILINE)
