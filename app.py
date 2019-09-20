@@ -147,8 +147,8 @@ def empty_query(query):
     try:
         for id in find:
             results_array.append(types.InlineQueryResultArticle(
-                    id=id,
-                    title=id,
+                    id=id['name'],
+                    title=id['name'],
                     description=hint,
                     input_message_content=types.InputTextMessageContent(
                     message_text="Эх, зря я не ввёл 2 числа :(")
