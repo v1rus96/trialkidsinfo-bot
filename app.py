@@ -143,12 +143,12 @@ def query_text(query):
     num1, num2 = matches.group().split()
     tasks = ['Mono','Square','Penta']
     try:
-        for i in tasks:
+        for i, val in enumerate(tasks): 
             r_sum = types.InlineQueryResultArticle(
-                    id=i, title=tasks,
+                    id=i, title=val,
                     # Описание отображается в подсказке,
                     # message_text - то, что будет отправлено в виде сообщения
-                    description="Результат: {!s}".format(i),
+                    description="Результат: {!s}".format(val),
                     input_message_content=types.InputTextMessageContent(
                     message_text="{!s} + {!s}".format(num1, num2))
             )
