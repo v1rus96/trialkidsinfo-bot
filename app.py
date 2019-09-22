@@ -76,7 +76,9 @@ def echo(m):
         return bot.register_next_step_handler(msg, process_name_step)
 
 def process_name_step(message):
+    print("name")
     try:
+        print("try name")
         chat_id = message.chat.id
         name = message.text
         user = User(name)
@@ -87,7 +89,9 @@ def process_name_step(message):
         bot.reply_to(message, 'oooops' + e)
 
 def process_age_step(message):
+    print("age")
     try:
+        print("try age")
         chat_id = message.chat.id
         age = message.text
         if not age.isdigit():
@@ -104,7 +108,9 @@ def process_age_step(message):
         bot.reply_to(message, 'oooops' + e)
 
 def process_sex_step(message):
+    print("sex")
     try:
+        print("try sex")
         chat_id = message.chat.id
         message_id = message.message_id
         sex = message.text
