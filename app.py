@@ -208,18 +208,18 @@ def process_callback(query):
     message_id=query.message.message_id
     chat_id=query.message.chat.id
     print(query.message.message_id)
-    if query.data == "first":
-        keyboardmain = types.InlineKeyboardMarkup(row_width=3)
-        first_button = types.InlineKeyboardButton(text="🔘 Button", callback_data="first")
-        second_button = types.InlineKeyboardButton(text="⚪ Button", callback_data="second")
-        third_button = types.InlineKeyboardButton(text="⚪ Button", callback_data="third")
-        keyboardmain.add(first_button, second_button,third_button)
-        bot.answer_callback_query(callback_query_id=query.id)
-        bot.edit_message_reply_markup(
-                            chat_id=chat_id,
-                            message_id=message_id,
-                            reply_markup=keyboardmain)
-    elif query.data == "second":
+    # if query.data == "first":
+    #     keyboardmain = types.InlineKeyboardMarkup(row_width=3)
+    #     first_button = types.InlineKeyboardButton(text="🔘 Button", callback_data="first")
+    #     second_button = types.InlineKeyboardButton(text="⚪ Button", callback_data="second")
+    #     third_button = types.InlineKeyboardButton(text="⚪ Button", callback_data="third")
+    #     keyboardmain.add(first_button, second_button,third_button)
+    #     bot.answer_callback_query(callback_query_id=query.id)
+    #     bot.edit_message_reply_markup(
+    #                         chat_id=chat_id,
+    #                         message_id=message_id,
+    #                         reply_markup=keyboardmain)
+    if query.data == "second":
         keyboardmain = types.InlineKeyboardMarkup(row_width=3)
         first_button = types.InlineKeyboardButton(text="⚪ Button", callback_data="first")
         second_button = types.InlineKeyboardButton(text="🔘 Button", callback_data="second")
