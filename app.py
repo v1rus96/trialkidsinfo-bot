@@ -22,6 +22,7 @@ class User:
         self.name = name
         self.age = None
         self.sex = None
+        self.id = None
 
 app = Flask(__name__)
 
@@ -110,8 +111,19 @@ def process_sex_step(message):
         user = user_dict[chat_id]
         if (sex == 'Male') or (sex == 'Female'):
             user.sex = sex
+            msg = bot.reply_to(message, 'What is your gender id?')
+            return bot.register_next_step_handler(msg, process_id_step)
         else:
             raise Exception()
+    except Exception as e:
+        bot.reply_to(message, 'oooops' + e)
+
+def process_id_step(message):
+    try:
+        chat_id = message.chat.id
+        id = message.text
+        user = user_dict[chat_id]
+        user.id = id
         keyboardmain = types.InlineKeyboardMarkup(row_width=3)
         first_button = types.InlineKeyboardButton(text="⚪ Button", switch_inline_query_current_chat="Check")
         second_button = types.InlineKeyboardButton(text="⚪ Button", callback_data="second")
