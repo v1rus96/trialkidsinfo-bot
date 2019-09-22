@@ -113,7 +113,7 @@ def process_sex_step(message):
         else:
             raise Exception()
         keyboardmain = types.InlineKeyboardMarkup(row_width=3)
-        first_button = types.InlineKeyboardButton(text="⚪ Button", callback_data="first", switch_inline_query_current_chat="Check")
+        first_button = types.InlineKeyboardButton(text="⚪ Button", switch_inline_query_current_chat="Check")
         second_button = types.InlineKeyboardButton(text="⚪ Button", callback_data="second")
         third_button = types.InlineKeyboardButton(text="⚪ Button", callback_data="third")
         keyboardmain.add(first_button, second_button,third_button)
