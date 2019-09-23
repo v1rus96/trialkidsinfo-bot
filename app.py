@@ -38,7 +38,7 @@ def respond():
     return 'ok'
 
 def generateImage(kID):
-    find = MessageModel.get_one(args={'name': kID}, filters={'_id': 0})
+    find = MessageModel.get_one(args={'kID': kID}, filters={'_id': 0})
     kID = find['kID']
     name = find['name']
     age = find['age']
