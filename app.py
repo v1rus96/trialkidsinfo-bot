@@ -54,8 +54,8 @@ def generateImage(kID):
     img.paste(Image.open("images/background.png"))
     draw = ImageDraw.Draw(img)
     fnt = ImageFont.truetype('images/Quicksand-Bold.ttf', 48)
-    fnt1 = ImageFont.truetype('images/Quicksand-Bold.ttf', 18)
-    width, height = draw.textsize(kID, fnt)
+    fnt1 = ImageFont.truetype('images/Quicksand-Bold.ttf', 25)
+    width, height = draw.textsize("KIDO"+kID, fnt)
     draw.text(((500-width)/2,35),"KIDO"+kID,(255,255,255),font=fnt)
     draw.text((60,152),name + ", " + age,(255,255,255),font=fnt1)
 	# imagettftext($imagecontainer, 35, 0, 135, 84, $foreground, $font, 'KIDO'.$kid); 
