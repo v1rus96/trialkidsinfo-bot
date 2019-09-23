@@ -23,6 +23,10 @@ class User:
         self.age = None
         self.sex = None
         self.id = None
+        self.brain = None
+        self.game = None
+        self.experience = None
+        self.interest = None
 
 app = Flask(__name__)
 
@@ -100,7 +104,7 @@ def process_age_step(message):
             return
         user = user_dict[chat_id]
         user.age = age
-        markups = types.ReplyKeyboardMarkup(one_time_keyboard=True)
+        markups = types.ReplyKeyboardMarkup(one_time_keyboard=True, resize_keyboard=True)
         markups.add('Male', 'Female')
         msg = bot.reply_to(message, 'What is your gender', reply_markup=markups)
         return bot.register_next_step_handler(msg, process_sex_step)
@@ -203,7 +207,7 @@ def query_text(query):
         bot.answer_inline_query(query.id, results_array)
     except Exception as e:
         print("{!s}\n{!s}".format(type(e), str(e)))
-#test`
+
 @bot.chosen_inline_handler(lambda chosen_inline_result: True)
 def test_chosen(chosen_inline_result):
     kID, estimate = chosen_inline_result.query.split()
