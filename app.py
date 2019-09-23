@@ -135,22 +135,43 @@ def process_id_step(message):
         id = message.text
         user = user_dict[chat_id]
         user.id = id
-        keyboardmain = types.InlineKeyboardMarkup(row_width=3)
-        first_button = types.InlineKeyboardButton(text="Button", switch_inline_query_current_chat="Check")
-        second_button = types.InlineKeyboardButton(text="Button", callback_data="second")
-        third_button = types.InlineKeyboardButton(text="Button", callback_data="third")
-        keyboardmain.add(first_button, second_button,third_button)
-        sent = bot.send_photo(chat_id=-1001341610441, photo=generateImage(kID=user.name), reply_markup=keyboardmain)
-        bot.send_message(chat_id, 'Nice to meet you ' + user.name + '\n Age:' + str(user.age) + '\n Sex:' + user.sex,reply_markup=keyboard())
-        MessageModel.save_one({
-            'chat_id': -1001341610441,
-            'message_id': sent.message_id,
-            'name': user.name,
-            'age': user.age,
-            'sex': user.sex
-        })
+        markups = types.ReplyKeyboardMarkup(one_time_keyboard=True, resize_keyboard=True)
+        markups.add('Art', 'Science')
+        msg = bot.send_message(chat_id, 'What kids like?', reply_markup=markups)
+        return bot.register_next_step_handler(msg, process_brain_step)
+        # keyboardmain = types.InlineKeyboardMarkup(row_width=3)
+        # first_button = types.InlineKeyboardButton(text="Button", switch_inline_query_current_chat="Check")
+        # second_button = types.InlineKeyboardButton(text="Button", callback_data="second")
+        # third_button = types.InlineKeyboardButton(text="Button", callback_data="third")
+        # keyboardmain.add(first_button, second_button,third_button)
+        # sent = bot.send_photo(chat_id=-1001341610441, photo=generateImage(kID=user.name), reply_markup=keyboardmain)
+        # bot.send_message(chat_id, 'Nice to meet you ' + user.name + '\n Age:' + str(user.age) + '\n Sex:' + user.sex,reply_markup=keyboard())
+        # MessageModel.save_one({
+        #     'chat_id': -1001341610441,
+        #     'message_id': sent.message_id,
+        #     'name': user.name,
+        #     'age': user.age,
+        #     'sex': user.sex
+        # })
     except Exception as e:
         bot.reply_to(message, 'oooops' + e)
+
+def process_brain_step(message):
+    try:
+        chat_id = message.chat.id
+        message_id = message.message_id
+        brain = message.text
+        user = user_dict[chat_id]
+        if (sex == 'Art') or (sex == 'Science'):
+            user.brain = brain
+            msg = bot.send_message(chat_id, "Game?", reply_markup=types.ForceReply())
+            return bot.register_next_step_handler(msg, process_id_step)
+        else:
+            raise Exception()
+    except Exception as e:
+        bot.reply_to(message, 'oooops' + e)
+
+
 
 bot.enable_save_next_step_handlers(delay=2)
 
