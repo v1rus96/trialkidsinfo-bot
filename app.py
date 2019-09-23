@@ -39,15 +39,15 @@ def respond():
 
 def generateImage(kID):
     find = MessageModel.get_one(args={'name': kID}, filters={'_id': 0})
-    if find:
-        kID = find['kID']
-        name = find['name']
-        age = find['age']
-        sex = find['sex']
-        brain = find['brain']
-        game = find['game']
-        experience = find['experience']
-        interest = find['interest']
+    kID = find['kID']
+    name = find['name']
+    age = find['age']
+    sex = find['sex']
+    brain = find['brain']
+    game = find['game']
+    experience = find['experience']
+    interest = find['interest']
+    print(find)
     img = Image.new("RGB", (500,550), color="red")
     #x,y = img.size
     #offset = x // 12, y // 5
