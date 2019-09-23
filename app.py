@@ -164,8 +164,25 @@ def process_brain_step(message):
         user = user_dict[chat_id]
         if (brain == 'Art') or (brain == 'Science'):
             user.brain = brain
-            msg = bot.send_message(chat_id, "Game?", reply_markup=types.ForceReply())
-            return bot.register_next_step_handler(msg, process_id_step)
+            markups = types.ReplyKeyboardMarkup(row_width=2,one_time_keyboard=True, resize_keyboard=True)
+            markups.add('Minecraft', 'Roblox', 'Both')
+            msg = bot.send_message(chat_id, "Game?", reply_markup=markups)
+            return bot.register_next_step_handler(msg, process_game_step)
+        else:
+            raise Exception()
+    except Exception as e:
+        bot.reply_to(message, 'oooops' + e)
+
+def process_game_step(message):
+    try:
+        chat_id = message.chat.id
+        message_id = message.message_id
+        game = message.text
+        user = user_dict[chat_id]
+        if (game == 'Minecraft') or (game == 'Roblox') or (game == 'Both'):
+            user.game = game
+            # msg = bot.send_message(chat_id, "Experience?", reply_markup=types.ForceReply())
+            # return bot.register_next_step_handler(msg, process_experience_step)
         else:
             raise Exception()
     except Exception as e:
