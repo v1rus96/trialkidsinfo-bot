@@ -131,9 +131,9 @@ def process_id_step(message):
         user = user_dict[chat_id]
         user.id = id
         keyboardmain = types.InlineKeyboardMarkup(row_width=3)
-        first_button = types.InlineKeyboardButton(text="⚪ Button", switch_inline_query_current_chat="Check")
-        second_button = types.InlineKeyboardButton(text="⚪ Button", callback_data="second")
-        third_button = types.InlineKeyboardButton(text="⚪ Button", callback_data="third")
+        first_button = types.InlineKeyboardButton(text="Button", switch_inline_query_current_chat="Check")
+        second_button = types.InlineKeyboardButton(text="Button", callback_data="second")
+        third_button = types.InlineKeyboardButton(text="Button", callback_data="third")
         keyboardmain.add(first_button, second_button,third_button)
         sent = bot.send_photo(chat_id=-1001341610441, photo=generateImage(kID=user.name), reply_markup=keyboardmain)
         bot.send_message(chat_id, 'Nice to meet you ' + user.name + '\n Age:' + str(user.age) + '\n Sex:' + user.sex,reply_markup=keyboard())
