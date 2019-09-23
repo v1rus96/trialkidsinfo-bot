@@ -38,14 +38,34 @@ def respond():
     return 'ok'
 
 def generateImage(kID):
+    find = MessageModel.get_one(args={'name': kID}, filters={'_id': 0})
+    if find:
+        kID = find['kID']
+        name = find['name']
+        age = find['age']
+        sex = find['sex']
+        brain = find['brain']
+        game = find['game']
+        experience = find['experience']
+        interest = find['interest']
     img = Image.new("RGB", (500,550), color="red")
     #x,y = img.size
     #offset = x // 12, y // 5
     img.paste(Image.open("images/background.png"))
     draw = ImageDraw.Draw(img)
     fnt = ImageFont.truetype('images/Quicksand-Bold.ttf', 48)
+    fnt1 = ImageFont.truetype('images/Quicksand-Bold.ttf', 18)
     width, height = draw.textsize(kID, fnt)
-    draw.text(((500-width)/2,35),kID,(255,255,255),font=fnt)
+    draw.text(((500-width)/2,35),"KIDO"+kID,(255,255,255),font=fnt)
+    draw.text(60,152,name+", "+age,(255,255,255),font=fnt1)
+	# imagettftext($imagecontainer, 35, 0, 135, 84, $foreground, $font, 'KIDO'.$kid); 
+	# imagettftext($imagecontainer, 18, 0, 60, 152, $foreground, $font, $kidinfo); 
+	# imagettftext($imagecontainer, 22, 0, 329, 195, $foreground, $font, $artscience); 
+	# imagettftext($imagecontainer, 22, 0, 329, 248, $foreground, $font, $game); 
+	# imagettftext($imagecontainer, 22, 0, 329, 300, $foreground, $font, $experience); 
+	# imagettftext($imagecontainer, 22, 0, 329, 352, $foreground, $font, $interest);
+	# imagettftext($imagecontainer, 22, 0, 329, 404, $foreground, $font, $estimation);
+	# imagettftext($imagecontainer, 22, 0, 329, 457, $foreground, $font, $group);
     #img.save('final.png')
     bio = BytesIO()
     bio.name = 'image.png'
@@ -204,6 +224,7 @@ def process_interest_step(message):
             'name': user.name,
             'age': user.age,
             'sex': user.sex,
+            'brain': user.brain,
             'game': user.game,
             'experience': user.experience,
             'interest': user.interest
