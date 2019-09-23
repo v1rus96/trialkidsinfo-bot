@@ -203,7 +203,7 @@ def query_text(query):
         bot.answer_inline_query(query.id, results_array)
     except Exception as e:
         print("{!s}\n{!s}".format(type(e), str(e)))
-
+#test`
 @bot.chosen_inline_handler(lambda chosen_inline_result: True)
 def test_chosen(chosen_inline_result):
     kID, estimate = chosen_inline_result.query.split()
