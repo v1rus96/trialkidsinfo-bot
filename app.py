@@ -197,20 +197,25 @@ def process_interest_step(message):
             user.interest = interest
         else:
             raise Exception()
+        MessageModel.save_one({
+            'chat_id': -1001341610441,
+            'message_id': 0,
+            'kID': user.id,
+            'name': user.name,
+            'age': user.age,
+            'sex': user.sex,
+            'game': user.game,
+            'experience': user.experience,
+            'interest': user.interest
+        })
         keyboardmain = types.InlineKeyboardMarkup(row_width=3)
         first_button = types.InlineKeyboardButton(text="Button", switch_inline_query_current_chat="Check")
         second_button = types.InlineKeyboardButton(text="Button", callback_data="second")
         third_button = types.InlineKeyboardButton(text="Button", callback_data="third")
         keyboardmain.add(first_button, second_button,third_button)
-        sent = bot.send_photo(chat_id=-1001341610441, photo=generateImage(kID=user.name), reply_markup=keyboardmain)
+        sent = bot.send_photo(chat_id=-1001341610441, photo=generateImage(kID=user.id), reply_markup=keyboardmain)
         bot.send_message(chat_id, 'Nice to meet you ' + user.name + '\n Age:' + str(user.age) + '\n Sex:' + user.sex,reply_markup=keyboard())
-        MessageModel.save_one({
-            'chat_id': -1001341610441,
-            'message_id': sent.message_id,
-            'name': user.name,
-            'age': user.age,
-            'sex': user.sex
-        })
+        MessageModel.update_message(args={'kID': user.id}, set_query={ "$set": {'message_id': sent.message_id} })
     except Exception as e:
         bot.reply_to(message, 'oooops' + e)
 
