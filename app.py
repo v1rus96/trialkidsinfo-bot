@@ -162,7 +162,7 @@ def process_brain_step(message):
         message_id = message.message_id
         brain = message.text
         user = user_dict[chat_id]
-        if (sex == 'Art') or (sex == 'Science'):
+        if (brain == 'Art') or (brain == 'Science'):
             user.brain = brain
             msg = bot.send_message(chat_id, "Game?", reply_markup=types.ForceReply())
             return bot.register_next_step_handler(msg, process_id_step)
