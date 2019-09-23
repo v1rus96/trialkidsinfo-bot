@@ -66,6 +66,7 @@ def generateImage(kID):
 @bot.message_handler(content_types=["text"])
 def echo(m):
     if m.text == 'Add kid':
+        chat_id = m.chat.id
         MessageModel.update_message(args={'name': '364884'}, set_query={ "$set": {'age': '66'} })
         find = MessageModel.get_one(args={'name': '364884'}, filters={'_id': 0})
         find2 = MessageModel.get_all(args={}, filters={'_id': 0, 'name': 1})
@@ -76,7 +77,7 @@ def echo(m):
             c_sex = find['sex']
             ct = u'Name: {name}\nAge: {age}\nSex: {sex}'.format(name=c_name, age=c_age, sex=c_sex)
         print (ct)
-        msg = bot.send_message(m, "What is kids ID?", reply_markup=types.ForceReply())
+        msg = bot.send_message(chat_id, "What is kids ID?", reply_markup=types.ForceReply())
         return bot.register_next_step_handler(msg, process_name_step)
 
 def process_name_step(message):
@@ -87,7 +88,7 @@ def process_name_step(message):
         name = message.text
         user = User(name)
         user_dict[chat_id] = user
-        msg = bot.send_message(message, "How old?", reply_markup=types.ForceReply())
+        msg = bot.send_message(chat_id,"How old?", reply_markup=types.ForceReply())
         return bot.register_next_step_handler(msg, process_age_step)
     except Exception as e:
         bot.reply_to(message, 'oooops' + e)
@@ -99,7 +100,7 @@ def process_age_step(message):
         chat_id = message.chat.id
         age = message.text
         if not age.isdigit():
-            msg = bot.send_message(message, "Age Number pls", reply_markup=types.ForceReply())
+            msg = bot.send_message(chat_id,"Age Number pls", reply_markup=types.ForceReply())
             bot.register_next_step_handler(msg, process_age_step)
             return
         user = user_dict[chat_id]
@@ -121,7 +122,7 @@ def process_sex_step(message):
         user = user_dict[chat_id]
         if (sex == 'Male') or (sex == 'Female'):
             user.sex = sex
-            msg = bot.send_message(message, "kids ID?", reply_markup=types.ForceReply())
+            msg = bot.send_message(chat_id, "kids ID?", reply_markup=types.ForceReply())
             return bot.register_next_step_handler(msg, process_id_step)
         else:
             raise Exception()
