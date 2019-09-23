@@ -76,7 +76,7 @@ def echo(m):
             c_sex = find['sex']
             ct = u'Name: {name}\nAge: {age}\nSex: {sex}'.format(name=c_name, age=c_age, sex=c_sex)
         print (ct)
-        msg = bot.reply_to(m, "What is kids ID?")
+        msg = bot.send_message(m, "What is kids ID?", reply_markup=types.ForceReply())
         return bot.register_next_step_handler(msg, process_name_step)
 
 def process_name_step(message):
@@ -87,7 +87,7 @@ def process_name_step(message):
         name = message.text
         user = User(name)
         user_dict[chat_id] = user
-        msg = bot.reply_to(message, 'How old are you?')
+        msg = bot.send_message(message, "How old?", reply_markup=types.ForceReply())
         return bot.register_next_step_handler(msg, process_age_step)
     except Exception as e:
         bot.reply_to(message, 'oooops' + e)
@@ -99,14 +99,14 @@ def process_age_step(message):
         chat_id = message.chat.id
         age = message.text
         if not age.isdigit():
-            msg = bot.reply_to(message, 'Age should be a number. How old are you?')
+            msg = bot.send_message(message, "Age Number pls", reply_markup=types.ForceReply())
             bot.register_next_step_handler(msg, process_age_step)
             return
         user = user_dict[chat_id]
         user.age = age
         markups = types.ReplyKeyboardMarkup(one_time_keyboard=True, resize_keyboard=True)
         markups.add('Male', 'Female')
-        msg = bot.reply_to(message, 'What is your gender', reply_markup=markups)
+        msg = bot.send_message(message, 'What is your gender', reply_markup=markups)
         return bot.register_next_step_handler(msg, process_sex_step)
     except Exception as e:
         bot.reply_to(message, 'oooops' + e)
@@ -121,7 +121,7 @@ def process_sex_step(message):
         user = user_dict[chat_id]
         if (sex == 'Male') or (sex == 'Female'):
             user.sex = sex
-            msg = bot.reply_to(message, 'What is your gender id?')
+            msg = bot.send_message(message, "kids ID?", reply_markup=types.ForceReply())
             return bot.register_next_step_handler(msg, process_id_step)
         else:
             raise Exception()
