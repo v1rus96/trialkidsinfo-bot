@@ -87,16 +87,16 @@ def generateImage(kID):
 def echo(m):
     if m.text == 'Add kid':
         chat_id = m.chat.id
-        MessageModel.update_message(args={'name': '364884'}, set_query={ "$set": {'age': '66'} })
-        find = MessageModel.get_one(args={'name': '364884'}, filters={'_id': 0})
-        find2 = MessageModel.get_all(args={}, filters={'_id': 0, 'name': 1})
-        print(find2)
-        if find:
-            c_name = find['name']
-            c_age = find['age']
-            c_sex = find['sex']
-            ct = u'Name: {name}\nAge: {age}\nSex: {sex}'.format(name=c_name, age=c_age, sex=c_sex)
-        print (ct)
+        # MessageModel.update_message(args={'name': '364884'}, set_query={ "$set": {'age': '66'} })
+        # find = MessageModel.get_one(args={'name': '364884'}, filters={'_id': 0})
+        # find2 = MessageModel.get_all(args={}, filters={'_id': 0, 'name': 1})
+        # print(find2)
+        # if find:
+        #     c_name = find['name']
+        #     c_age = find['age']
+        #     c_sex = find['sex']
+        #     ct = u'Name: {name}\nAge: {age}\nSex: {sex}'.format(name=c_name, age=c_age, sex=c_sex)
+        # print (ct)
         msg = bot.send_message(chat_id, "What is kids ID?", reply_markup=types.ForceReply())
         return bot.register_next_step_handler(msg, process_name_step)
 
