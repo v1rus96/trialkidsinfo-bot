@@ -55,7 +55,7 @@ def generateImage(kID):
     draw = ImageDraw.Draw(img)
     fnt = ImageFont.truetype('images/Quicksand-Bold.ttf', 48)
     fnt1 = ImageFont.truetype('images/Quicksand-Bold.ttf', 25)
-    fnt2 = ImageFont.truetype('images/Quicksand-Bold.ttf', 30)
+    fnt2 = ImageFont.truetype('images/Quicksand-Bold.ttf', 35)
     width, height = draw.textsize("KIDO"+kID, fnt)
     draw.text(((500-width)/2,35),"KIDO"+kID,(255,255,255),font=fnt)
     draw.text((60,128),name + ", " + age,(255,255,255),font=fnt1)
