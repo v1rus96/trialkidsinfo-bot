@@ -55,17 +55,12 @@ def generateImage(kID):
     draw = ImageDraw.Draw(img)
     fnt = ImageFont.truetype('images/Quicksand-Bold.ttf', 48)
     fnt1 = ImageFont.truetype('images/Quicksand-Bold.ttf', 25)
+    fnt2 = ImageFont.truetype('images/Quicksand-Bold.ttf', 30)
     width, height = draw.textsize("KIDO"+kID, fnt)
     draw.text(((500-width)/2,35),"KIDO"+kID,(255,255,255),font=fnt)
     draw.text((60,128),name + ", " + age,(255,255,255),font=fnt1)
-	# imagettftext($imagecontainer, 35, 0, 135, 84, $foreground, $font, 'KIDO'.$kid); 
-	# imagettftext($imagecontainer, 18, 0, 60, 152, $foreground, $font, $kidinfo); 
-	# imagettftext($imagecontainer, 22, 0, 329, 195, $foreground, $font, $artscience); 
-	# imagettftext($imagecontainer, 22, 0, 329, 248, $foreground, $font, $game); 
-	# imagettftext($imagecontainer, 22, 0, 329, 300, $foreground, $font, $experience); 
-	# imagettftext($imagecontainer, 22, 0, 329, 352, $foreground, $font, $interest);
-	# imagettftext($imagecontainer, 22, 0, 329, 404, $foreground, $font, $estimation);
-	# imagettftext($imagecontainer, 22, 0, 329, 457, $foreground, $font, $group);
+    draw.text((330,174),brain,(255,255,255),font=fnt2)
+    draw.text((330,226),game,(255,255,255),font=fnt2)
     #img.save('final.png')
     bio = BytesIO()
     bio.name = 'image.png'
@@ -137,7 +132,6 @@ def process_sex_step(message):
     try:
         print("try sex")
         chat_id = message.chat.id
-        message_id = message.message_id
         sex = message.text
         user = user_dict[chat_id]
         if (sex == 'Male') or (sex == 'Female'):
@@ -165,7 +159,6 @@ def process_id_step(message):
 def process_brain_step(message):
     try:
         chat_id = message.chat.id
-        message_id = message.message_id
         brain = message.text
         user = user_dict[chat_id]
         if (brain == 'Art') or (brain == 'Science'):
@@ -182,7 +175,6 @@ def process_brain_step(message):
 def process_game_step(message):
     try:
         chat_id = message.chat.id
-        message_id = message.message_id
         game = message.text
         user = user_dict[chat_id]
         if (game == 'Minecraft') or (game == 'Roblox') or (game == 'Both'):
@@ -210,7 +202,6 @@ def process_experience_step(message):
 def process_interest_step(message):
     try:
         chat_id = message.chat.id
-        message_id = message.message_id
         interest = message.text
         user = user_dict[chat_id]
         if (interest == 'Mobile') or (interest == 'Robotics'):
@@ -275,12 +266,12 @@ def query_text(query):
         matches = re.match(digits_pattern, query.query)
         num1, num2 = matches.group().split()
     except AttributeError as ex:
-        return
+        return print(ex)
     
     tasks = ["Mono","Square","Penta"]
     results_array = []
     try:
-        for i, val in enumerate(tasks): 
+        for val in tasks: #for i, val in enumerate(tasks): 
             print(val)
             try:
                 results_array.append(types.InlineQueryResultArticle(
