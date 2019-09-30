@@ -308,31 +308,57 @@ def empty_query(query):
 def query_text(query):
     if (query.query.find('estimate') != -1): 
         digits_pattern = re.compile(r'^[0-9]+ estimate', re.MULTILINE)
-    try:
-        matches = re.match(digits_pattern, query.query)
-        num1, num2 = matches.group().split()
-    except AttributeError as ex:
-        return print(ex)
+        try:
+            matches = re.match(digits_pattern, query.query)
+            num1, num2 = matches.group().split()
+        except AttributeError as ex:
+            return print(ex)
+        
+        tasks = ["Mono","Square","Penta"]
+        results_array = []
+        try:
+            for val in tasks: #for i, val in enumerate(tasks): 
+                print(val)
+                try:
+                    results_array.append(types.InlineQueryResultArticle(
+                            id=val, title=val,
+                            # Описание отображается в подсказке,
+                            # message_text - то, что будет отправлено в виде сообщения
+                            description="Результат: {!s}".format(val),
+                            input_message_content=types.InputTextMessageContent(
+                            message_text="{!s} + {!s}".format(num1, num2))
+                    ))
+                except Exception as e:
+                    print(e)
+            bot.answer_inline_query(query.id, results_array)
+        except Exception as e:
+            print("{!s}\n{!s}".format(type(e), str(e)))
+    elif (query.query.find('order') != -1): 
+        digits_pattern = re.compile(r'^[0-9]+ order [0-9]+', re.MULTILINE)
+        try:
+            matches = re.match(digits_pattern, query.query)
+            num1, num2, num3 = matches.group().split()
+        except AttributeError as ex:
+            return print(ex)
+
+        try:
+            for i in range(User.counter): #for i, val in enumerate(tasks): 
+                print(val)
+                try:
+                    results_array.append(types.InlineQueryResultArticle(
+                            id=(i+99), title=i,
+                            # Описание отображается в подсказке,
+                            # message_text - то, что будет отправлено в виде сообщения
+                            description="Choose order",
+                            input_message_content=types.InputTextMessageContent(
+                            message_text="{!s} + {!s}".format(num1, num2))
+                    ))
+                except Exception as e:
+                    print(e)
+            bot.answer_inline_query(query.id, results_array)
+        except Exception as e:
+            print("{!s}\n{!s}".format(type(e), str(e)))
     
-    tasks = ["Mono","Square","Penta"]
-    results_array = []
-    try:
-        for val in tasks: #for i, val in enumerate(tasks): 
-            print(val)
-            try:
-                results_array.append(types.InlineQueryResultArticle(
-                        id=val, title=val,
-                        # Описание отображается в подсказке,
-                        # message_text - то, что будет отправлено в виде сообщения
-                        description="Результат: {!s}".format(val),
-                        input_message_content=types.InputTextMessageContent(
-                        message_text="{!s} + {!s}".format(num1, num2))
-                ))
-            except Exception as e:
-                print(e)
-        bot.answer_inline_query(query.id, results_array)
-    except Exception as e:
-        print("{!s}\n{!s}".format(type(e), str(e)))
 
 @bot.chosen_inline_handler(lambda chosen_inline_result: True)
 def test_chosen(chosen_inline_result):
