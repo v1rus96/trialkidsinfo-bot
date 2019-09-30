@@ -52,6 +52,36 @@ def generateImage(kID):
     interest = find['interest']
     order = find['order']
     print(find)
+    if age <= 5: 
+        estimation = "Square" 
+        group = "Curious" 
+    elif age == 6: 
+        estimation = "Hexa" 
+        group = "Curious"
+    elif age == 7: 
+        estimation = "Hepta"
+        group = "Curious"
+    elif age == 8: 
+        estimation = "Range"
+        group = "Curious"
+    elif age == 9: 
+        estimation = "3Square"
+        group = "Explorer"
+    elif age == 10: 
+        estimation = "Mono"
+        group = "Explorer"
+    elif age == 11: 
+        estimation = "Palette"
+        group = "Discoverer"
+    elif age == 12: 
+        estimation = "GoTo"
+        group = "Discoverer"
+    elif age == 13: 
+        estimation = "GoTo Rand"
+        group = "Discoverer"
+    elif age >= 14: 
+        estimation = "Picaso"
+        group = "Inventor"
     img = Image.new("RGB", (500,550), color="red")
     #x,y = img.size
     #offset = x // 12, y // 5
@@ -64,7 +94,11 @@ def generateImage(kID):
     draw.text(((500-width)/2,35),"KIDO"+kID,(255,255,255),font=fnt)
     draw.text((60,128),name + ", " + age,(255,255,255),font=fnt1)
     draw.text((325,165),brain,(255,255,255),font=fnt2)
-    draw.text((325,218),str(order),(255,255,255),font=fnt2)
+    draw.text((325,218),game,(255,255,255),font=fnt2)
+    draw.text((325,273),experience,(255,255,255),font=fnt2)
+    draw.text((325,326),interest,(255,255,255),font=fnt2)
+    draw.text((325,379),estimation,(255,255,255),font=fnt2)
+    draw.text((325,432),group,(255,255,255),font=fnt2)
     #img.save('final.png')
     bio = BytesIO()
     bio.name = 'image.png'
@@ -99,7 +133,7 @@ def echo(m):
         msg = bot.send_message(chat_id, "What is kids ID?", reply_markup=types.ForceReply())
         return bot.register_next_step_handler(msg, process_name_step)
     elif m.text == 'Refresh':
-        User.counter = 1
+        User.counter = 0
     # elif m.text == 'Pin':
     #     mess = bot.send_message(chat_id, str(User.counter) + "Kids")
     #     bot.pin_chat_message(-1001341610441,mess.message_id)
