@@ -212,7 +212,7 @@ def process_interest_step(message):
         MessageModel.save_one({
             'chat_id': -1001341610441,
             'message_id': 0,
-            'order': order + 1,
+            'order': (order + 1),
             'kID': user.id,
             'name': user.name,
             'age': user.age,
