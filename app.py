@@ -29,11 +29,6 @@ class User:
         self.experience = None
         self.interest = None
 
-    def __next__(self):
-        x = self.order
-        self.order += 1
-        return x
-
 app = Flask(__name__)
 
 @app.route('/{}'.format(TOKEN), methods=['POST'])
