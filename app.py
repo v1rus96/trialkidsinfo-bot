@@ -38,7 +38,6 @@ def respond():
     return 'ok'
 
 def order(refresh=False):
-    i=0
     if(refresh==True): i=0
     else:
         while True:
