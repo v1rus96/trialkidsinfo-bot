@@ -342,7 +342,7 @@ def query_text(query):
             return print(ex)
         results_array=[]
         try:
-            for i in range(1, User.counter+1): #for i, val in enumerate(tasks): 
+            for i in range(1, User.counter): #for i, val in enumerate(tasks): 
                 try:
                     results_array.append(types.InlineQueryResultArticle(
                             id=(i+99), title=i,
