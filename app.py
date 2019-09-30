@@ -37,6 +37,14 @@ def respond():
     bot.process_new_updates([update])
     return 'ok'
 
+def order(refresh=False):
+    i=0
+    if(refresh==True): i=0
+    else:
+        while True:
+            i+=1
+            yield i
+
 def generateImage(kID):
     find = MessageModel.get_one(args={'kID': kID}, filters={'_id': 0})
     kID = find['kID']
@@ -241,14 +249,6 @@ def process_interest_step(message):
 bot.enable_save_next_step_handlers(delay=2)
 
 bot.load_next_step_handlers()
-
-def order(refresh=False):
-    i=0
-    if(refresh==True): i=0
-    else:
-        while True:
-            i+=1
-            yield i
 
 def keyboard():
 	markup = types.ReplyKeyboardMarkup(one_time_keyboard=False, resize_keyboard=True)
