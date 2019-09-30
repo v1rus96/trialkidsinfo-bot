@@ -103,11 +103,11 @@ def echo(m):
         msg = bot.send_message(chat_id, "What is kids ID?", reply_markup=types.ForceReply())
         return bot.register_next_step_handler(msg, process_name_step)
     elif m.text == 'order':
-        order = order()
-        bot.send_message(chat_id, next(order))
+        generate = order()
+        bot.send_message(chat_id, next(generate))
     elif m.text == 'refresh':
-        order = order(refresh=False)
-        bot.send_message(chat_id, next(order))
+        generate = order(refresh=True)
+        bot.send_message(chat_id, next(generate))
 
 def process_name_step(message):
     print("name")
