@@ -52,34 +52,34 @@ def generateImage(kID):
     interest = find['interest']
     order = find['order']
     print(find)
-    if age <= 5: 
+    if int(age) <= 5: 
         estimation = "Square" 
         group = "Curious" 
-    elif age == 6: 
+    elif int(age) == 6: 
         estimation = "Hexa" 
         group = "Curious"
-    elif age == 7: 
+    elif int(age) == 7: 
         estimation = "Hepta"
         group = "Curious"
-    elif age == 8: 
+    elif int(age) == 8: 
         estimation = "Range"
         group = "Curious"
-    elif age == 9: 
+    elif int(age) == 9: 
         estimation = "3Square"
         group = "Explorer"
-    elif age == 10: 
+    elif int(age) == 10: 
         estimation = "Mono"
         group = "Explorer"
-    elif age == 11: 
+    elif int(age) == 11: 
         estimation = "Palette"
         group = "Discoverer"
-    elif age == 12: 
+    elif int(age) == 12: 
         estimation = "GoTo"
         group = "Discoverer"
-    elif age == 13: 
+    elif int(age) == 13: 
         estimation = "GoTo Rand"
         group = "Discoverer"
-    elif age >= 14: 
+    elif int(age) >= 14: 
         estimation = "Picaso"
         group = "Inventor"
     img = Image.new("RGB", (500,550), color="red")
