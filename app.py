@@ -18,6 +18,7 @@ user_dict = {}
 
 
 class User:
+    counter = 1
     def __init__(self, name):
         self.name = name
         self.age = None
@@ -27,16 +28,8 @@ class User:
         self.game = None
         self.experience = None
         self.interest = None
-
-class MyNumbers:
-  def __iter__(self):
-    self.a = 1
-    return self
-
-  def __next__(self):
-    x = self.a
-    self.a += 1
-    return x
+        self.order = User.counter
+        User.counter += 1
 
 app = Flask(__name__)
 
@@ -219,12 +212,10 @@ def process_interest_step(message):
             user.interest = interest
         else:
             raise Exception()
-        myclass = MyNumbers()
-        myiter = iter(myclass)
         MessageModel.save_one({
             'chat_id': -1001341610441,
             'message_id': 0,
-            'order': next(myiter),
+            'order': user.order,
             'kID': user.id,
             'name': user.name,
             'age': user.age,
