@@ -11,7 +11,6 @@ import re
 
 global bot
 global TOKEN
-order = 0
 TOKEN = bot_token
 bot = telebot.TeleBot(token=TOKEN, threaded=False)
 
@@ -95,6 +94,12 @@ def echo(m):
         # print (ct)
         msg = bot.send_message(chat_id, "What is kids ID?", reply_markup=types.ForceReply())
         return bot.register_next_step_handler(msg, process_name_step)
+    elif m.text == 'order':
+        order = order()
+        bot.send_message(chat_id, next(order))
+    elif m.text == 'refresh':
+        order = order(refresh=False)
+        bot.send_message(chat_id, next(order))
 
 def process_name_step(message):
     print("name")
@@ -209,8 +214,6 @@ def process_interest_step(message):
             user.interest = interest
         else:
             raise Exception()
-        global order 
-        order = order + 1
         MessageModel.save_one({
             'chat_id': -1001341610441,
             'message_id': 0,
@@ -238,6 +241,14 @@ def process_interest_step(message):
 bot.enable_save_next_step_handlers(delay=2)
 
 bot.load_next_step_handlers()
+
+def order(refresh=False):
+    i=0
+    if(refresh==True): i=0
+    else:
+        while True:
+            i+=1
+            yield i
 
 def keyboard():
 	markup = types.ReplyKeyboardMarkup(one_time_keyboard=False, resize_keyboard=True)
