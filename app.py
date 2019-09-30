@@ -209,10 +209,12 @@ def process_interest_step(message):
             user.interest = interest
         else:
             raise Exception()
+        global order 
+        order = order + 1
         MessageModel.save_one({
             'chat_id': -1001341610441,
             'message_id': 0,
-            'order': (order + 1),
+            'order': order,
             'kID': user.id,
             'name': user.name,
             'age': user.age,
