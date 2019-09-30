@@ -343,13 +343,11 @@ def test_chosen(chosen_inline_result):
         name = find['name']
         ct = u'Name: {name}\nAge: {age}\nSex: {sex}'.format(name=chat_id, age=message_id, sex=name)
     print (ct)
-    MessageModel.update_message(args={'name': str(kID)}, set_query={ "$set": {'name': chosen_inline_result.result_id} })
-    bot.edit_message_media(media=types.InputMediaPhoto(generateImage(kID=chosen_inline_result.result_id)),
+    MessageModel.update_message(args={'kID': str(kID)}, set_query={ "$set": {'name': chosen_inline_result.result_id} })
+    bot.edit_message_media(media=types.InputMediaPhoto(generateImage(kID=kID)),
                             chat_id=chat_id,
                             message_id=message_id)
-    print(chosen_inline_result.query + chosen_inline_result.result_id)
-
-
+        
 @bot.callback_query_handler(lambda query: True)
 def process_callback(query):
     message_id=query.message.message_id
