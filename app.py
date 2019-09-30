@@ -306,7 +306,8 @@ def empty_query(query):
 
 @bot.inline_handler(lambda query: len(query.query) > 0)
 def query_text(query):
-    digits_pattern = re.compile(r'^[0-9]+ estimate', re.MULTILINE)
+    if (query.query.find('estimate') != -1): 
+        digits_pattern = re.compile(r'^[0-9]+ estimate', re.MULTILINE)
     try:
         matches = re.match(digits_pattern, query.query)
         num1, num2 = matches.group().split()
