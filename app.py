@@ -20,6 +20,7 @@ user_dict = {}
 class User:
     def __init__(self, name):
         self.name = name
+        self.order = 1
         self.age = None
         self.sex = None
         self.id = None
@@ -27,6 +28,11 @@ class User:
         self.game = None
         self.experience = None
         self.interest = None
+
+    def __next__(self):
+        x = self.order
+        self.order += 1
+        return x
 
 app = Flask(__name__)
 
@@ -36,13 +42,6 @@ def respond():
     print (update)
     bot.process_new_updates([update])
     return 'ok'
-
-def order(refresh=False):
-    if(refresh==True): i=0
-    else:
-        while True:
-            i+=1
-            yield i
 
 def generateImage(kID):
     find = MessageModel.get_one(args={'kID': kID}, filters={'_id': 0})
@@ -54,6 +53,7 @@ def generateImage(kID):
     game = find['game']
     experience = find['experience']
     interest = find['interest']
+    order = find['order']
     print(find)
     img = Image.new("RGB", (500,550), color="red")
     #x,y = img.size
@@ -101,12 +101,6 @@ def echo(m):
         # print (ct)
         msg = bot.send_message(chat_id, "What is kids ID?", reply_markup=types.ForceReply())
         return bot.register_next_step_handler(msg, process_name_step)
-    elif m.text == 'order':
-        generate = order()
-        bot.send_message(chat_id, next(generate))
-    elif m.text == 'refresh':
-        generate = order(refresh=True)
-        bot.send_message(chat_id, next(generate))
 
 def process_name_step(message):
     print("name")
@@ -224,7 +218,7 @@ def process_interest_step(message):
         MessageModel.save_one({
             'chat_id': -1001341610441,
             'message_id': 0,
-            'order': order,
+            'order': user.order,
             'kID': user.id,
             'name': user.name,
             'age': user.age,
