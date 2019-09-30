@@ -99,6 +99,7 @@ def generateImage(kID):
     draw.text((325,326),interest,(255,255,255),font=fnt2)
     draw.text((325,379),estimation,(255,255,255),font=fnt2)
     draw.text((325,432),group,(255,255,255),font=fnt2)
+    draw.text((22,44),str(order),(255,255,255),font=fnt2)
     #img.save('final.png')
     bio = BytesIO()
     bio.name = 'image.png'
@@ -335,7 +336,7 @@ def query_text(query):
 @bot.chosen_inline_handler(lambda chosen_inline_result: True)
 def test_chosen(chosen_inline_result):
     kID, estimate = chosen_inline_result.query.split()
-    find = MessageModel.get_one(args={'name': str(kID)}, filters={'_id': 0})
+    find = MessageModel.get_one(args={'kID': str(kID)}, filters={'_id': 0})
     if find:
         chat_id = find['chat_id']
         message_id = find['message_id']
