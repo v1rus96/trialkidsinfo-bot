@@ -340,7 +340,7 @@ def query_text(query):
             num1, num2, num3 = matches.group().split()
         except AttributeError as ex:
             return print(ex)
-
+        results_array=[]
         try:
             for i in range(User.counter): #for i, val in enumerate(tasks): 
                 try:
