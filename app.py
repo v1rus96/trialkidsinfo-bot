@@ -71,7 +71,7 @@ def generateImage(kID):
     draw.text(((500-width)/2,35),"KIDO"+kID,(255,255,255),font=fnt)
     draw.text((60,128),name + ", " + age,(255,255,255),font=fnt1)
     draw.text((325,165),brain,(255,255,255),font=fnt2)
-    draw.text((325,218),order,(255,255,255),font=fnt2)
+    draw.text((325,218),str(order),(255,255,255),font=fnt2)
     #img.save('final.png')
     bio = BytesIO()
     bio.name = 'image.png'
