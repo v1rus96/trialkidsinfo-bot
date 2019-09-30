@@ -98,6 +98,8 @@ def echo(m):
         # print (ct)
         msg = bot.send_message(chat_id, "What is kids ID?", reply_markup=types.ForceReply())
         return bot.register_next_step_handler(msg, process_name_step)
+    elif m.text == 'Refresh':
+        User.counter = 1
 
 def process_name_step(message):
     print("name")
