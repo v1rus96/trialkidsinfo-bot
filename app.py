@@ -334,15 +334,15 @@ def query_text(query):
         except Exception as e:
             print("{!s}\n{!s}".format(type(e), str(e)))
     elif (query.query.find('order') != -1): 
-        digits_pattern = re.compile(r'^[0-9]+ order [0-9]+', re.MULTILINE)
+        digits_pattern = re.compile(r'^[0-9]+ order', re.MULTILINE)
         try:
             matches = re.match(digits_pattern, query.query)
-            num1, num2, num3 = matches.group().split()
+            num1, num2 = matches.group().split()
         except AttributeError as ex:
             return print(ex)
         results_array=[]
         try:
-            for i in range(User.counter): #for i, val in enumerate(tasks): 
+            for i in range(1, User.counter+1): #for i, val in enumerate(tasks): 
                 try:
                     results_array.append(types.InlineQueryResultArticle(
                             id=(i+99), title=i,
