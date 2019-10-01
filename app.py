@@ -385,8 +385,8 @@ def test_chosen(chosen_inline_result):
     order = chosen_inline_result.result_id
     print(order)
     print(chosen_inline_result.result_id)
-    find = MessageModel.get_one(args={'kID': str(kID)}, filters={'_id': 0})
     find2 = MessageModel.get_one(args={'order': order}, filters={'_id': 0})
+    find = MessageModel.get_one(args={'kID': str(kID)}, filters={'_id': 0})
     print(find2)
     if find:
         chat_id = find['chat_id']
