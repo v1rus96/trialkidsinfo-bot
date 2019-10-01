@@ -353,7 +353,7 @@ def query_text(query):
         try:
             print("try1")
             for i in range(1, User.counter):
-                print("loop" + User.counter) #for i, val in enumerate(tasks): 
+                print("loop" + str(User.counter)) #for i, val in enumerate(tasks): 
                 try:
                     print("try2")
                     results.append(types.InlineQueryResultArticle(
