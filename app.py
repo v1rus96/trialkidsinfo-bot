@@ -341,30 +341,7 @@ def query_text(query):
             bot.answer_inline_query(query.id, results_array)
         except Exception as e:
             print("{!s}\n{!s}".format(type(e), str(e)))
-    elif (query.query.find('order') != -1): 
-        digits_pattern = re.compile(r'^[0-9]+ order', re.MULTILINE)
-        try:
-            matches = re.match(digits_pattern, query.query)
-            num1, num2 = matches.group().split()
-        except AttributeError as ex:
-            return print(ex)
-        results_array=[]
-        try:
-            for i in range(1, User.counter): #for i, val in enumerate(tasks): 
-                try:
-                    results_array.append(types.InlineQueryResultArticle(
-                            id=i, title=i,
-                            # Описание отображается в подсказке,
-                            # message_text - то, что будет отправлено в виде сообщения
-                            description="Choose order",
-                            input_message_content=types.InputTextMessageContent(
-                            message_text="{!s} + {!s}".format(num1, num2))
-                    ))
-                except Exception as e:
-                    print(e)
-            bot.answer_inline_query(query.id, results_array)
-        except Exception as e:
-            print("{!s}\n{!s}".format(type(e), str(e)))
+  
     
 
 @bot.chosen_inline_handler(lambda chosen_inline_result: True)
