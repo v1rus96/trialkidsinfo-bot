@@ -348,11 +348,11 @@ def query_text(query):
             num1, num2 = matches.group().split()
         except AttributeError as ex:
             return print(ex)
-        results_array=[]
+        results=[]
         try:
             for i in range(1, User.counter): #for i, val in enumerate(tasks): 
                 try:
-                    results_array.append(types.InlineQueryResultArticle(
+                    results.append(types.InlineQueryResultArticle(
                             id=i, title=i,
                             # Описание отображается в подсказке,
                             # message_text - то, что будет отправлено в виде сообщения
@@ -362,7 +362,7 @@ def query_text(query):
                     ))
                 except Exception as e:
                     print(e)
-            bot.answer_inline_query(query.id, results_array)
+            bot.answer_inline_query(query.id, results)
         except Exception as e:
             print("{!s}\n{!s}".format(type(e), str(e)))
     
