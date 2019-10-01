@@ -384,7 +384,7 @@ def test_chosen(chosen_inline_result):
                                 message_id=message_id)
     elif action == 'order':
         print(chosen_inline_result.result_id)
-        find2 = MessageModel.get_one(args={'order': chosen_inline_result.result_id }, filters={'_id': 0})
+        find2 = MessageModel.get_one(args={'order': 1 }, filters={'_id': 0})
         if find2:
             message_idOrder = find2['message_id']
             print(message_idOrder)
