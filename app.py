@@ -40,6 +40,14 @@ def respond():
     update = telebot.types.Update.de_json(request.stream.read().decode('utf-8'))
     print (update)
     bot.process_new_updates([update])
+    find2 = MessageModel.get_one(args={'order': 1 }, filters={'_id': 0})
+    if find2:
+        message_idOrder = find2['message_id']
+        print(message_idOrder)
+        kIDOrder = find2['kID']
+        print(kIDOrder)
+    else:
+        print("Didnt work")
     return 'ok'
 
 def generateImage(kID):
