@@ -383,9 +383,12 @@ def test_chosen(chosen_inline_result):
                                 chat_id=chat_id,
                                 message_id=message_id)
     elif action == 'order':
-        find2 = MessageModel.get_one(args={'order': str(chosen_inline_result.result_id)}, filters={'_id': 0})
+        print(chosen_inline_result.result_id)
+        find2 = MessageModel.get_one(args={'order': chosen_inline_result.result_id}, filters={'_id': 0})
         message_idOrder = find2['message_id']
+        print(message_idOrder)
         kIDOrder = find2['kID']
+        print(kIDOrder)
         orderCurrent = find['order']
         MessageModel.update_message(args={'kID': str(kID)}, set_query={ "$set": {'order': chosen_inline_result.result_id, 'message_id': message_idOrder} })
         MessageModel.update_message(args={'kID': str(kIDOrder)}, set_query={ "$set": {'order': orderCurrent, 'message_id': message_id} })
