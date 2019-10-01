@@ -396,23 +396,23 @@ def test_chosen(chosen_inline_result):
                                 message_id=message_id)
     elif action == 'order':
         print(chosen_inline_result.result_id)
-        find2 = MessageModel.get_one(args={'order': str(chosen_inline_result.result_id) }, filters={'_id': 0})
+        find2 = MessageModel.get_one(args={'order': chosen_inline_result.result_id }, filters={'_id': 0})
         if find2:
             message_idOrder = find2['message_id']
             print(message_idOrder)
             kIDOrder = find2['kID']
             print(kIDOrder)
             orderCurrent = find['order']
+            MessageModel.update_message(args={'kID': str(kID)}, set_query={ "$set": {'order': chosen_inline_result.result_id, 'message_id': message_idOrder} })
+            MessageModel.update_message(args={'kID': str(kIDOrder)}, set_query={ "$set": {'order': orderCurrent, 'message_id': message_id} })
+            bot.edit_message_media(media=types.InputMediaPhoto(generateImage(kID=kID)),
+                                    chat_id=chat_id,
+                                    message_id=message_idOrder)
+            bot.edit_message_media(media=types.InputMediaPhoto(generateImage(kID=kIDOrder)),
+                                    chat_id=chat_id,
+                                    message_id=message_id)
         else:
             print("Didnt work")
-        MessageModel.update_message(args={'kID': str(kID)}, set_query={ "$set": {'order': chosen_inline_result.result_id, 'message_id': message_idOrder} })
-        MessageModel.update_message(args={'kID': str(kIDOrder)}, set_query={ "$set": {'order': orderCurrent, 'message_id': message_id} })
-        bot.edit_message_media(media=types.InputMediaPhoto(generateImage(kID=kID)),
-                                chat_id=chat_id,
-                                message_id=message_idOrder)
-        bot.edit_message_media(media=types.InputMediaPhoto(generateImage(kID=kIDOrder)),
-                                chat_id=chat_id,
-                                message_id=message_id)
         
 @bot.callback_query_handler(lambda query: True)
 def process_callback(query):
