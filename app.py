@@ -406,8 +406,8 @@ def test_chosen(chosen_inline_result):
             kIDOrder = find2['kID']
             print(kIDOrder)
             orderCurrent = find['order']
-            MessageModel.update_message(args={'kID': str(kID)}, set_query={ "$set": {'order': chosen_inline_result.result_id, 'message_id': message_idOrder} })
-            MessageModel.update_message(args={'kID': str(kIDOrder)}, set_query={ "$set": {'order': orderCurrent, 'message_id': message_id} })
+            MessageModel.update_message(args={'kID': str(kID)}, set_query={ "$set": {'order': int(chosen_inline_result.result_id), 'message_id': message_idOrder} })
+            MessageModel.update_message(args={'kID': str(kIDOrder)}, set_query={ "$set": {'order': int(orderCurrent), 'message_id': message_id} })
             bot.edit_message_media(media=types.InputMediaPhoto(generateImage(kID=kID)),
                                     chat_id=chat_id,
                                     message_id=message_idOrder)
