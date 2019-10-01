@@ -383,6 +383,7 @@ def query_text(query):
 def test_chosen(chosen_inline_result):
     kID, action = chosen_inline_result.query.split()
     find = MessageModel.get_one(args={'kID': str(kID)}, filters={'_id': 0})
+    find2 = MessageModel.get_one(args={'order': chosen_inline_result.result_id }, filters={'_id': 0})
     if find:
         chat_id = find['chat_id']
         message_id = find['message_id']
@@ -396,7 +397,6 @@ def test_chosen(chosen_inline_result):
                                 message_id=message_id)
     elif action == 'order':
         print(chosen_inline_result.result_id)
-        find2 = MessageModel.get_one(args={'order': chosen_inline_result.result_id }, filters={'_id': 0})
         if find2:
             message_idOrder = find2['message_id']
             print(message_idOrder)
