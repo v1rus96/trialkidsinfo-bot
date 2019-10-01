@@ -383,7 +383,8 @@ def query_text(query):
 def test_chosen(chosen_inline_result):
     kID, action = chosen_inline_result.query.split()
     find = MessageModel.get_one(args={'kID': str(kID)}, filters={'_id': 0})
-    find2 = MessageModel.get_one(args={'order': chosen_inline_result.result_id }, filters={'_id': 0})
+    find2 = MessageModel.get_one(args={'order': str(chosen_inline_result.result_id) }, filters={'_id': 0})
+    print(find2)
     if find:
         chat_id = find['chat_id']
         message_id = find['message_id']
