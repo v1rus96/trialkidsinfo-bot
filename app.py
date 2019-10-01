@@ -29,6 +29,8 @@ class User:
         self.experience = None
         self.interest = None
         self.order = User.counter
+        self.estimation = None
+        self.group = None
         User.counter += 1
 
 app = Flask(__name__)
@@ -51,37 +53,9 @@ def generateImage(kID):
     experience = find['experience']
     interest = find['interest']
     order = find['order']
+    estimation = find['estimation']
+    group = find['group']
     print(find)
-    if int(age) <= 5: 
-        estimation = "Square" 
-        group = "Curious" 
-    elif int(age) == 6: 
-        estimation = "Hexa" 
-        group = "Curious"
-    elif int(age) == 7: 
-        estimation = "Hepta"
-        group = "Curious"
-    elif int(age) == 8: 
-        estimation = "Range"
-        group = "Curious"
-    elif int(age) == 9: 
-        estimation = "3Square"
-        group = "Explorer"
-    elif int(age) == 10: 
-        estimation = "Mono"
-        group = "Explorer"
-    elif int(age) == 11: 
-        estimation = "Palette"
-        group = "Discoverer"
-    elif int(age) == 12: 
-        estimation = "GoTo"
-        group = "Discoverer"
-    elif int(age) == 13: 
-        estimation = "GoTo Rand"
-        group = "Discoverer"
-    elif int(age) >= 14: 
-        estimation = "Picaso"
-        group = "Inventor"
     img = Image.new("RGB", (500,550), color="red")
     #x,y = img.size
     #offset = x // 12, y // 5
@@ -252,6 +226,38 @@ def process_interest_step(message):
             user.interest = interest
         else:
             raise Exception()
+        if int(user.age) <= 5: 
+            estimation = "Square" 
+            group = "Curious" 
+        elif int(user.age) == 6: 
+            estimation = "Hexa" 
+            group = "Curious"
+        elif int(user.age) == 7: 
+            estimation = "Hepta"
+            group = "Curious"
+        elif int(user.age) == 8: 
+            estimation = "Range"
+            group = "Curious"
+        elif int(user.age) == 9: 
+            estimation = "3Square"
+            group = "Explorer"
+        elif int(user.age) == 10: 
+            estimation = "Mono"
+            group = "Explorer"
+        elif int(user.age) == 11: 
+            estimation = "Palette"
+            group = "Discoverer"
+        elif int(user.age) == 12: 
+            estimation = "GoTo"
+            group = "Discoverer"
+        elif int(user.age) == 13: 
+            estimation = "GoTo Rand"
+            group = "Discoverer"
+        elif int(user.age) >= 14: 
+            estimation = "Picaso"
+            group = "Inventor"
+        user.estimation = estimation
+        user.group = group
         MessageModel.save_one({
             'chat_id': -1001341610441,
             'message_id': 0,
@@ -263,7 +269,9 @@ def process_interest_step(message):
             'brain': user.brain,
             'game': user.game,
             'experience': user.experience,
-            'interest': user.interest
+            'interest': user.interest,
+            'estimation': user.estimation,
+            'group': user.group
         })
         keyboardmain = types.InlineKeyboardMarkup(row_width=3)
         first_button = types.InlineKeyboardButton(text="Button", switch_inline_query_current_chat="Check")
@@ -314,7 +322,7 @@ def query_text(query):
         except AttributeError as ex:
             return print(ex)
         
-        tasks = ["Mono","Square","Penta"]
+        tasks = ["Square","Penta","Hexa",""]
         results_array = []
         try:
             for val in tasks: #for i, val in enumerate(tasks): 
@@ -345,7 +353,7 @@ def query_text(query):
             for i in range(1, User.counter): #for i, val in enumerate(tasks): 
                 try:
                     results_array.append(types.InlineQueryResultArticle(
-                            id=(i+99), title=i,
+                            id=i, title=i,
                             # Описание отображается в подсказке,
                             # message_text - то, что будет отправлено в виде сообщения
                             description="Choose order",
