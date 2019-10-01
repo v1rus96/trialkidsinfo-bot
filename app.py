@@ -369,7 +369,7 @@ def query_text(query):
 
 @bot.chosen_inline_handler(lambda chosen_inline_result: True)
 def test_chosen(chosen_inline_result):
-    kID, estimate = chosen_inline_result.query.split()
+    kID, action = chosen_inline_result.query.split()
     find = MessageModel.get_one(args={'kID': str(kID)}, filters={'_id': 0})
     if find:
         chat_id = find['chat_id']
@@ -377,10 +377,24 @@ def test_chosen(chosen_inline_result):
         name = find['name']
         ct = u'Name: {name}\nAge: {age}\nSex: {sex}'.format(name=chat_id, age=message_id, sex=name)
     print (ct)
-    MessageModel.update_message(args={'kID': str(kID)}, set_query={ "$set": {'name': chosen_inline_result.result_id} })
-    bot.edit_message_media(media=types.InputMediaPhoto(generateImage(kID=kID)),
-                            chat_id=chat_id,
-                            message_id=message_id)
+    if action == 'estimate':
+        MessageModel.update_message(args={'kID': str(kID)}, set_query={ "$set": {'estimation': chosen_inline_result.result_id} })
+        bot.edit_message_media(media=types.InputMediaPhoto(generateImage(kID=kID)),
+                                chat_id=chat_id,
+                                message_id=message_id)
+    elif action == 'order':
+        find2 = MessageModel.get_one(args={'order': str(chosen_inline_result.result_id)}, filters={'_id': 0})
+        message_idOrder = find2['message_id']
+        kIDOrder = find2['kID']
+        orderCurrent = find['order']
+        MessageModel.update_message(args={'kID': str(kID)}, set_query={ "$set": {'order': chosen_inline_result.result_id, 'message_id': message_idOrder} })
+        MessageModel.update_message(args={'kID': str(kIDOrder)}, set_query={ "$set": {'order': orderCurrent, 'message_id': message_id} })
+        bot.edit_message_media(media=types.InputMediaPhoto(generateImage(kID=kID)),
+                                chat_id=chat_id,
+                                message_id=message_id)
+        bot.edit_message_media(media=types.InputMediaPhoto(generateImage(kID=kIDOrder)),
+                                chat_id=chat_id,
+                                message_id=message_idOrder)
         
 @bot.callback_query_handler(lambda query: True)
 def process_callback(query):
