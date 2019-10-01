@@ -384,7 +384,7 @@ def test_chosen(chosen_inline_result):
                                 message_id=message_id)
     elif action == 'order':
         print(chosen_inline_result.result_id)
-        find2 = MessageModel.get_one(args={'order': 1 }, filters={'_id': 0})
+        find2 = MessageModel.get_one(args={'order': str(chosen_inline_result.result_id) }, filters={'_id': 0})
         if find2:
             message_idOrder = find2['message_id']
             print(message_idOrder)
@@ -397,10 +397,10 @@ def test_chosen(chosen_inline_result):
         MessageModel.update_message(args={'kID': str(kIDOrder)}, set_query={ "$set": {'order': orderCurrent, 'message_id': message_id} })
         bot.edit_message_media(media=types.InputMediaPhoto(generateImage(kID=kID)),
                                 chat_id=chat_id,
-                                message_id=message_id)
+                                message_id=message_idOrder)
         bot.edit_message_media(media=types.InputMediaPhoto(generateImage(kID=kIDOrder)),
                                 chat_id=chat_id,
-                                message_id=message_idOrder)
+                                message_id=message_id)
         
 @bot.callback_query_handler(lambda query: True)
 def process_callback(query):
