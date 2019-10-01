@@ -382,8 +382,11 @@ def query_text(query):
 @bot.chosen_inline_handler(lambda chosen_inline_result: True)
 def test_chosen(chosen_inline_result):
     kID, action = chosen_inline_result.query.split()
+    order = chosen_inline_result.result_id
+    print(order)
+    print(chosen_inline_result.result_id)
     find = MessageModel.get_one(args={'kID': str(kID)}, filters={'_id': 0})
-    find2 = MessageModel.get_one(args={'order': str(chosen_inline_result.result_id) }, filters={'_id': 0})
+    find2 = MessageModel.get_one(args={'order': order}, filters={'_id': 0})
     print(find2)
     if find:
         chat_id = find['chat_id']
@@ -397,7 +400,6 @@ def test_chosen(chosen_inline_result):
                                 chat_id=chat_id,
                                 message_id=message_id)
     elif action == 'order':
-        print(chosen_inline_result.result_id)
         if find2:
             message_idOrder = find2['message_id']
             print(message_idOrder)
