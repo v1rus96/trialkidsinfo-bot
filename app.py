@@ -270,10 +270,10 @@ def process_interest_step(message):
         # currentTime = time.localtime() # get struct_time
         # currentDate = time.strftime("%m/%d/%Y", currentTime)
         # print(currentDate)
-        session1 = is_time_between(time(9,45), time(11,45))
-        session2 = is_time_between(time(11,45), time(13,45))
-        session3 = is_time_between(time(13,45), time(16,45))
-        session4 = is_time_between(time(16,45), time(18,45))
+        session1 = isNowInTimePeriod(time(9,45), time(11,45))
+        session2 = isNowInTimePeriod(time(11,45), time(13,45))
+        session3 = isNowInTimePeriod(time(13,45), time(16,45))
+        session4 = isNowInTimePeriod(time(16,45), time(18,45))
         print(session1)
         print(session2)
         if session1:
@@ -314,13 +314,13 @@ bot.enable_save_next_step_handlers(delay=2)
 
 bot.load_next_step_handlers()
 
-def is_time_between(begin_time, end_time, check_time=None):
-    # If check time is not given, default to current UTC time
-    check_time = check_time or datetime.utcnow().time()
-    if begin_time < end_time:
-        return check_time >= begin_time and check_time <= end_time
-    else: # crosses midnight
-        return check_time >= begin_time or check_time <= end_time
+def isNowInTimePeriod(startTime, endTime):
+    nowTime = datetime.utcnow().time()
+    print(nowTime)
+    if startTime < endTime:
+        return nowTime >= startTime and nowTime <= endTime
+    else: #Over midnight
+        return nowTime >= startTime or nowTime <= endTime
 
 def keyboard():
 	markup = types.ReplyKeyboardMarkup(one_time_keyboard=False, resize_keyboard=True)
