@@ -98,7 +98,7 @@ def generateImage(kID):
 def echo(m):
     chat_id = m.chat.id
     if m.text == 'Add kid':
-        find1 = MessageModel.get_all(args={}, filters={'_id': 0, 'order': 1}).count()
+        find1 = MessageModel.get_all(args={}, filters={'_id': 0, 'order': 1}).count(True)
         print(find1)
         # MessageModel.update_message(args={'name': '364884'}, set_query={ "$set": {'age': '66'} })
         # find = MessageModel.get_one(args={'name': '364884'}, filters={'_id': 0})
