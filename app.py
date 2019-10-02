@@ -412,23 +412,22 @@ def query_text(query):
 def test_chosen(chosen_inline_result):
     kID, action = chosen_inline_result.query.split()
     order = chosen_inline_result.result_id
-    print(order)
-    print(chosen_inline_result.result_id)
-    find2 = MessageModel.get_one(args={'order': int(order)}, filters={'_id': 0})
-    find = MessageModel.get_one(args={'kID': str(kID)}, filters={'_id': 0})
-    print(find2)
-    if find:
-        chat_id = find['chat_id']
-        message_id = find['message_id']
-        name = find['name']
-        ct = u'Name: {name}\nAge: {age}\nSex: {sex}'.format(name=chat_id, age=message_id, sex=name)
-    print (ct)
+    # print(order)
+    # print(chosen_inline_result.result_id)
+    # if find:
+    #     chat_id = find['chat_id']
+    #     message_id = find['message_id']
+    #     name = find['name']
+    #     ct = u'Name: {name}\nAge: {age}\nSex: {sex}'.format(name=chat_id, age=message_id, sex=name)
+    # print (ct)
     if action == 'estimate':
+        find = MessageModel.get_one(args={'kID': str(kID)}, filters={'_id': 0})
         MessageModel.update_message(args={'kID': str(kID)}, set_query={ "$set": {'estimation': chosen_inline_result.result_id} })
         bot.edit_message_media(media=types.InputMediaPhoto(generateImage(kID=kID)),
                                 chat_id=chat_id,
                                 message_id=message_id)
     elif action == 'order':
+        find2 = MessageModel.get_one(args={'order': int(order)}, filters={'_id': 0})
         if find2:
             message_idOrder = find2['message_id']
             print(message_idOrder)
