@@ -327,12 +327,12 @@ def isNowInTimePeriod(startTime, endTime):
 def keyboard():
 	markup = types.ReplyKeyboardMarkup(one_time_keyboard=False, resize_keyboard=True)
 	markup.add('Add kid')
-	return markup 
+	return markup
 
 @bot.inline_handler(lambda query: len(query.query) is 0)
 def empty_query(query):
     date = str(datetime.now().date())
-    find = MessageModel.get_all(args={'date': date, 'session': 2}, filters={'_id': 0, 'name': 1})
+    find = MessageModel.get_all(args={'date': date, 'session': 4}, filters={'_id': 0, 'name': 1})
     print(find)
     hint = "Введите ровно 2 числа и получите результат!"
     results_array = []
