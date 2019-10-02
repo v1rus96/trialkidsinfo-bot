@@ -422,6 +422,10 @@ def test_chosen(chosen_inline_result):
     # print (ct)
     if action == 'estimate':
         find = MessageModel.get_one(args={'kID': str(kID)}, filters={'_id': 0})
+        if find:
+            chat_id = find['chat_id']
+            message_id = find['message_id']
+            name = find['name']
         MessageModel.update_message(args={'kID': str(kID)}, set_query={ "$set": {'estimation': chosen_inline_result.result_id} })
         bot.edit_message_media(media=types.InputMediaPhoto(generateImage(kID=kID)),
                                 chat_id=chat_id,
