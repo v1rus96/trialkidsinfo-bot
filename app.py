@@ -8,6 +8,7 @@ from telebotic.credentials import bot_token, bot_user_name,URL
 from telebot import types
 from models.save import MessageModel
 import re
+from datetime import datetime, time
 
 global bot
 global TOKEN
@@ -266,6 +267,21 @@ def process_interest_step(message):
             group = "Inventor"
         user.estimation = estimation
         user.group = group
+        currentTime = time.localtime() # get struct_time
+        currentDate = time.strftime("%m/%d/%Y", currentTime)
+        print(currentDate)
+        session1 = is_time_between(time(9,45), time(11,45))
+        session2 = is_time_between(time(11,45), time(13,45))
+        session3 = is_time_between(time(13,45), time(16,45))
+        session4 = is_time_between(time(16,45), time(18,45))
+        if session1:
+            print("session 1")
+        elif session2:
+            print("session 2")
+        elif session3:
+            print("session 3")
+        elif session4:
+            print("session 4")
         MessageModel.save_one({
             'chat_id': -1001341610441,
             'message_id': 0,
@@ -295,6 +311,14 @@ def process_interest_step(message):
 bot.enable_save_next_step_handlers(delay=2)
 
 bot.load_next_step_handlers()
+
+def is_time_between(begin_time, end_time, check_time=None):
+    # If check time is not given, default to current UTC time
+    check_time = check_time or datetime.utcnow().time()
+    if begin_time < end_time:
+        return check_time >= begin_time and check_time <= end_time
+    else: # crosses midnight
+        return check_time >= begin_time or check_time <= end_time
 
 def keyboard():
 	markup = types.ReplyKeyboardMarkup(one_time_keyboard=False, resize_keyboard=True)
