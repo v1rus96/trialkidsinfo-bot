@@ -316,7 +316,9 @@ bot.load_next_step_handlers()
 
 def isNowInTimePeriod(startTime, endTime):
     nowTime = datetime.now().time()
+    nowDate = datetime.now().date()
     print(nowTime)
+    print(nowDate)
     if startTime < endTime:
         return nowTime >= startTime and nowTime <= endTime
     else: #Over midnight
