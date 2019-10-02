@@ -274,6 +274,8 @@ def process_interest_step(message):
         session2 = is_time_between(time(11,45), time(13,45))
         session3 = is_time_between(time(13,45), time(16,45))
         session4 = is_time_between(time(16,45), time(18,45))
+        print(session1)
+        print(session2)
         if session1:
             print("session 1")
         elif session2:
