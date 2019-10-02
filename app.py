@@ -275,7 +275,7 @@ def process_interest_step(message):
         session1 = isNowInTimePeriod(time(9,45), time(11,45))
         session2 = isNowInTimePeriod(time(11,45), time(13,45))
         session3 = isNowInTimePeriod(time(13,45), time(16,45))
-        session4 = isNowInTimePeriod(time(16,45), time(18,45))
+        session4 = isNowInTimePeriod(time(16,45), time(5,45))
         if session1:
             user.session = 1
         elif session2:
