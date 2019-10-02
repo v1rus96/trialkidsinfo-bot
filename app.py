@@ -267,9 +267,9 @@ def process_interest_step(message):
             group = "Inventor"
         user.estimation = estimation
         user.group = group
-        currentTime = time.localtime() # get struct_time
-        currentDate = time.strftime("%m/%d/%Y", currentTime)
-        print(currentDate)
+        # currentTime = time.localtime() # get struct_time
+        # currentDate = time.strftime("%m/%d/%Y", currentTime)
+        # print(currentDate)
         session1 = is_time_between(time(9,45), time(11,45))
         session2 = is_time_between(time(11,45), time(13,45))
         session3 = is_time_between(time(13,45), time(16,45))
