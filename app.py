@@ -315,7 +315,7 @@ bot.enable_save_next_step_handlers(delay=2)
 bot.load_next_step_handlers()
 
 def isNowInTimePeriod(startTime, endTime):
-    nowTime = datetime.utcnow().time()
+    nowTime = datetime.now().time()
     print(nowTime)
     if startTime < endTime:
         return nowTime >= startTime and nowTime <= endTime
