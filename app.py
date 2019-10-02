@@ -32,6 +32,8 @@ class User:
         self.order = User.counter
         self.estimation = None
         self.group = None
+        self.date = None
+        self.session = None
         User.counter += 1
 
 app = Flask(__name__)
@@ -274,16 +276,15 @@ def process_interest_step(message):
         session2 = isNowInTimePeriod(time(11,45), time(13,45))
         session3 = isNowInTimePeriod(time(13,45), time(16,45))
         session4 = isNowInTimePeriod(time(16,45), time(18,45))
-        print(session1)
-        print(session2)
         if session1:
-            print("session 1")
+            user.session = 1
         elif session2:
-            print("session 2")
+            user.session = 2
         elif session3:
-            print("session 3")
+            user.session = 3
         elif session4:
-            print("session 4")
+            user.session = 4
+        user.date = datetime.now().date()
         MessageModel.save_one({
             'chat_id': -1001341610441,
             'message_id': 0,
@@ -297,7 +298,9 @@ def process_interest_step(message):
             'experience': user.experience,
             'interest': user.interest,
             'estimation': user.estimation,
-            'group': user.group
+            'group': user.group,
+            'date': user.date,
+            'session': user.session
         })
         keyboardmain = types.InlineKeyboardMarkup(row_width=3)
         first_button = types.InlineKeyboardButton(text="Button", switch_inline_query_current_chat="Check")
@@ -316,9 +319,6 @@ bot.load_next_step_handlers()
 
 def isNowInTimePeriod(startTime, endTime):
     nowTime = datetime.now().time()
-    nowDate = datetime.now().date()
-    print(nowTime)
-    print(nowDate)
     if startTime < endTime:
         return nowTime >= startTime and nowTime <= endTime
     else: #Over midnight
