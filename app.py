@@ -9,7 +9,6 @@ from telebot import types
 from models.save import MessageModel
 import re
 from datetime import datetime, time
-from pytz import timezone
 
 global bot
 global TOKEN
@@ -316,7 +315,7 @@ bot.enable_save_next_step_handlers(delay=2)
 bot.load_next_step_handlers()
 
 def isNowInTimePeriod(startTime, endTime):
-    nowTime = datetime.now(tz='Asia/Kuala_Lumpur').time()
+    nowTime = datetime.utcnow().time()
     print(nowTime)
     if startTime < endTime:
         return nowTime >= startTime and nowTime <= endTime
