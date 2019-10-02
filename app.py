@@ -284,7 +284,7 @@ def process_interest_step(message):
             user.session = 3
         elif session4:
             user.session = 4
-        user.date = datetime.now().date()
+        user.date = str(datetime.now().date())
         MessageModel.save_one({
             'chat_id': -1001341610441,
             'message_id': 0,
