@@ -331,7 +331,8 @@ def keyboard():
 
 @bot.inline_handler(lambda query: len(query.query) is 0)
 def empty_query(query):
-    find = MessageModel.get_all(args={}, filters={'_id': 0, 'name': 1})
+    date = str(datetime.now().date())
+    find = MessageModel.get_all(args={'date': date, 'session': 2}, filters={'_id': 0, 'name': 1})
     print(find)
     hint = "Введите ровно 2 числа и получите результат!"
     results_array = []
