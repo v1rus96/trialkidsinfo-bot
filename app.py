@@ -19,6 +19,9 @@ user_dict = {}
 
 
 class User:
+    date = str(datetime.now().date())
+    find = MessageModel.get_all(args={'date': date, 'session': 4}, filters={'_id': 0, 'name': 1}).count(True)
+    print(find)
     counter = 1
     def __init__(self, name):
         self.name = name
@@ -98,8 +101,6 @@ def generateImage(kID):
 def echo(m):
     chat_id = m.chat.id
     if m.text == 'Add kid':
-        find1 = MessageModel.get_all(args={}, filters={'_id': 0, 'order': 1}).count(True)
-        print(find1)
         # MessageModel.update_message(args={'name': '364884'}, set_query={ "$set": {'age': '66'} })
         # find = MessageModel.get_one(args={'name': '364884'}, filters={'_id': 0})
         # find2 = MessageModel.get_all(args={}, filters={'_id': 0, 'name': 1})
