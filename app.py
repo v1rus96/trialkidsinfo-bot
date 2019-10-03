@@ -20,7 +20,7 @@ user_dict = {}
 
 class User:
     date = str(datetime.now().date())
-    find = MessageModel.get_all_count(args={'date': date, 'session': 4}, filters={'_id': 0, 'name': 1})
+    find = MessageModel.get_all_count(args={'date': date, 'session': 3}, filters={'_id': 0, 'name': 1})
     print(find)
     counter = 1
     def __init__(self, name):
@@ -335,7 +335,7 @@ def keyboard():
 @bot.inline_handler(lambda query: len(query.query) is 0)
 def empty_query(query):
     date = str(datetime.now().date())
-    find = MessageModel.get_all(args={'date': date, 'session': 4}, filters={'_id': 0, 'name': 1})
+    find = MessageModel.get_all(args={'date': date, 'session': 3}, filters={'_id': 0, 'name': 1})
     print(find)
     hint = "Введите ровно 2 числа и получите результат!"
     results_array = []
@@ -383,7 +383,7 @@ def query_text(query):
             print("{!s}\n{!s}".format(type(e), str(e)))
     elif (query.query.find('order') != -1):
         date = str(datetime.now().date())
-        find = MessageModel.get_all_count(args={'date': date, 'session': 4}, filters={'_id': 0, 'name': 1})
+        find = MessageModel.get_all_count(args={'date': date, 'session': 3}, filters={'_id': 0, 'name': 1})
         digits_pattern = re.compile(r'^[0-9]+ order', re.MULTILINE)
         try:
             matches = re.match(digits_pattern, query.query)
@@ -437,7 +437,7 @@ def test_chosen(chosen_inline_result):
                                 message_id=message_id)
     elif action == 'order':
         date = str(datetime.now().date())
-        find2 = MessageModel.get_one(args={'order': int(order), 'session': 4, 'date': date}, filters={'_id': 0})
+        find2 = MessageModel.get_one(args={'order': int(order), 'session': 3, 'date': date}, filters={'_id': 0})
         if find2:
             message_idOrder = find2['message_id']
             print(message_idOrder)
