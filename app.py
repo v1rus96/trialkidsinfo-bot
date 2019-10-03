@@ -20,7 +20,7 @@ user_dict = {}
 
 class User:
     date = str(datetime.now().date())
-    find = MessageModel.get_all(args={'date': date, 'session': 4}, filters={'_id': 0, 'name': 1}).count(True)
+    find = MessageModel.get_all(args={'date': date, 'session': 3}, filters={'_id': 0, 'name': 1}).count(True)
     print(find)
     counter = 1
     def __init__(self, name):
@@ -381,7 +381,9 @@ def query_text(query):
             bot.answer_inline_query(query.id, results_array)
         except Exception as e:
             print("{!s}\n{!s}".format(type(e), str(e)))
-    elif (query.query.find('order') != -1): 
+    elif (query.query.find('order') != -1):
+        date = str(datetime.now().date())
+        find = MessageModel.get_all(args={'date': date, 'session': 3}, filters={'_id': 0, 'name': 1}).count(True) 
         digits_pattern = re.compile(r'^[0-9]+ order', re.MULTILINE)
         try:
             matches = re.match(digits_pattern, query.query)
@@ -392,7 +394,7 @@ def query_text(query):
         results=[]
         try:
             print("try1")
-            for i in range(1, User.counter):
+            for i in range(1, find):
                 print("loop" + str(User.counter)) #for i, val in enumerate(tasks): 
                 try:
                     print("try2")
