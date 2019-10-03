@@ -20,7 +20,7 @@ user_dict = {}
 
 class User:
     date = str(datetime.now().date())
-    find = MessageModel.get_all(args={'date': date, 'session': 3}, filters={'_id': 0, 'name': 1}).count(True)
+    find = MessageModel.get_all(args={'date': date, 'session': 3}, filters={'_id': 0, 'name': 1})
     print(find)
     counter = 1
     def __init__(self, name):
@@ -111,14 +111,14 @@ def echo(m):
         #     c_sex = find['sex']
         #     ct = u'Name: {name}\nAge: {age}\nSex: {sex}'.format(name=c_name, age=c_age, sex=c_sex)
         # print (ct)
-        find2 = MessageModel.get_one(args={'order': 1 }, filters={'_id': 0})
-        if find2:
-            message_idOrder = find2['message_id']
-            print(message_idOrder)
-            kIDOrder = find2['kID']
-            print(kIDOrder)
-        else:
-            print("Didnt work")
+        # find2 = MessageModel.get_one(args={'order': 1 }, filters={'_id': 0})
+        # if find2:
+        #     message_idOrder = find2['message_id']
+        #     print(message_idOrder)
+        #     kIDOrder = find2['kID']
+        #     print(kIDOrder)
+        # else:
+        #     print("Didnt work")
         msg = bot.send_message(chat_id, "What is kids ID?", reply_markup=types.ForceReply())
         return bot.register_next_step_handler(msg, process_name_step)
     elif m.text == 'Refresh':
