@@ -394,7 +394,7 @@ def query_text(query):
         results=[]
         try:
             print("try1")
-            for i in range(1, find):
+            for i in range(1, find+1):
                 print("loop" + str(User.counter)) #for i, val in enumerate(tasks): 
                 try:
                     print("try2")
