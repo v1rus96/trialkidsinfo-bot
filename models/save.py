@@ -66,6 +66,17 @@ class MessageModel:
         return []
 
     @staticmethod
+    def get_all_count(args, filters):
+        try:
+            ids = messages.find(args, filters).count()
+            if ids:
+                return ids
+            return ids
+        except Exception as e:
+            print ('[Message Model Error] Get message ids: ' + str(e))
+        return ids
+
+    @staticmethod
     def delete_one(args):
         try:
             messages.remove(args)
