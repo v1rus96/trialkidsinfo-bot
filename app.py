@@ -423,8 +423,8 @@ def test_chosen(chosen_inline_result):
     #     name = find['name']
     #     ct = u'Name: {name}\nAge: {age}\nSex: {sex}'.format(name=chat_id, age=message_id, sex=name)
     # print (ct)
+    find = MessageModel.get_one(args={'kID': str(kID)}, filters={'_id': 0})
     if action == 'estimate':
-        find = MessageModel.get_one(args={'kID': str(kID)}, filters={'_id': 0})
         if find:
             chat_id = find['chat_id']
             message_id = find['message_id']
@@ -434,7 +434,8 @@ def test_chosen(chosen_inline_result):
                                 chat_id=chat_id,
                                 message_id=message_id)
     elif action == 'order':
-        find2 = MessageModel.get_one(args={'order': int(order)}, filters={'_id': 0})
+        date = str(datetime.now().date())
+        find2 = MessageModel.get_one(args={'order': int(order), 'session': 3, 'date': date}, filters={'_id': 0})
         if find2:
             message_idOrder = find2['message_id']
             print(message_idOrder)
