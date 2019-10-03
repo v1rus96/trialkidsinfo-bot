@@ -426,11 +426,11 @@ def test_chosen(chosen_inline_result):
     #     ct = u'Name: {name}\nAge: {age}\nSex: {sex}'.format(name=chat_id, age=message_id, sex=name)
     # print (ct)
     find = MessageModel.get_one(args={'kID': str(kID)}, filters={'_id': 0})
+    if find:
+        chat_id = find['chat_id']
+        message_id = find['message_id']
+        name = find['name']
     if action == 'estimate':
-        if find:
-            chat_id = find['chat_id']
-            message_id = find['message_id']
-            name = find['name']
         MessageModel.update_message(args={'kID': str(kID)}, set_query={ "$set": {'estimation': chosen_inline_result.result_id} })
         bot.edit_message_media(media=types.InputMediaPhoto(generateImage(kID=kID)),
                                 chat_id=chat_id,
