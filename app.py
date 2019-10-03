@@ -394,7 +394,7 @@ def query_text(query):
         results=[]
         try:
             print("try1")
-            for i in range(0, find):
+            for i in range(1, find):
                 print("loop" + str(User.counter)) #for i, val in enumerate(tasks): 
                 try:
                     print("try2")
@@ -408,7 +408,7 @@ def query_text(query):
                     ))
                 except Exception as e:
                     print(e)
-            bot.answer_inline_query(query.id, results)
+            bot.answer_inline_query(query.id, results, cache_time=0)
         except Exception as e:
             print("{!s}\n{!s}".format(type(e), str(e)))
     
