@@ -383,7 +383,7 @@ def query_text(query):
             print("{!s}\n{!s}".format(type(e), str(e)))
     elif (query.query.find('order') != -1):
         date = str(datetime.now().date())
-        find = MessageModel.get_all(args={'date': date, 'session': 3}, filters={'_id': 0, 'name': 1}).count(True) 
+        find = MessageModel.get_all(args={'date': date, 'session': 3}, filters={'_id': 0, 'name': 1}).count('name') 
         digits_pattern = re.compile(r'^[0-9]+ order', re.MULTILINE)
         try:
             matches = re.match(digits_pattern, query.query)
