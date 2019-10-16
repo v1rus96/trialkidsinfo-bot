@@ -19,21 +19,21 @@ user_dict = {}
 
 
 class User:
-    session1 = isNowInTimePeriod(time(9,45), time(11,45))
-    session2 = isNowInTimePeriod(time(11,45), time(13,45))
-    session3 = isNowInTimePeriod(time(13,45), time(16,45))
-    session4 = isNowInTimePeriod(time(16,45), time(5,45))
-    if session1:
-        session = 1
-    elif session2:
-        session = 2
-    elif session3:
-        session = 3
-    elif session4:
-        session = 4
-    date = str(datetime.now().date())
-    find = MessageModel.get_all_count(args={'date': date, 'session': session}, filters={'_id': 0, 'name': 1})
-    print(find)
+    # session1 = isNowInTimePeriod(time(9,45), time(11,45))
+    # session2 = isNowInTimePeriod(time(11,45), time(13,45))
+    # session3 = isNowInTimePeriod(time(13,45), time(16,45))
+    # session4 = isNowInTimePeriod(time(16,45), time(5,45))
+    # if session1:
+    #     session = 1
+    # elif session2:
+    #     session = 2
+    # elif session3:
+    #     session = 3
+    # elif session4:
+    #     session = 4
+    # date = str(datetime.now().date())
+    # find = MessageModel.get_all_count(args={'date': date, 'session': session}, filters={'_id': 0, 'name': 1})
+    # print(find)
     counter = 1
     def __init__(self, name):
         self.name = name
