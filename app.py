@@ -40,7 +40,7 @@ class User:
     date = str(datetime.now().date())
     find = MessageModel.get_all_count(args={'date': date, 'session': session}, filters={'_id': 0, 'name': 1})
     print(find)
-    counter = 1
+    counter = find+1
     def __init__(self, name):
         self.name = name
         self.age = None
@@ -55,7 +55,7 @@ class User:
         self.group = None
         self.date = None
         self.session = None
-        User.counter += 1
+        # User.counter += 1
 
 app = Flask(__name__)
 
