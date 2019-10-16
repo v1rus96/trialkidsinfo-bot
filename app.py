@@ -324,7 +324,7 @@ def process_interest_step(message):
             'session': user.session
         })
         keyboardmain = types.InlineKeyboardMarkup(row_width=3)
-        first_button = types.InlineKeyboardButton(text="Button", switch_inline_query_current_chat="Check")
+        first_button = types.InlineKeyboardButton(text="Button", switch_inline_query_current_chat=user.id + " order")
         second_button = types.InlineKeyboardButton(text="Button", callback_data="second")
         third_button = types.InlineKeyboardButton(text="Button", callback_data="third")
         keyboardmain.add(first_button, second_button,third_button)
