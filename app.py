@@ -141,6 +141,9 @@ def echo(m):
         return bot.register_next_step_handler(msg, process_name_step)
     elif m.text == 'Refresh':
         User.counter = 0
+    elif m.text == 'Pin':
+        pM = bot.send_message(-1001341610441, "What is kids ID?")
+        bot.pin_chat_message(-1001341610441, pM.message_id)
     # elif m.text == 'Pin':
     #     mess = bot.send_message(chat_id, str(User.counter) + "Kids")
     #     bot.pin_chat_message(-1001341610441,mess.message_id)
