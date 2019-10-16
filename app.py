@@ -19,8 +19,20 @@ user_dict = {}
 
 
 class User:
+    session1 = isNowInTimePeriod(time(9,45), time(11,45))
+    session2 = isNowInTimePeriod(time(11,45), time(13,45))
+    session3 = isNowInTimePeriod(time(13,45), time(16,45))
+    session4 = isNowInTimePeriod(time(16,45), time(5,45))
+    if session1:
+        session = 1
+    elif session2:
+        session = 2
+    elif session3:
+        session = 3
+    elif session4:
+        session = 4
     date = str(datetime.now().date())
-    find = MessageModel.get_all_count(args={'date': date, 'session': 3}, filters={'_id': 0, 'name': 1})
+    find = MessageModel.get_all_count(args={'date': date, 'session': session}, filters={'_id': 0, 'name': 1})
     print(find)
     counter = 1
     def __init__(self, name):
@@ -334,8 +346,20 @@ def keyboard():
 
 @bot.inline_handler(lambda query: len(query.query) is 0)
 def empty_query(query):
+    session1 = isNowInTimePeriod(time(9,45), time(11,45))
+    session2 = isNowInTimePeriod(time(11,45), time(13,45))
+    session3 = isNowInTimePeriod(time(13,45), time(16,45))
+    session4 = isNowInTimePeriod(time(16,45), time(5,45))
+    if session1:
+        session = 1
+    elif session2:
+        session = 2
+    elif session3:
+        session = 3
+    elif session4:
+        session = 4
     date = str(datetime.now().date())
-    find = MessageModel.get_all(args={'date': date, 'session': 3}, filters={'_id': 0, 'name': 1})
+    find = MessageModel.get_all(args={'date': date, 'session': session}, filters={'_id': 0, 'name': 1})
     print(find)
     hint = "Введите ровно 2 числа и получите результат!"
     results_array = []
@@ -382,8 +406,20 @@ def query_text(query):
         except Exception as e:
             print("{!s}\n{!s}".format(type(e), str(e)))
     elif (query.query.find('order') != -1):
+        session1 = isNowInTimePeriod(time(9,45), time(11,45))
+        session2 = isNowInTimePeriod(time(11,45), time(13,45))
+        session3 = isNowInTimePeriod(time(13,45), time(16,45))
+        session4 = isNowInTimePeriod(time(16,45), time(5,45))
+        if session1:
+            session = 1
+        elif session2:
+            session = 2
+        elif session3:
+            session = 3
+        elif session4:
+            session = 4
         date = str(datetime.now().date())
-        find = MessageModel.get_all_count(args={'date': date, 'session': 3}, filters={'_id': 0, 'name': 1})
+        find = MessageModel.get_all_count(args={'date': date, 'session': session}, filters={'_id': 0, 'name': 1})
         digits_pattern = re.compile(r'^[0-9]+ order', re.MULTILINE)
         try:
             matches = re.match(digits_pattern, query.query)
@@ -436,8 +472,20 @@ def test_chosen(chosen_inline_result):
                                 chat_id=chat_id,
                                 message_id=message_id)
     elif action == 'order':
+        session1 = isNowInTimePeriod(time(9,45), time(11,45))
+        session2 = isNowInTimePeriod(time(11,45), time(13,45))
+        session3 = isNowInTimePeriod(time(13,45), time(16,45))
+        session4 = isNowInTimePeriod(time(16,45), time(5,45))
+        if session1:
+            session = 1
+        elif session2:
+            session = 2
+        elif session3:
+            session = 3
+        elif session4:
+            session = 4
         date = str(datetime.now().date())
-        find2 = MessageModel.get_one(args={'order': int(order), 'session': 3, 'date': date}, filters={'_id': 0})
+        find2 = MessageModel.get_one(args={'order': int(order), 'session': session, 'date': date}, filters={'_id': 0})
         if find2:
             message_idOrder = find2['message_id']
             print(message_idOrder)
