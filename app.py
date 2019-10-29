@@ -433,8 +433,7 @@ def query_text(query):
                             # Описание отображается в подсказке,
                             # message_text - то, что будет отправлено в виде сообщения
                             description="Choose order",
-                            input_message_content=types.InputTextMessageContent(
-                            message_text="{!s} + {!s}".format(num1, num2))
+                            input_message_content=None
                     ))
                 except Exception as e:
                     print(e)
@@ -447,7 +446,6 @@ def query_text(query):
 def test_chosen(chosen_inline_result):
     kID, action = chosen_inline_result.query.split()
     order = chosen_inline_result.result_id
-    print(chosen_inline_result)
     # print(order)
     # print(chosen_inline_result.result_id)
     # if find:
