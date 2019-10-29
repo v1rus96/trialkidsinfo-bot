@@ -68,6 +68,10 @@ def generateImage(kID):
     #x,y = img.size
     #offset = x // 12, y // 5
     img.paste(Image.open("images/background.png"))
+    if sex == 'Male':
+        img.paste(Image.open("images/male.png"))
+    else:
+        img.paste(Image.open("images/female.png"))
     draw = ImageDraw.Draw(img)
     fnt = ImageFont.truetype('images/Quicksand-Bold.ttf', 25)
     fnt1 = ImageFont.truetype('images/Quicksand-Bold.ttf', 30)
@@ -76,13 +80,13 @@ def generateImage(kID):
     draw.text((63,92),"KIDO"+kID,(255,255,255),font=fnt)#(500-width)/2
     draw.text((355,27),age,(255,255,255),font=fnt1)
     draw.text((121,27),name,(255,255,255),font=fnt1)
-    draw.text((325,96),brain,(255,255,255),font=fnt1)
-    draw.text((325,149),game,(255,255,255),font=fnt1)
-    draw.text((325,201),experience,(255,255,255),font=fnt1)
-    draw.text((325,253),interest,(255,255,255),font=fnt1)
+    draw.text((313,96),brain,(255,255,255),font=fnt1)
+    draw.text((313,149),game,(255,255,255),font=fnt1)
+    draw.text((313,201),experience,(255,255,255),font=fnt1)
+    draw.text((313,253),interest,(255,255,255),font=fnt1)
     draw.text((313,306),estimation,(255,255,255),font=fnt1)
     draw.text((313,358),group,(255,255,255),font=fnt1)
-    draw.text((26,9),str(order),(255,255,255),font=fnt2)
+    draw.text((24,9),str(order),(255,255,255),font=fnt2)
     #img.save('final.png')
     bio = BytesIO()
     bio.name = 'image.png'
@@ -452,7 +456,7 @@ def test_chosen(chosen_inline_result):
     if find:
         chat_id = find['chat_id']
         message_id = find['message_id']
-        name = find['name']
+        #name = find['name']
     if action == 'estimate':
         MessageModel.update_message(args={'kID': str(kID)}, set_query={ "$set": {'estimation': chosen_inline_result.result_id} })
         bot.edit_message_media(media=types.InputMediaPhoto(generateImage(kID=kID)),
