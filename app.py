@@ -245,7 +245,7 @@ def process_experience_step(message):
 def process_photo_step(message):
     try:
         chat_id = message.chat.id
-        print(bot.get_file(message.photo[2].file_id))
+        print(bot.get_file(message.photo[2].file_id).file_path)
         msg = bot.send_message(chat_id, 'What kids like?')
         return bot.register_next_step_handler(msg, process_interest_step)
     except Exception as e:
