@@ -11,6 +11,8 @@ import re
 from datetime import datetime, time
 import cv2
 import sys
+import numpy as np
+import urllib
 
 global bot
 global TOKEN
@@ -108,6 +110,15 @@ def generateImage(kID):
 # What's your name?
 # """)
 #     bot.register_next_step_handler(msg, process_name_step)
+def url_to_image(url):
+	# download the image, convert it to a NumPy array, and then read
+	# it into OpenCV format
+	resp = urllib.request.urlopen(url)
+	image = np.asarray(bytearray(resp.read()), dtype="uint8")
+	image = cv2.imdecode(image, cv2.IMREAD_COLOR)
+ 
+	# return the image
+	return image
 
 @bot.message_handler(content_types=["text"])
 def echo(m):
@@ -247,8 +258,9 @@ def process_experience_step(message):
 def process_photo_step(message):
     try:
         chat_id = message.chat.id
+        imagePath = url_to_image("https://api.telegram.org/file/bot880055204:AAGeIliCzZvmW6mxtUlT1N799tpwu4znpf8/"+ str(bot.get_file(message.photo[2].file_id).file_path))
         # print(str(bot.get_file(message.photo[2].file_id).file_path))
-        imagePath = "https://api.telegram.org/file/bot880055204:AAGeIliCzZvmW6mxtUlT1N799tpwu4znpf8/photos/file_3.jpg"# + str(bot.get_file(message.photo[2].file_id).file_path)
+        # imagePath = downloaded_file # + str(bot.get_file(message.photo[2].file_id).file_path)
         cascPath = "haarcascade_frontalface_default.xml"
 
         # Create the haar cascade
