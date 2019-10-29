@@ -258,7 +258,7 @@ def process_experience_step(message):
 def process_photo_step(message):
     try:
         chat_id = message.chat.id
-        imagePath = url_to_image("https://api.telegram.org/file/bot880055204:AAGeIliCzZvmW6mxtUlT1N799tpwu4znpf8/photos/file_3.jpg")
+        image = url_to_image("https://api.telegram.org/file/bot880055204:AAGeIliCzZvmW6mxtUlT1N799tpwu4znpf8/photos/file_3.jpg")
         # print(str(bot.get_file(message.photo[2].file_id).file_path))
         # imagePath = downloaded_file # + str(bot.get_file(message.photo[2].file_id).file_path)
         cascPath = "haarcascade_frontalface_default.xml"
@@ -267,7 +267,7 @@ def process_photo_step(message):
         faceCascade = cv2.CascadeClassifier(cascPath)
 
         # Read the image
-        image = cv2.imread(imagePath)
+        # image = cv2.imread(imagePath)
         gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
         # Detect faces in the image
