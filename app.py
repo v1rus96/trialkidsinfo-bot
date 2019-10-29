@@ -447,6 +447,7 @@ def query_text(query):
 def test_chosen(chosen_inline_result):
     kID, action = chosen_inline_result.query.split()
     order = chosen_inline_result.result_id
+    print(chosen_inline_result)
     # print(order)
     # print(chosen_inline_result.result_id)
     # if find:
