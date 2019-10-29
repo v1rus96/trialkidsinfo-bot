@@ -25,22 +25,6 @@ def isNowInTimePeriod(startTime, endTime):
         return nowTime >= startTime or nowTime <= endTime
 
 class User:
-    session1 = isNowInTimePeriod(time(9,45), time(11,45))
-    session2 = isNowInTimePeriod(time(11,45), time(13,45))
-    session3 = isNowInTimePeriod(time(13,45), time(16,45))
-    session4 = isNowInTimePeriod(time(16,45), time(5,45))
-    if session1:
-        session = 1
-    elif session2:
-        session = 2
-    elif session3:
-        session = 3
-    elif session4:
-        session = 4
-    date = str(datetime.now().date())
-    find = MessageModel.get_all_count(args={'date': date, 'session': session}, filters={'_id': 0, 'name': 1})
-    print(find)
-    counter = find+1
     def __init__(self, name):
         self.name = name
         self.age = None
@@ -50,7 +34,7 @@ class User:
         self.game = None
         self.experience = None
         self.interest = None
-        self.order = User.counter
+        self.order = 0
         self.estimation = None
         self.group = None
         self.date = None
@@ -139,8 +123,6 @@ def echo(m):
         #     print("Didnt work")
         msg = bot.send_message(chat_id, "What is kids ID?", reply_markup=types.ForceReply())
         return bot.register_next_step_handler(msg, process_name_step)
-    elif m.text == 'Refresh':
-        User.counter = 0
     elif m.text == 'Pin':
         pM = bot.send_message(-1001341610441, "What is kids ID?")
         bot.pin_chat_message(-1001341610441, pM.message_id)
@@ -280,7 +262,7 @@ def process_interest_step(message):
             estimation = "Mono"
             group = "Explorer"
         elif int(user.age) == 11: 
-            estimation = "Palette"
+            estimation = "Multi Color"
             group = "Discoverer"
         elif int(user.age) == 12: 
             estimation = "GoTo"
@@ -309,6 +291,9 @@ def process_interest_step(message):
         elif session4:
             user.session = 4
         user.date = str(datetime.now().date())
+        find = MessageModel.get_all_count(args={'date': user.date, 'session': user.session}, filters={'_id': 0, 'name': 1})
+        print(find)
+        user.order = find+1
         MessageModel.save_one({
             'chat_id': -1001341610441,
             'message_id': 0,
@@ -432,8 +417,7 @@ def query_text(query):
         results=[]
         try:
             print("try1")
-            for i in range(1, find+1):
-                print("loop" + str(User.counter)) #for i, val in enumerate(tasks): 
+            for i in range(1, find+1):#for i, val in enumerate(tasks): 
                 try:
                     print("try2")
                     results.append(types.InlineQueryResultArticle(
