@@ -67,14 +67,15 @@ def generateImage(kID):
     img = Image.new("RGB", (500,583), color="red")
     #x,y = img.size
     #offset = x // 12, y // 5
-    img.paste(Image.open("images/background.png"))
+    background = Image.open("images/background.png")
+    img.paste(background)
     genderMale = Image.open("images/male.png")
     genderFemale = Image.open("images/female.png")
 
     if sex == 'Male':
-        img.paste(genderMale,(87,37))
+        img.paste(genderMale,(87,37), background)
     else:
-        img.paste(genderFemale,(87,37))
+        img.paste(genderFemale,(87,37), background)
     draw = ImageDraw.Draw(img)
     fnt = ImageFont.truetype('images/Quicksand-Bold.ttf', 25)
     fnt1 = ImageFont.truetype('images/Quicksand-Bold.ttf', 30)
