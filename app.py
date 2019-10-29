@@ -68,8 +68,8 @@ def generateImage(kID):
     #x,y = img.size
     #offset = x // 12, y // 5
     img.paste(Image.open("images/background.png"))
-    genderMale = Image.open("images/male.png").resize((20,20), Image.ANTIALIAS)
-    genderFemale = Image.open("images/male.png").resize((20,20), Image.ANTIALIAS)
+    genderMale = Image.open("images/male.png").resize((20,20))
+    genderFemale = Image.open("images/female.png").resize((20,20))
 
     if sex == 'Male':
         img.paste(genderMale,(87,37))
