@@ -9,6 +9,8 @@ from telebot import types
 from models.save import MessageModel
 import re
 from datetime import datetime, time
+import cv2
+import sys
 
 global bot
 global TOKEN
@@ -246,6 +248,26 @@ def process_photo_step(message):
     try:
         chat_id = message.chat.id
         print(str(bot.get_file(message.photo[2].file_id).file_path))
+        imagePath = str(bot.get_file(message.photo[2].file_id).file_path)
+        cascPath = "haarcascade_frontalface_default.xml"
+
+        # Create the haar cascade
+        faceCascade = cv2.CascadeClassifier(cascPath)
+
+        # Read the image
+        image = cv2.imread(imagePath)
+        gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
+        # Detect faces in the image
+        faces = faceCascade.detectMultiScale(
+            gray,
+            scaleFactor=1.1,
+            minNeighbors=5,
+            minSize=(30, 30)
+            #flags = cv2.CV_HAAR_SCALE_IMAGE
+        )
+
+        print("Found {0} faces!".format(len(faces)))
         msg = bot.send_message(chat_id, 'What kids like?')
         return bot.register_next_step_handler(msg, process_interest_step)
     except Exception as e:
