@@ -428,15 +428,13 @@ def query_text(query):
             for i in range(1, find+1):#for i, val in enumerate(tasks): 
                 try:
                     print("try2")
-                    text = types.InputTextMessageContent(
-                            message_text="{!s} + {!s}".format(num1, num2))
-                    print(text)
                     results.append(types.InlineQueryResultArticle(
                             id=i, title=i,
                             # Описание отображается в подсказке,
                             # message_text - то, что будет отправлено в виде сообщения
                             description="Choose order",
-                            input_message_content=text
+                            input_message_content=types.InputTextMessageContent(
+                            message_text="{!s} + {!s}".format(num1, num2))
                     ))
                 except Exception as e:
                     print(e)
