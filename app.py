@@ -237,7 +237,16 @@ def process_experience_step(message):
         user.experience = experience
         markups = types.ReplyKeyboardMarkup(one_time_keyboard=True, resize_keyboard=True)
         markups.add('Mobile', 'Robotics')
-        msg = bot.send_message(chat_id, 'What kids like?', reply_markup=markups)
+        msg = bot.send_message(chat_id, 'Photo?', reply_markup=markups)
+        return bot.register_next_step_handler(msg, process_photo_step)
+    except Exception as e:
+        bot.reply_to(message, 'oooops' + e)
+
+def process_photo_step(message):
+    try:
+        chat_id = message.chat.id
+        print(bot.get_file(message.photo[2].file_id))
+        msg = bot.send_message(chat_id, 'What kids like?')
         return bot.register_next_step_handler(msg, process_interest_step)
     except Exception as e:
         bot.reply_to(message, 'oooops' + e)
