@@ -433,7 +433,8 @@ def query_text(query):
                             # Описание отображается в подсказке,
                             # message_text - то, что будет отправлено в виде сообщения
                             description="Choose order",
-                            input_message_content=None
+                            input_message_content=types.InputTextMessageContent(
+                            message_text="{!s} + {!s}".format(num1, num2))
                     ))
                 except Exception as e:
                     print(e)
@@ -446,6 +447,8 @@ def query_text(query):
 def test_chosen(chosen_inline_result):
     kID, action = chosen_inline_result.query.split()
     order = chosen_inline_result.result_id
+    update = telebot.types.Update.de_json(request.stream.read().decode('utf-8'))
+    print (update)
     # print(order)
     # print(chosen_inline_result.result_id)
     # if find:
