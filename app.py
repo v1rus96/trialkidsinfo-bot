@@ -428,13 +428,15 @@ def query_text(query):
             for i in range(1, find+1):#for i, val in enumerate(tasks): 
                 try:
                     print("try2")
+                    text = types.InputTextMessageContent(
+                            message_text="{!s} + {!s}".format(num1, num2))
+                    print(text)
                     results.append(types.InlineQueryResultArticle(
                             id=i, title=i,
                             # Описание отображается в подсказке,
                             # message_text - то, что будет отправлено в виде сообщения
                             description="Choose order",
-                            input_message_content=types.InputTextMessageContent(
-                            message_text="{!s} + {!s}".format(num1, num2))
+                            input_message_content=text
                     ))
                 except Exception as e:
                     print(e)
@@ -447,8 +449,6 @@ def query_text(query):
 def test_chosen(chosen_inline_result):
     kID, action = chosen_inline_result.query.split()
     order = chosen_inline_result.result_id
-    update = telebot.types.Update.de_json(request.stream.read().decode('utf-8'))
-    print (update)
     # print(order)
     # print(chosen_inline_result.result_id)
     # if find:
