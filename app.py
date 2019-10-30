@@ -68,7 +68,7 @@ def generateImage(kID):
     order = find['order']
     estimation = find['estimation']
     group = find['group']
-    photo = find['photo']
+    url = find['photo']
     print(find)
     img = Image.new("RGB", (500,583), color="red")
     #x,y = img.size
@@ -77,7 +77,8 @@ def generateImage(kID):
     img.paste(background)
     genderMale = Image.open("images/male.png")
     genderFemale = Image.open("images/female.png")
-    photoLoad = Image.open(BytesIO(photo))
+    img = detect_face(url)
+    photoLoad = Image.open(img)
     if sex == 'Male':
         img.paste(genderMale,(87,37), genderMale)
     else:
@@ -123,6 +124,32 @@ def url_to_image(url):
  
 	# return the image
 	return image
+def detect_face(url):
+    image = url_to_image(url)
+    # imagePath = str(bot.get_file(message.photo[-1].file_id).file_path)
+    # imagePath = downloaded_file # + str(bot.get_file(message.photo[2].file_id).file_path)
+    cascPath = "haarcascade_frontalface_default.xml"
+    # Create the haar cascade
+    faceCascade = cv2.CascadeClassifier(cascPath)
+    # Read the image
+    # image = cv2.imread(imagePath)
+    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
+    # Detect faces in the image
+    faces = faceCascade.detectMultiScale(
+        gray,
+        scaleFactor=1.1,
+        minNeighbors=5,
+        minSize=(30, 30)
+        #flags = cv2.CV_HAAR_SCALE_IMAGE
+    )
+
+    print("Found {0} faces!".format(len(faces)))
+    for (x, y, w, h) in faces:
+        faceimg = image[y-100:y+h+100, x-52:x+w+52]
+        lastimg = cv2.resize(faceimg, (154, 196))
+        final = cv2.imencode('.jpg', lastimg)[1].tostring()
+    return final
 
 @bot.message_handler(content_types=["text"])
 def echo(m):
@@ -262,32 +289,8 @@ def process_experience_step(message):
 def process_photo_step(message):
     try:
         chat_id = message.chat.id
-        image = url_to_image("https://api.telegram.org/file/bot880055204:AAGeIliCzZvmW6mxtUlT1N799tpwu4znpf8/"+str(bot.get_file(message.photo[-1].file_id).file_path))
-        # imagePath = str(bot.get_file(message.photo[-1].file_id).file_path)
-        # imagePath = downloaded_file # + str(bot.get_file(message.photo[2].file_id).file_path)
-        cascPath = "haarcascade_frontalface_default.xml"
-        # Create the haar cascade
-        faceCascade = cv2.CascadeClassifier(cascPath)
-        # Read the image
-        # image = cv2.imread(imagePath)
-        gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-
-        # Detect faces in the image
-        faces = faceCascade.detectMultiScale(
-            gray,
-            scaleFactor=1.1,
-            minNeighbors=5,
-            minSize=(30, 30)
-            #flags = cv2.CV_HAAR_SCALE_IMAGE
-        )
-
-        print("Found {0} faces!".format(len(faces)))
         user = user_dict[chat_id]
-        for (x, y, w, h) in faces:
-            faceimg = image[y-100:y+h+100, x-52:x+w+52]
-            lastimg = cv2.resize(faceimg, (154, 196))
-            final = cv2.imencode('.jpg', lastimg)[1].tostring()
-            user.photo = final
+        user.photo = "https://api.telegram.org/file/bot880055204:AAGeIliCzZvmW6mxtUlT1N799tpwu4znpf8/"+str(bot.get_file(message.photo[-1].file_id).file_path)
             # bot.send_photo(chat_id=-1001341610441, photo=final)#djfsndkf
         msg = bot.send_message(chat_id, 'What kids like?')
         return bot.register_next_step_handler(msg, process_interest_step)
