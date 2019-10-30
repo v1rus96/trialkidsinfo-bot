@@ -294,7 +294,11 @@ def process_photo_step(message):
         im = Image.fromarray(noisy)
         for (x, y, w, h) in faces:
             cropped = im.crop((x-100, y-100, x+w+100, y+h+100))
-            bot.send_photo(chat_id=-1001341610441, photo=types.InputMediaPhoto(cropped))
+            bio = BytesIO()
+            bio.name = 'crop.png'
+            cropped.save(bio, 'PNG')
+            bio.seek(0)
+            bot.send_photo(chat_id=-1001341610441, photo=bio)
         msg = bot.send_message(chat_id, 'What kids like?')
         return bot.register_next_step_handler(msg, process_interest_step)
     except Exception as e:
