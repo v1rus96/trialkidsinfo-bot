@@ -42,6 +42,7 @@ class User:
         self.estimation = None
         self.group = None
         self.date = None
+        self.photo = None
         self.session = None
         # User.counter += 1
 
@@ -79,6 +80,7 @@ def generateImage(kID):
         img.paste(genderMale,(87,37), genderMale)
     else:
         img.paste(genderFemale,(87,37), genderFemale)
+    img.paste(user.photo, (49,149))
     draw = ImageDraw.Draw(img)
     fnt = ImageFont.truetype('images/Quicksand-Bold.ttf', 25)
     fnt1 = ImageFont.truetype('images/Quicksand-Bold.ttf', 30)
@@ -278,41 +280,13 @@ def process_photo_step(message):
         )
 
         print("Found {0} faces!".format(len(faces)))
-
+        user = user_dict[chat_id]
         for (x, y, w, h) in faces:
-            # r = max(w, h) / 2
-            # print(int(r))
-            # centerx = x + w / 2
-            # print(centerx)
-            # centery = y + h / 2
-            # print(centery)
-            # topX = int(centerx - 77)
-            # print(topX)
-            # topY = int(centery + 98)
-            # print(topY)
-            # botX = int(centerx + 77)
-            # print(botX)
-            # botY = int(centery - 98)
-            # print(botY)
-            # nx = int(centerx - r)
-            # print(nx)
-            # ny = int(centery - r)
-            # print(ny)
-            # nr = int(r * 2)
-            # print(nr)
-
             faceimg = image[y-100:y+h+100, x-52:x+w+52]
             lastimg = cv2.resize(faceimg, (154, 196))
             final = cv2.imencode('.jpg', lastimg)[1].tostring()
-        #     cv2.imwrite("image.jpg", lastimg)
-
-        # for (x, y, w, h) in faces:
-        #     cropped = im.crop((x-100, y-100, x+w+100, y+h+100))
-        #     bio = BytesIO()
-        #     bio.name = 'crop.png'
-        #     cropped.save(bio, 'PNG')
-        #     bio.seek(0)
-            bot.send_photo(chat_id=-1001341610441, photo=final)#djfsndkf
+            user.photo = final
+            # bot.send_photo(chat_id=-1001341610441, photo=final)#djfsndkf
         msg = bot.send_message(chat_id, 'What kids like?')
         return bot.register_next_step_handler(msg, process_interest_step)
     except Exception as e:
