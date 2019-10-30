@@ -262,10 +262,8 @@ def process_photo_step(message):
         # print(str(bot.get_file(message.photo[2].file_id).file_path))
         # imagePath = downloaded_file # + str(bot.get_file(message.photo[2].file_id).file_path)
         cascPath = "haarcascade_frontalface_default.xml"
-
         # Create the haar cascade
         faceCascade = cv2.CascadeClassifier(cascPath)
-
         # Read the image
         # image = cv2.imread(imagePath)
         gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
@@ -280,24 +278,29 @@ def process_photo_step(message):
         )
 
         print("Found {0} faces!".format(len(faces)))
-        img = np.array(image)
-        mean = 0
-        # var = 0.1
-        # sigma = var**0.5
-        gauss = np.random.normal(mean, 1, img.shape)
 
-        # normalize image to range [0,255]
-        noisy = img + gauss
-        minv = np.amin(noisy)
-        maxv = np.amax(noisy)
-        noisy = (255 * (noisy - minv) / (maxv - minv)).astype(np.uint8)
-        im = Image.fromarray(noisy,'RGB')
         for (x, y, w, h) in faces:
-            cropped = im.crop((x-100, y-100, x+w+100, y+h+100))
+            r = max(w, h) / 2
+            centerx = x + w / 2
+            centery = y + h / 2
+            nx = int(centerx - r)
+            ny = int(centery - r)
+            nr = int(r * 2)
+
+            faceimg = image[ny:ny+nr, nx:nx+nr]
+            lastimg = cv2.resize(faceimg, (32, 32))
             bio = BytesIO()
             bio.name = 'crop.png'
-            cropped.save(bio, 'PNG')
+            lastimg.cv2.imwrite(bio, 'JPG')
             bio.seek(0)
+        #     cv2.imwrite("image.jpg", lastimg)
+
+        # for (x, y, w, h) in faces:
+        #     cropped = im.crop((x-100, y-100, x+w+100, y+h+100))
+        #     bio = BytesIO()
+        #     bio.name = 'crop.png'
+        #     cropped.save(bio, 'PNG')
+        #     bio.seek(0)
             bot.send_photo(chat_id=-1001341610441, photo=bio)
         msg = bot.send_message(chat_id, 'What kids like?')
         return bot.register_next_step_handler(msg, process_interest_step)
