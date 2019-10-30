@@ -282,11 +282,17 @@ def process_photo_step(message):
         for (x, y, w, h) in faces:
             # r = max(w, h) / 2
             centerx = x + w / 2
+            print(centerx)
             centery = y + h / 2
+            print(centery)
             topX = int(centerx - 77)
+            print(topX)
             topY = int(centery + 98)
+            print(topY)
             botX = int(centerx + 77)
+            print(botX)
             botY = int(centery - 98)
+            print(botY)
             # nx = int(centerx - r)
             # ny = int(centery - r)
             # nr = int(r * 2)
