@@ -258,7 +258,7 @@ def process_experience_step(message):
 def process_photo_step(message):
     try:
         chat_id = message.chat.id
-        image = url_to_image("https://api.telegram.org/file/bot880055204:AAGeIliCzZvmW6mxtUlT1N799tpwu4znpf8/photos/file_3.jpg"+str(bot.get_file(message.photo.file_id).file_path))
+        image = url_to_image("https://api.telegram.org/file/bot880055204:AAGeIliCzZvmW6mxtUlT1N799tpwu4znpf8/"+str(bot.get_file(message.photo[-1].file_id).file_path))
         # imagePath = str(bot.get_file(message.photo[-1].file_id).file_path)
         # imagePath = downloaded_file # + str(bot.get_file(message.photo[2].file_id).file_path)
         cascPath = "haarcascade_frontalface_default.xml"
