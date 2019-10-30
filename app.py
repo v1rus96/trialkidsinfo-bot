@@ -283,10 +283,10 @@ def process_photo_step(message):
             # r = max(w, h) / 2
             centerx = x + w / 2
             centery = y + h / 2
-            topX = centerx - 77
-            topY = centery + 98
-            botX = centerx + 77
-            botY = centery - 98
+            topX = int(centerx - 77)
+            topY = int(centery + 98)
+            botX = int(centerx + 77)
+            botY = int(centery - 98)
             # nx = int(centerx - r)
             # ny = int(centery - r)
             # nr = int(r * 2)
