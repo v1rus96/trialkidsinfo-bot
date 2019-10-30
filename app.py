@@ -77,7 +77,7 @@ def generateImage(kID):
     img.paste(background)
     genderMale = Image.open("images/male.png")
     genderFemale = Image.open("images/female.png")
-    photoLoad = Image.open(photo)
+    photoLoad = Image.open(BytesIO(photo))
     if sex == 'Male':
         img.paste(genderMale,(87,37), genderMale)
     else:
