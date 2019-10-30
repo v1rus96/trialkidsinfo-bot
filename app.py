@@ -290,7 +290,7 @@ def process_photo_step(message):
             faceimg = image[ny:ny+nr, nx:nx+nr]
             lastimg = cv2.resize(faceimg, (32, 32))
             bio = BytesIO()
-            bio.name = 'crop.png'
+            bio.name = 'crop.jpg'
             lastimg.cv2.imwrite(bio, 'JPG')
             bio.seek(0)
         #     cv2.imwrite("image.jpg", lastimg)
