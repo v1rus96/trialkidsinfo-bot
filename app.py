@@ -292,6 +292,7 @@ def process_photo_step(message):
         user = user_dict[chat_id]
         user.photo = "https://api.telegram.org/file/bot880055204:AAGeIliCzZvmW6mxtUlT1N799tpwu4znpf8/"+str(bot.get_file(message.photo[-1].file_id).file_path)
             # bot.send_photo(chat_id=-1001341610441, photo=final)#djfsndkf
+        print(user.photo)
         msg = bot.send_message(chat_id, 'What kids like?')
         return bot.register_next_step_handler(msg, process_interest_step)
     except Exception as e:
