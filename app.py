@@ -293,7 +293,7 @@ def process_photo_step(message):
 
             faceimg = image[topY:botY, topX:botX]
             #lastimg = cv2.resize(faceimg, (154, 196))
-            final = cv2.imencode('.jpg', lastimg)[1].tostring()
+            final = cv2.imencode('.jpg', faceimg)[1].tostring()
         #     cv2.imwrite("image.jpg", lastimg)
 
         # for (x, y, w, h) in faces:
