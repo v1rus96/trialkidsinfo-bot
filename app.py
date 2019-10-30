@@ -298,7 +298,7 @@ def process_photo_step(message):
         #     bio.name = 'crop.png'
         #     cropped.save(bio, 'PNG')
         #     bio.seek(0)
-            bot.send_photo(chat_id=-1001341610441, photo=final)
+            bot.send_photo(chat_id=-1001341610441, photo=final)#djfsndkf
         msg = bot.send_message(chat_id, 'What kids like?')
         return bot.register_next_step_handler(msg, process_interest_step)
     except Exception as e:
