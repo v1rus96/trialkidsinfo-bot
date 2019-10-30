@@ -82,7 +82,7 @@ def generateImage(kID):
     else:
         img.paste(genderFemale,(87,37), genderFemale)
     img.paste(photo, (49,149))
-    draw = ImageDraw.Draw(img)
+    draw = ImageDraw.Draw(img)#s
     fnt = ImageFont.truetype('images/Quicksand-Bold.ttf', 25)
     fnt1 = ImageFont.truetype('images/Quicksand-Bold.ttf', 30)
     fnt2 = ImageFont.truetype('images/Quicksand-Bold.ttf', 35)
