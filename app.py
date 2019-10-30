@@ -280,20 +280,8 @@ def process_photo_step(message):
         )
 
         print("Found {0} faces!".format(len(faces)))
-        img = np.array(image)
-        mean = 0
-        # var = 0.1
-        # sigma = var**0.5
-        gauss = np.random.normal(mean, 1, img.shape)
-
-        # normalize image to range [0,255]
-        noisy = img + gauss
-        minv = np.amin(noisy)
-        maxv = np.amax(noisy)
-        noisy = (255 * (noisy - minv) / (maxv - minv)).astype(np.uint8)
-        im = Image.fromarray(noisy)
         for (x, y, w, h) in faces:
-            cropped = im.crop((x-100, y-100, x+w+100, y+h+100))
+            cropped = image[y-100:y+h+100, x-50:x+w+50]
             bio = BytesIO()
             bio.name = 'crop.png'
             cropped.save(bio, 'PNG')
