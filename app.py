@@ -280,24 +280,28 @@ def process_photo_step(message):
         print("Found {0} faces!".format(len(faces)))
 
         for (x, y, w, h) in faces:
-            # r = max(w, h) / 2
+            r = max(w, h) / 2
+            print(int(r))
             centerx = x + w / 2
             print(centerx)
             centery = y + h / 2
             print(centery)
-            topX = int(centerx - 77)
-            print(topX)
-            topY = int(centery + 98)
-            print(topY)
-            botX = int(centerx + 77)
-            print(botX)
-            botY = int(centery - 98)
-            print(botY)
-            # nx = int(centerx - r)
-            # ny = int(centery - r)
-            # nr = int(r * 2)
+            # topX = int(centerx - 77)
+            # print(topX)
+            # topY = int(centery + 98)
+            # print(topY)
+            # botX = int(centerx + 77)
+            # print(botX)
+            # botY = int(centery - 98)
+            # print(botY)
+            nx = int(centerx - r)
+            print(nx)
+            ny = int(centery - r)
+            print(ny)
+            nr = int(r * 2)
+            print(nr)
 
-            faceimg = image[topY:botY, topX:botX]
+            faceimg = image[ny:ny+nr, nx:nx+nr]
             #lastimg = cv2.resize(faceimg, (154, 196))
             final = cv2.imencode('.jpg', faceimg)[1].tostring()
         #     cv2.imwrite("image.jpg", lastimg)
