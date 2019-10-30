@@ -259,7 +259,7 @@ def process_photo_step(message):
     try:
         chat_id = message.chat.id
         image = url_to_image("https://api.telegram.org/file/bot880055204:AAGeIliCzZvmW6mxtUlT1N799tpwu4znpf8/photos/file_3.jpg")
-        # print(str(bot.get_file(message.photo[2].file_id).file_path))
+        # imagePath = str(bot.get_file(message.photo[-1].file_id).file_path)
         # imagePath = downloaded_file # + str(bot.get_file(message.photo[2].file_id).file_path)
         cascPath = "haarcascade_frontalface_default.xml"
         # Create the haar cascade
@@ -289,10 +289,7 @@ def process_photo_step(message):
 
             faceimg = image[ny:ny+nr, nx:nx+nr]
             lastimg = cv2.resize(faceimg, (32, 32))
-            bio = BytesIO()
-            bio.name = 'crop.jpg'
-            lastimg.cv2.imwrite(bio, 'JPG')
-            bio.seek(0)
+            final = cv2.imencode('.jpg', lastimg)[1].tostring()
         #     cv2.imwrite("image.jpg", lastimg)
 
         # for (x, y, w, h) in faces:
@@ -301,7 +298,7 @@ def process_photo_step(message):
         #     bio.name = 'crop.png'
         #     cropped.save(bio, 'PNG')
         #     bio.seek(0)
-            bot.send_photo(chat_id=-1001341610441, photo=bio)
+            bot.send_photo(chat_id=-1001341610441, photo=final)
         msg = bot.send_message(chat_id, 'What kids like?')
         return bot.register_next_step_handler(msg, process_interest_step)
     except Exception as e:
