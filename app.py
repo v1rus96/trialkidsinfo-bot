@@ -68,6 +68,7 @@ def generateImage(kID):
     order = find['order']
     estimation = find['estimation']
     group = find['group']
+    photo = find['photo']
     print(find)
     img = Image.new("RGB", (500,583), color="red")
     #x,y = img.size
@@ -80,7 +81,7 @@ def generateImage(kID):
         img.paste(genderMale,(87,37), genderMale)
     else:
         img.paste(genderFemale,(87,37), genderFemale)
-    img.paste(user.photo, (49,149))
+    img.paste(photo, (49,149))
     draw = ImageDraw.Draw(img)
     fnt = ImageFont.truetype('images/Quicksand-Bold.ttf', 25)
     fnt1 = ImageFont.truetype('images/Quicksand-Bold.ttf', 30)
@@ -367,6 +368,7 @@ def process_interest_step(message):
             'estimation': user.estimation,
             'group': user.group,
             'date': user.date,
+            'photo': user.photo,
             'session': user.session
         })
         keyboardmain = types.InlineKeyboardMarkup(row_width=3)
