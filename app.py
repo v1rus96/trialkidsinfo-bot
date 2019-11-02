@@ -389,7 +389,7 @@ def empty_query(query):
     results_array = []
     message = types.InputTextMessageContent(
                     message_text="Эх, зря я не ввёл 2 числа :(")
-    print("THIIIIIIS" + message)
+    print(message)
     try:
         for id in find:
             results_array.append(types.InlineQueryResultArticle(
