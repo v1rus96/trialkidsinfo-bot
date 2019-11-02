@@ -383,7 +383,7 @@ def empty_query(query):
     elif session4:
         session = 4
     date = str(datetime.now().date())
-    find = MessageModel.get_all(args={'date': date, 'session': session}, filters={'_id': 0, 'kID': 1, 'photo': 1})
+    find = MessageModel.get_all(args={'date': date, 'session': session}, filters={'_id': 0, 'name': 1})
     print(find)
     hint = "Введите ровно 2 числа и получите результат!"
     results_array = []
