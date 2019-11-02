@@ -13,6 +13,7 @@ import cv2
 import sys
 import numpy as np
 import urllib
+from menu import Const
 
 global bot
 global TOKEN
@@ -348,11 +349,21 @@ def process_interest_step(message):
             'photo': user.photo,
             'session': user.session
         })
-        keyboardmain = types.InlineKeyboardMarkup(row_width=3)
-        first_button = types.InlineKeyboardButton(text="Button", switch_inline_query_current_chat=user.id + " order")
-        second_button = types.InlineKeyboardButton(text="Button", callback_data="second")
-        third_button = types.InlineKeyboardButton(text="Button", callback_data="third")
-        keyboardmain.add(first_button, second_button,third_button)
+        # keyboardmain = types.InlineKeyboardMarkup(row_width=3)
+        # first_button = types.InlineKeyboardButton(text="Button", switch_inline_query_current_chat=user.id + " order")
+        # second_button = types.InlineKeyboardButton(text="Button", callback_data="second")
+        # third_button = types.InlineKeyboardButton(text="Button", callback_data="third")
+        # keyboardmain.add(first_button, second_button,third_button)
+        button_list = [
+            [
+                types.InlineKeyboardButton("col 1", callback_data="third"),
+                types.InlineKeyboardButton("col 2", switch_inline_query_current_chat=user.id + " order")
+            ],
+            [
+                types.InlineKeyboardButton("row 2", switch_inline_query_current_chat=user.id + " order")
+            ]
+        ]
+        keyboardmain = types.InlineKeyboardMarkup(button_list)
         sent = bot.send_photo(chat_id=-1001341610441, photo=generateImage(kID=user.id), reply_markup=keyboardmain)
         bot.send_message(chat_id, 'Nice to meet you ' + user.name + '\n Age:' + str(user.age) + '\n Sex:' + user.sex,reply_markup=keyboard())
         MessageModel.update_message(args={'kID': user.id}, set_query={ "$set": {'message_id': sent.message_id} })
@@ -387,16 +398,14 @@ def empty_query(query):
     print(find)
     hint = "Введите ровно 2 числа и получите результат!"
     results_array = []
-    message = types.InputTextMessageContent(
-                    message_text="Эх, зря я не ввёл 2 числа :(")
-    print(message)
     try:
         for id in find:
             results_array.append(types.InlineQueryResultArticle(
                     id=id['name'],
                     title=id['name'],
                     description=hint,
-                    input_message_content=message
+                    input_message_content=types.InputTextMessageContent(
+                    message_text="Эх, зря я не ввёл 2 числа :(")
             ))
         # for id in find:
         #     results_array.append(types.InlineQueryResultPhoto(
