@@ -402,8 +402,7 @@ def empty_query(query):
         #             photo_url=id['photo'],
         #             thumb_url=id['photo']
         #     ))###
-        check = bot.answer_inline_query(query.id, results_array)
-        print("THIIIIIIIIIS" + check)
+        bot.answer_inline_query(query.id, results_array)
     except Exception as e:
         print(e)
 
@@ -477,10 +476,11 @@ def query_text(query):
             print("{!s}\n{!s}".format(type(e), str(e)))
     
 
-@bot.chosen_inline_handler(lambda chosen_inline_result: True)
-def test_chosen(chosen_inline_result):
+@bot.chosen_inline_handler(lambda chosen_inline_result: True, content_types=["text"])
+def test_chosen(chosen_inline_result, message):
     kID, action = chosen_inline_result.query.split()
     order = chosen_inline_result.result_id
+    print(message.message_id)
     find = MessageModel.get_one(args={'kID': str(kID)}, filters={'_id': 0})
     if find:
         chat_id = find['chat_id']
