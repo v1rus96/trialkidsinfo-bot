@@ -134,19 +134,15 @@ def detect_face(url):
     # Read the image
     # image = cv2.imread(imagePath)
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-
-    # Detect faces in the image
     faces = faceCascade.detectMultiScale(
-        gray,
+        gray, 
         scaleFactor=1.1,
-        minNeighbors=5,
-        minSize=(30, 30)
-        #flags = cv2.CV_HAAR_SCALE_IMAGE
-    )
+        minNeighbors=5, 
+        minSize=(30, 30))
 
     print("Found {0} faces!".format(len(faces)))
     for (x, y, w, h) in faces:
-        faceimg = image[y-100:y+h+100, x-52:x+w+52]
+        faceimg = image[y-120:y+h+120, x-52:x+w+52]
         lastimg = cv2.resize(faceimg, (154, 196))
         final = cv2.imencode('.jpg', lastimg)[1].tostring()
     return final
