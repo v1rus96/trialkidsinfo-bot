@@ -401,9 +401,9 @@ def empty_query(query):
         #             id=id['kID'],
         #             photo_url=id['photo'],
         #             thumb_url=id['photo']
-        #     ))
+        #     ))###
         check = bot.answer_inline_query(query.id, results_array)
-        print(check)
+        print("THIIIIIIIIIS" + check)
     except Exception as e:
         print(e)
 
