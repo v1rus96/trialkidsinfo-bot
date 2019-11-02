@@ -151,32 +151,11 @@ def detect_face(url):
 def echo(m):
     chat_id = m.chat.id
     if m.text == 'Add kid':
-        # MessageModel.update_message(args={'name': '364884'}, set_query={ "$set": {'age': '66'} })
-        # find = MessageModel.get_one(args={'name': '364884'}, filters={'_id': 0})
-        # find2 = MessageModel.get_all(args={}, filters={'_id': 0, 'name': 1})
-        # print(find2)
-        # if find:
-        #     c_name = find['name']
-        #     c_age = find['age']
-        #     c_sex = find['sex']
-        #     ct = u'Name: {name}\nAge: {age}\nSex: {sex}'.format(name=c_name, age=c_age, sex=c_sex)
-        # print (ct)
-        # find2 = MessageModel.get_one(args={'order': 1 }, filters={'_id': 0})
-        # if find2:
-        #     message_idOrder = find2['message_id']
-        #     print(message_idOrder)
-        #     kIDOrder = find2['kID']
-        #     print(kIDOrder)
-        # else:
-        #     print("Didnt work")
         msg = bot.send_message(chat_id, "What is kids ID?", reply_markup=types.ForceReply())
         return bot.register_next_step_handler(msg, process_name_step)
     elif m.text == 'Pin':
         pM = bot.send_message(-1001341610441, "What is kids ID?")
         bot.pin_chat_message(-1001341610441, pM.message_id)
-    # elif m.text == 'Pin':
-    #     mess = bot.send_message(chat_id, str(User.counter) + "Kids")
-    #     bot.pin_chat_message(-1001341610441,mess.message_id)
 
 def process_name_step(message):
     print("name")
@@ -335,9 +314,6 @@ def process_interest_step(message):
             group = "Inventor"
         user.estimation = estimation
         user.group = group
-        # currentTime = time.localtime() # get struct_time
-        # currentDate = time.strftime("%m/%d/%Y", currentTime)
-        # print(currentDate)
         session1 = isNowInTimePeriod(time(9,45), time(11,45))
         session2 = isNowInTimePeriod(time(11,45), time(13,45))
         session3 = isNowInTimePeriod(time(13,45), time(16,45))
@@ -407,7 +383,7 @@ def empty_query(query):
     elif session4:
         session = 4
     date = str(datetime.now().date())
-    find = MessageModel.get_all(args={'date': date, 'session': session}, filters={'_id': 0, 'name': 1})
+    find = MessageModel.get_all(args={'date': date, 'session': session}, filters={'_id': 0, 'kID': 1, 'photo': 1})
     print(find)
     hint = "Введите ровно 2 числа и получите результат!"
     results_array = []
@@ -420,7 +396,14 @@ def empty_query(query):
                     input_message_content=types.InputTextMessageContent(
                     message_text="Эх, зря я не ввёл 2 числа :(")
             ))
-        bot.answer_inline_query(query.id, results_array)
+        # for id in find:
+        #     results_array.append(types.InlineQueryResultPhoto(
+        #             id=id['kID'],
+        #             photo_url=id['photo'],
+        #             thumb_url=id['photo']
+        #     ))
+        check = bot.answer_inline_query(query.id, results_array)
+        print(check)
     except Exception as e:
         print(e)
 
@@ -483,8 +466,6 @@ def query_text(query):
                     print("try2")
                     results.append(types.InlineQueryResultArticle(
                             id=i, title=i,
-                            # Описание отображается в подсказке,
-                            # message_text - то, что будет отправлено в виде сообщения
                             description="Choose order",
                             input_message_content=types.InputTextMessageContent(
                             message_text="{!s} + {!s}".format(num1, num2))
@@ -500,19 +481,10 @@ def query_text(query):
 def test_chosen(chosen_inline_result):
     kID, action = chosen_inline_result.query.split()
     order = chosen_inline_result.result_id
-    # print(order)
-    # print(chosen_inline_result.result_id)
-    # if find:
-    #     chat_id = find['chat_id']
-    #     message_id = find['message_id']
-    #     name = find['name']
-    #     ct = u'Name: {name}\nAge: {age}\nSex: {sex}'.format(name=chat_id, age=message_id, sex=name)
-    # print (ct)
     find = MessageModel.get_one(args={'kID': str(kID)}, filters={'_id': 0})
     if find:
         chat_id = find['chat_id']
         message_id = find['message_id']
-        #name = find['name']
     if action == 'estimate':
         MessageModel.update_message(args={'kID': str(kID)}, set_query={ "$set": {'estimation': chosen_inline_result.result_id} })
         bot.edit_message_media(media=types.InputMediaPhoto(generateImage(kID=kID)),
