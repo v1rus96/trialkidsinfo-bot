@@ -387,14 +387,16 @@ def empty_query(query):
     print(find)
     hint = "Введите ровно 2 числа и получите результат!"
     results_array = []
+    message = types.InputTextMessageContent(
+                    message_text="Эх, зря я не ввёл 2 числа :(")
+    print("THIIIIIIS" + message)
     try:
         for id in find:
             results_array.append(types.InlineQueryResultArticle(
                     id=id['name'],
                     title=id['name'],
                     description=hint,
-                    input_message_content=types.InputTextMessageContent(
-                    message_text="Эх, зря я не ввёл 2 числа :(")
+                    input_message_content=message
             ))
         # for id in find:
         #     results_array.append(types.InlineQueryResultPhoto(
@@ -476,11 +478,10 @@ def query_text(query):
             print("{!s}\n{!s}".format(type(e), str(e)))
     
 
-@bot.chosen_inline_handler(lambda chosen_inline_result: True, content_types=["text"])
-def test_chosen(chosen_inline_result, message):
+@bot.chosen_inline_handler(lambda chosen_inline_result: True)
+def test_chosen(chosen_inline_result):
     kID, action = chosen_inline_result.query.split()
     order = chosen_inline_result.result_id
-    print(message.message_id)
     find = MessageModel.get_one(args={'kID': str(kID)}, filters={'_id': 0})
     if find:
         chat_id = find['chat_id']
