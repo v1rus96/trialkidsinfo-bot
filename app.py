@@ -355,7 +355,8 @@ def process_interest_step(message):
         # second_button = types.InlineKeyboardButton(text="Button", callback_data="second")
         # third_button = types.InlineKeyboardButton(text="Button", callback_data="third")
         # keyboardmain.add(first_button, second_button,third_button)
-        sent = bot.send_photo(chat_id=-1001341610441, photo=generateImage(kID=user.id), reply_markup=main_menu_keyboard(user.id))
+        keyboardadmin = main_menu_keyboard(user.id)
+        sent = bot.send_photo(chat_id=-1001341610441, photo=generateImage(kID=user.id), reply_markup=keyboardadmin)
         bot.send_message(chat_id, 'Nice to meet you ' + user.name + '\n Age:' + str(user.age) + '\n Sex:' + user.sex,reply_markup=keyboard())
         MessageModel.update_message(args={'kID': user.id}, set_query={ "$set": {'message_id': sent.message_id} })
     except Exception as e:
@@ -364,6 +365,7 @@ def process_interest_step(message):
 bot.enable_save_next_step_handlers(delay=2)
 
 bot.load_next_step_handlers()
+
 def main_menu_keyboard(kID):
   keyboard = [[types.InlineKeyboardButton('Order', switch_inline_query_current_chat=kID + " order")],
               [types.InlineKeyboardButton('Tasks', callback_data='tasks')],
