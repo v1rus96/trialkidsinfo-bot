@@ -571,6 +571,15 @@ def process_callback(query):
     message_id=query.message.message_id
     chat_id=query.message.chat.id
     print(query.message.message_id)
+    find = MessageModel.get_one(args={'message_id': message_id}, filters={'_id': 0})
+    if find:
+        kID = find['kID']
+        typing = find['typing']
+        communication = find['communication']
+        response = find['response']
+        energy = find['energy']
+        socialValues = [typing, communication, response, energy]
+        socialTypes = ['typing','communication','response','energy']
     # if query.data == "first":
     #     keyboardmain = types.InlineKeyboardMarkup(row_width=3)
     #     first_button = types.InlineKeyboardButton(text="🔘 Button", callback_data="first")
@@ -588,7 +597,7 @@ def process_callback(query):
             if query.data == "edit" or query.data == callback:
                 catIcons = ["T","C","R","E"]
                 catIC = ["⌨","💬","📣","⚡"]
-                catVal = [3,2,3,2]
+                # catVal = [3,2,3,2]
                 list = ["✳","✴","🅾"]
                 icons = ["✳","✴","🅾"]
                 keys = []
@@ -597,9 +606,10 @@ def process_callback(query):
                     keys.append(types.InlineKeyboardButton(text=catIC[category], callback_data=catIC[category]))
                     for num in range(1,4):
                         if callback == catIcons[category]+str(num):
-                            catVal[category] = num
+                            MessageModel.update_message(args={'kID': str(kID)}, set_query={ "$set": {socialTypes[category]: num} })
+                            # catVal[category] = num
                     for index in range(len(list)):
-                        if catVal[category] == index+1:
+                        if socialValues[category] == index+1:
                             list[index] = "☑"
                             keys.append(types.InlineKeyboardButton(text=list[index], callback_data=catIcons[category]+str(index+1)))
                             print(list[index])
@@ -624,10 +634,14 @@ def process_callback(query):
         third_button = types.InlineKeyboardButton(text="Edit", callback_data="edit")
         keyboardmain.add(first_button, second_button,third_button)
         bot.answer_callback_query(callback_query_id=query.id)
-        bot.edit_message_reply_markup(
-                            chat_id=chat_id,
-                            message_id=message_id,
-                            reply_markup=keyboardmain)
+        bot.edit_message_media(media=types.InputMediaPhoto(generateImage(kID=kID)),
+                                    chat_id=chat_id,
+                                    message_id=message_id,
+                                    reply_markup=keyboardmain)
+        # bot.edit_message_reply_markup(
+        #                     chat_id=chat_id,
+        #                     message_id=message_id,
+        #                     reply_markup=keyboardmain)
     elif query.data == "third":
         keyboardmain = types.InlineKeyboardMarkup(row_width=3)
         first_button = types.InlineKeyboardButton(text="⚪ Button", callback_data="first")
