@@ -552,12 +552,14 @@ def process_callback(query):
             callback = cat+str(num)
             if query.data == "second" or query.data == callback:
                 catIcons = ["T","C","R","E"]
+                catIC = ["⌨","💬","📣","⚡"]
                 catVal = [3,2,3,2]
-                list = ["✳","⏺","🅾"]
-                icons = ["✳","⏺","🅾"]
+                list = ["✳","✴","🅾"]
+                icons = ["✳","✴","🅾"]
                 keys = []
                 for category in range(4):
                     print(catIcons[category])
+                    keys.append(types.InlineKeyboardButton(text=catIC[category], callback_data=""))
                     for num in range(1,4):
                         if callback == catIcons[category]+str(num):
                             catVal[category] = num
@@ -572,7 +574,7 @@ def process_callback(query):
                             keys.append(types.InlineKeyboardButton(text=list[index], callback_data=catIcons[category]+str(index+1)))
                             print(list[index])
                     # print(index+1)
-                keyboardmain = types.InlineKeyboardMarkup(row_width=3)
+                keyboardmain = types.InlineKeyboardMarkup(row_width=4)
                 keyboardmain.add(*keys)
                 bot.answer_callback_query(callback_query_id=query.id)
                 bot.edit_message_reply_markup(
