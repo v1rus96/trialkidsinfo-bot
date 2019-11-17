@@ -489,7 +489,7 @@ def query_text(query):
         except Exception as e:
             print("{!s}\n{!s}".format(type(e), str(e)))
     elif (query.query.find('assign') != -1): 
-        digits_pattern = re.compile(r'^[0-9]+ estimate', re.MULTILINE)
+        digits_pattern = re.compile(r'^[0-9]+ assign', re.MULTILINE)
         try:
             matches = re.match(digits_pattern, query.query)
             num1, num2 = matches.group().split()
