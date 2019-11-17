@@ -359,9 +359,9 @@ def process_interest_step(message):
             'session': user.session
         })
         keyboardmain = types.InlineKeyboardMarkup(row_width=3)
-        first_button = types.InlineKeyboardButton(text="Button", switch_inline_query_current_chat=user.id + " order")
-        second_button = types.InlineKeyboardButton(text="Button", callback_data="second")
-        third_button = types.InlineKeyboardButton(text="Button", callback_data="third")
+        first_button = types.InlineKeyboardButton(text="Order", switch_inline_query_current_chat=user.id + " order")
+        second_button = types.InlineKeyboardButton(text="Tasks", callback_data="tasks")
+        third_button = types.InlineKeyboardButton(text="Edit", callback_data="edit")
         keyboardmain.add(first_button, second_button,third_button)
         sent = bot.send_photo(chat_id=-1001341610441, photo=generateImage(kID=user.id), reply_markup=keyboardmain)
         bot.send_message(chat_id, 'Nice to meet you ' + user.name + '\n Age:' + str(user.age) + '\n Sex:' + user.sex,reply_markup=keyboard())
@@ -550,12 +550,12 @@ def process_callback(query):
     for cat in ["T","C","R","E"]:
         for num in range(1,4):
             callback = cat+str(num)
-            if query.data == "second" or query.data == callback:
+            if query.data == "edit" or query.data == callback:
                 catIcons = ["T","C","R","E"]
                 catIC = ["⌨","💬","📣","⚡"]
                 catVal = [3,2,3,2]
                 list = ["✳","✴","🅾"]
-                icons = ["🟩","🟨","🟥"]
+                icons = ["✳","✴","🅾"]
                 keys = []
                 for category in range(4):
                     print(catIcons[category])
@@ -575,13 +575,25 @@ def process_callback(query):
                             print(list[index])
                     # print(index+1)
                 keyboardmain = types.InlineKeyboardMarkup(row_width=4)
-                keyboardmain.add(*keys)
+                back = types.InlineKeyboardButton(text="🔙", callback_data="backFromSocial")
+                keyboardmain.add(*keys, back)
                 bot.answer_callback_query(callback_query_id=query.id)
                 bot.edit_message_reply_markup(
                                     chat_id=chat_id,
                                     message_id=message_id,
                                     reply_markup=keyboardmain)
-    if query.data == "third":
+    if query.data == "backFromSocial":
+        keyboardmain = types.InlineKeyboardMarkup(row_width=3)
+        first_button = types.InlineKeyboardButton(text="Order", switch_inline_query_current_chat=" order")
+        second_button = types.InlineKeyboardButton(text="Tasks", callback_data="tasks")
+        third_button = types.InlineKeyboardButton(text="Edit", callback_data="edit")
+        keyboardmain.add(first_button, second_button,third_button)
+        bot.answer_callback_query(callback_query_id=query.id)
+        bot.edit_message_reply_markup(
+                            chat_id=chat_id,
+                            message_id=message_id,
+                            reply_markup=keyboardmain)
+    elif query.data == "third":
         keyboardmain = types.InlineKeyboardMarkup(row_width=3)
         first_button = types.InlineKeyboardButton(text="⚪ Button", callback_data="first")
         second_button = types.InlineKeyboardButton(text="⚪ Button", callback_data="second")
