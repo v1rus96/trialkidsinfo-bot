@@ -559,7 +559,7 @@ def process_callback(query):
                 keys = []
                 for category in range(4):
                     print(catIcons[category])
-                    keys.append(types.InlineKeyboardButton(text=catIC[category], callback_data=""))
+                    keys.append(types.InlineKeyboardButton(text=catIC[category], callback_data=catIC[category]))
                     for num in range(1,4):
                         if callback == catIcons[category]+str(num):
                             catVal[category] = num
