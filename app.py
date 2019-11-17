@@ -46,6 +46,7 @@ class User:
         self.communication = 0
         self.response = 0
         self.energy = 0
+        self.assign = None
         self.date = None
         self.photo = None
         self.session = None
@@ -75,6 +76,7 @@ def generateImage(kID):
     estimation = find['estimation']
     group = find['group']
     url = find['photo']
+    assign = find['assignedTo']
     print(find)
     img = Image.new("RGB", (500,583), color="red")
     #x,y = img.size
@@ -104,6 +106,7 @@ def generateImage(kID):
     draw.text((313,253),interest,(255,255,255),font=fnt1)
     draw.text((313,306),estimation,(255,255,255),font=fnt1)
     draw.text((313,358),group,(255,255,255),font=fnt1)
+    draw.text((67,475),assign,(255,255,255),font=fnt)
     draw.text((24,9),str(order),(255,255,255),font=fnt2)
     #img.save('final.png')
     bio = BytesIO()
@@ -354,6 +357,7 @@ def process_interest_step(message):
             'communication': user.communication,
             'response': user.response,
             'energy': user.energy,
+            'assignedTo': user.assign,
             'date': user.date,
             'photo': user.photo,
             'session': user.session
@@ -484,7 +488,33 @@ def query_text(query):
             bot.answer_inline_query(query.id, results, cache_time=0)
         except Exception as e:
             print("{!s}\n{!s}".format(type(e), str(e)))
-    
+    elif (query.query.find('assign') != -1): 
+        digits_pattern = re.compile(r'^[0-9]+ estimate', re.MULTILINE)
+        try:
+            matches = re.match(digits_pattern, query.query)
+            num1, num2 = matches.group().split()
+        except AttributeError as ex:
+            return print(ex)
+        
+        tasks = ["Keycy","Huawa","Joyce"]
+        results_array = []
+        try:
+            for val in tasks: #for i, val in enumerate(tasks): 
+                print(val)
+                try:
+                    results_array.append(types.InlineQueryResultArticle(
+                            id=val, title=val,
+                            # Описание отображается в подсказке,
+                            # message_text - то, что будет отправлено в виде сообщения
+                            description="Результат: {!s}".format(val),
+                            input_message_content=types.InputTextMessageContent(
+                            message_text="{!s} + {!s}".format(num1, num2))
+                    ))
+                except Exception as e:
+                    print(e)
+            bot.answer_inline_query(query.id, results_array)
+        except Exception as e:
+            print("{!s}\n{!s}".format(type(e), str(e)))
 
 @bot.chosen_inline_handler(lambda chosen_inline_result: True)
 def test_chosen(chosen_inline_result):
@@ -496,6 +526,11 @@ def test_chosen(chosen_inline_result):
         message_id = find['message_id']
     if action == 'estimate':
         MessageModel.update_message(args={'kID': str(kID)}, set_query={ "$set": {'estimation': chosen_inline_result.result_id} })
+        bot.edit_message_media(media=types.InputMediaPhoto(generateImage(kID=kID)),
+                                chat_id=chat_id,
+                                message_id=message_id)
+    elif action == 'assign':
+        MessageModel.update_message(args={'kID': str(kID)}, set_query={ "$set": {'assignedTo': chosen_inline_result.result_id} })
         bot.edit_message_media(media=types.InputMediaPhoto(generateImage(kID=kID)),
                                 chat_id=chat_id,
                                 message_id=message_id)
