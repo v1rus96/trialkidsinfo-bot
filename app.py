@@ -46,7 +46,7 @@ class User:
         self.communication = 0
         self.response = 0
         self.energy = 0
-        self.assign = None
+        self.assign = "None"
         self.date = None
         self.photo = None
         self.session = None
