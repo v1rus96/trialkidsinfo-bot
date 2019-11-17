@@ -555,7 +555,7 @@ def process_callback(query):
                 catIC = ["⌨","💬","📣","⚡"]
                 catVal = [3,2,3,2]
                 list = ["✳","✴","🅾"]
-                icons = ["✳","✴","🅾"]
+                icons = ["🟩","🟨","🟥"]
                 keys = []
                 for category in range(4):
                     print(catIcons[category])
