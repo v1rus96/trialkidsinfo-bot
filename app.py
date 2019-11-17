@@ -564,17 +564,14 @@ def process_callback(query):
                     for index in range(len(list)):
                         if catVal[category] == index+1:
                             list[index] = "☑"
+                            keyboardmain.add(types.InlineKeyboardButton(text=list[index], callback_data=catIcons[category]+str(index+1)))
                             print(list[index])
                             # print(index+1)
                         else:
                             list[index] = icons[index]
+                            keyboardmain.add(types.InlineKeyboardButton(text=list[index], callback_data=catIcons[category]+str(index+1)))
                             print(list[index])
                     # print(index+1)
-                types.InlineKeyboardButton(text="⚪ Button", callback_data="first")
-                first_button = types.InlineKeyboardButton(text="⚪ Button", callback_data="first")
-                second_button = types.InlineKeyboardButton(text="🔘 Button", callback_data="second")
-                third_button = types.InlineKeyboardButton(text="⚪ Button", callback_data="third")
-                keyboardmain.add(first_button, second_button,third_button)
                 bot.answer_callback_query(callback_query_id=query.id)
                 bot.edit_message_reply_markup(
                                     chat_id=chat_id,
