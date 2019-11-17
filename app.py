@@ -96,7 +96,7 @@ def generateImage(kID):
     for i in range(len(type)):
         for i2 in range(len(level)):
             print(type[i]+level[i2])
-            if i2 == socialValues[i]:
+            if i2+1 == socialValues[i]:
                 social = Image.open("images/"+type[i]+level[i2]+".png")
                 img.paste(social,(x[i],368), social)
     imga = detect_face(url)
