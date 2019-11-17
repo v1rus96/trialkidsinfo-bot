@@ -77,6 +77,10 @@ def generateImage(kID):
     group = find['group']
     url = find['photo']
     assign = find['assignedTo']
+    typing = find['typing']
+    communication = find['communication']
+    response = find['response']
+    energy = find['energy']
     print(find)
     img = Image.new("RGB", (500,583), color="red")
     #x,y = img.size
@@ -85,6 +89,16 @@ def generateImage(kID):
     img.paste(background)
     genderMale = Image.open("images/male.png")
     genderFemale = Image.open("images/female.png")
+    type = ["Typing","Communication","Response","Energy"]
+    level = ["Good","Average","Low"]
+    socialValues = [typing, communication, response, energy]
+    x = [37,84,131,174]
+    for i in range(len(type)):
+        for i2 in range(len(level)):
+            print(type[i]+level[i2])
+            if i2 == socialValues[i]:
+                social = Image.open("images/"+type[i]+level[i2]+".png")
+                img.paste(social,(x[i],368), social)
     imga = detect_face(url)
     photoLoad = Image.open(BytesIO(imga))
     if sex == 'Male':
