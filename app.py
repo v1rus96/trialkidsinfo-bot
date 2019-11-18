@@ -100,13 +100,14 @@ def generateImage(kID):
             if i2+1 == socialValues[i]:
                 social = Image.open("images/"+type[i]+level[i2]+".png")
                 img.paste(social, (x[i], 368), social)
-    imga = detect_face(url)
-    photoLoad = Image.open(BytesIO(imga))
+    if url is not "None":
+        imga = detect_face(url)
+        photoLoad = Image.open(BytesIO(imga))
+        img.paste(photoLoad, (49, 149))
     if sex == 'Male':
         img.paste(genderMale, (87, 37), genderMale)
     else:
         img.paste(genderFemale, (87, 37), genderFemale)
-    img.paste(photoLoad, (49, 149))
     draw = ImageDraw.Draw(img)  
     fnt = ImageFont.truetype('images/Quicksand-Bold.ttf', 25)
     fnt1 = ImageFont.truetype('images/Quicksand-Bold.ttf', 30)
@@ -295,12 +296,14 @@ def process_experience_step(message):
 def process_reply_step(message):
     try:
         chat_id = message.chat.id
+        user = user_dict[chat_id]
         add = message.text
         if (add == 'Yes'):
             msg = bot.send_message(
                 chat_id, "[🤖] Please Upload/Take a photo of kid:", reply_markup=types.ForceReply())
             return bot.register_next_step_handler(msg, process_photo_step)
         else:
+            user.photo = "None"
             bot.send_message(chat_id, 'Thank you!')
             return process_done(chat_id)
     except Exception as e:
