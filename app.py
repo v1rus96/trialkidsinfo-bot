@@ -588,6 +588,11 @@ def process_callback(query):
     find = MessageModel.get_one(args={'message_id': message_id}, filters={'_id': 0})
     if find:
         kID = find['kID']
+        typing = find['typing']
+        communication = find['communication']
+        response = find['response']
+        energy = find['energy']
+        socialValues = [typing, communication, response, energy]
     socialTypes = ['typing','communication','response','energy']
     # if query.data == "first":
     #     keyboardmain = types.InlineKeyboardMarkup(row_width=3)
@@ -617,11 +622,8 @@ def process_callback(query):
                 for num in range(1,4):
                     if query.data == catIcons[category]+str(num):
                         MessageModel.update_message(args={'kID': str(kID)}, set_query={ "$set": {socialTypes[category]: num} })
-                        typing = find['typing']
-                        communication = find['communication']
-                        response = find['response']
-                        energy = find['energy']
-                        socialValues = [typing, communication, response, energy]
+                        edited = find[socialTypes[category]]
+                        socialValues[category] = edited
                         # catVal[category] = num
                 for index in range(len(list)):
                     if socialValues[category] == index+1:
