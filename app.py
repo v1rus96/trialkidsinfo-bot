@@ -301,8 +301,8 @@ def process_reply_step(message):
                 chat_id, "[🤖] Please Upload/Take a photo of kid:", reply_markup=types.ForceReply())
             return bot.register_next_step_handler(msg, process_photo_step)
         else:
-            msg = bot.send_message(chat_id, 'What kids like?')
-            return bot.register_next_step_handler(msg, process_done)
+            bot.send_message(chat_id, 'Thank you!')
+            return process_done(chat_id)
     except Exception as e:
         bot.reply_to(message, 'oooops' + e)
 
@@ -313,8 +313,8 @@ def process_photo_step(message):
         user.photo = "https://api.telegram.org/file/bot880055204:AAGeIliCzZvmW6mxtUlT1N799tpwu4znpf8/" + \
             str(bot.get_file(message.photo[-1].file_id).file_path)
         print(user.photo)
-        msg = bot.send_message(chat_id, 'Thank you!')
-        return bot.register_next_step_handler(msg, process_done)
+        bot.send_message(chat_id, 'Thank you!')
+        return process_done(chat_id)
     except Exception as e:
         bot.reply_to(message, 'oooops' + e)
 
@@ -336,9 +336,8 @@ def process_interest_step(message):
     except Exception as e:
         bot.reply_to(message, 'oooops' + e)
 
-def process_done(message):
+def process_done(chat_id):
     try:
-        chat_id = message.chat.id
         user = user_dict[chat_id]
         if int(user.age) <= 5:
             estimation = "Square"
@@ -427,7 +426,7 @@ def process_done(message):
         MessageModel.update_message(args={'kID': user.id}, set_query={
                                     "$set": {'message_id': sent.message_id}})
     except Exception as e:
-        bot.reply_to(message, 'oooops' + e)
+        print(e)
 
 bot.enable_save_next_step_handlers(delay=2)
 
