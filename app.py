@@ -622,8 +622,7 @@ def process_callback(query):
                 for num in range(1,4):
                     if query.data == catIcons[category]+str(num):
                         MessageModel.update_message(args={'kID': str(kID)}, set_query={ "$set": {socialTypes[category]: num} })
-                        edited = find[socialTypes[category]]
-                        socialValues[category] = edited
+                        socialValues[category] = num
                         # catVal[category] = num
                 for index in range(len(list)):
                     if socialValues[category] == index+1:
