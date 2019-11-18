@@ -122,7 +122,6 @@ def generateImage(kID):
     draw.text((313, 358), group, (255, 255, 255), font=fnt1)
     draw.text((67, 475), assign, (255, 255, 255), font=fnt)
     draw.text((24, 9), str(order), (255, 255, 255), font=fnt2)
-    # img.save('final.png')
     bio = BytesIO()
     bio.name = 'image.png'
     img.save(bio, 'PNG')
@@ -134,8 +133,6 @@ def url_to_image(url):
     resp = urllib.request.urlopen(url)
     image = np.asarray(bytearray(resp.read()), dtype="uint8")
     image = cv2.imdecode(image, cv2.IMREAD_COLOR)
-
-    # return the image
     return image
 
 
@@ -162,7 +159,7 @@ def detect_face(url):
 def echo(m):
     chat_id = m.chat.id
     if m.text == 'Add kid':
-        msg = bot.send_message(chat_id, "What is kids ID?",
+        msg = bot.send_message(chat_id, "[🤖] Please enter kids name:",
                                reply_markup=types.ForceReply())
         return bot.register_next_step_handler(msg, process_name_step)
     elif m.text == 'Pin':
@@ -178,7 +175,7 @@ def process_name_step(message):
         name = message.text
         user = User(name)
         user_dict[chat_id] = user
-        msg = bot.send_message(chat_id, "How old?",
+        msg = bot.send_message(chat_id, "[🤖] How old is the kid?",
                                reply_markup=types.ForceReply())
         return bot.register_next_step_handler(msg, process_age_step)
     except Exception as e:
@@ -193,7 +190,7 @@ def process_age_step(message):
         age = message.text
         if not age.isdigit():
             msg = bot.send_message(
-                chat_id, "Age Number pls", reply_markup=types.ForceReply())
+                chat_id, "[🤖] Please use only numbers! Age:", reply_markup=types.ForceReply())
             bot.register_next_step_handler(msg, process_age_step)
             return
         user = user_dict[chat_id]
@@ -202,7 +199,7 @@ def process_age_step(message):
             one_time_keyboard=True, resize_keyboard=True)
         markups.add('Male', 'Female')
         msg = bot.send_message(
-            chat_id, 'What is your gender', reply_markup=markups)
+            chat_id, '[🤖] Choose kids gender:', reply_markup=markups)
         return bot.register_next_step_handler(msg, process_sex_step)
     except Exception as e:
         bot.reply_to(message, 'oooops' + e)
@@ -217,7 +214,7 @@ def process_sex_step(message):
         user = user_dict[chat_id]
         if (sex == 'Male') or (sex == 'Female'):
             user.sex = sex
-            msg = bot.send_message(chat_id, "kids ID?",
+            msg = bot.send_message(chat_id, "[🤖] Enter KIDO ID of the kid:",
                                    reply_markup=types.ForceReply())
             return bot.register_next_step_handler(msg, process_id_step)
         else:
@@ -230,13 +227,18 @@ def process_id_step(message):
     try:
         chat_id = message.chat.id
         id = message.text
+        if not id.isdigit():
+            msg = bot.send_message(
+                chat_id, "[🤖] Please use only numbers! KIDO ID:", reply_markup=types.ForceReply())
+            bot.register_next_step_handler(msg, process_id_step)
+            return
         user = user_dict[chat_id]
         user.id = id
         markups = types.ReplyKeyboardMarkup(
             one_time_keyboard=True, resize_keyboard=True)
         markups.add('Art', 'Science')
         msg = bot.send_message(
-            chat_id, 'What kids like?', reply_markup=markups)
+            chat_id, '[🤖] What does kid prefer Art/Sci?', reply_markup=markups)
         return bot.register_next_step_handler(msg, process_brain_step)
     except Exception as e:
         bot.reply_to(message, 'oooops' + e)
@@ -252,7 +254,7 @@ def process_brain_step(message):
             markups = types.ReplyKeyboardMarkup(
                 row_width=2, one_time_keyboard=True, resize_keyboard=True)
             markups.add('Minecraft', 'Roblox', 'Both')
-            msg = bot.send_message(chat_id, "Game?", reply_markup=markups)
+            msg = bot.send_message(chat_id, "[🤖] What game kid plays?", reply_markup=markups)
             return bot.register_next_step_handler(msg, process_game_step)
         else:
             raise Exception()
@@ -268,7 +270,7 @@ def process_game_step(message):
         if (game == 'Minecraft') or (game == 'Roblox') or (game == 'Both'):
             user.game = game
             msg = bot.send_message(
-                chat_id, "Experience?", reply_markup=types.ForceReply())
+                chat_id, "[🤖] Enter kids experience in coding:", reply_markup=types.ForceReply())
             return bot.register_next_step_handler(msg, process_experience_step)
         else:
             raise Exception()
@@ -285,11 +287,24 @@ def process_experience_step(message):
         markups = types.ReplyKeyboardMarkup(
             one_time_keyboard=True, resize_keyboard=True)
         markups.add('Mobile', 'Robotics')
-        msg = bot.send_message(chat_id, 'Photo?', reply_markup=markups)
-        return bot.register_next_step_handler(msg, process_photo_step)
+        msg = bot.send_message(chat_id, 'Interest?', reply_markup=markups)
+        return bot.register_next_step_handler(msg, process_interest_step)
     except Exception as e:
         bot.reply_to(message, 'oooops' + e)
 
+def process_reply_step(message):
+    try:
+        chat_id = message.chat.id
+        add = message.text
+        if (add == 'Yes'):
+            msg = bot.send_message(
+                chat_id, "[🤖] Please Upload/Take a photo of kid:", reply_markup=types.ForceReply())
+            return bot.register_next_step_handler(msg, process_photo_step)
+        else:
+            msg = bot.send_message(chat_id, 'What kids like?')
+            return bot.register_next_step_handler(msg, process_done)
+    except Exception as e:
+        bot.reply_to(message, 'oooops' + e)
 
 def process_photo_step(message):
     try:
@@ -298,8 +313,8 @@ def process_photo_step(message):
         user.photo = "https://api.telegram.org/file/bot880055204:AAGeIliCzZvmW6mxtUlT1N799tpwu4znpf8/" + \
             str(bot.get_file(message.photo[-1].file_id).file_path)
         print(user.photo)
-        msg = bot.send_message(chat_id, 'What kids like?')
-        return bot.register_next_step_handler(msg, process_interest_step)
+        msg = bot.send_message(chat_id, 'Thank you!')
+        return bot.register_next_step_handler(msg, process_done)
     except Exception as e:
         bot.reply_to(message, 'oooops' + e)
 
@@ -311,8 +326,20 @@ def process_interest_step(message):
         user = user_dict[chat_id]
         if (interest == 'Mobile') or (interest == 'Robotics'):
             user.interest = interest
+            markups = types.ReplyKeyboardMarkup(
+            one_time_keyboard=True, resize_keyboard=True)
+            markups.add('Yes', 'No')
+            msg = bot.send_message(chat_id, '[🤖] Do you want to add photo?', reply_markup=markups)
+            return bot.register_next_step_handler(msg, process_reply_step)
         else:
             raise Exception()
+    except Exception as e:
+        bot.reply_to(message, 'oooops' + e)
+
+def process_done(message):
+    try:
+        chat_id = message.chat.id
+        user = user_dict[chat_id]
         if int(user.age) <= 5:
             estimation = "Square"
             group = "Curious"
@@ -401,7 +428,6 @@ def process_interest_step(message):
                                     "$set": {'message_id': sent.message_id}})
     except Exception as e:
         bot.reply_to(message, 'oooops' + e)
-
 
 bot.enable_save_next_step_handlers(delay=2)
 
@@ -614,8 +640,9 @@ def process_callback(query):
         energy = find['energy']
         socialValues = [typing, communication, response, energy]
     socialTypes = ['typing', 'communication', 'response', 'energy']
+    callbacks = ["T1", "T2", "T3", "C1", "C2", "C3", "R1", "R2", "R3", "E1", "E2", "E3"]
     try:
-        if query.data == "edit" or query.data in ["T1", "T2", "T3", "C1", "C2", "C3", "R1", "R2", "R3", "E1", "E2", "E3"]:
+        if query.data == "edit" or query.data in callbacks:
             catIcons = ["T", "C", "R", "E"]
             catIC = ["⌨", "💬", "📣", "⚡"]
             # catVal = [3,2,3,2]
