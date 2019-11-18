@@ -92,7 +92,7 @@ def generateImage(kID):
     type = ["Typing","Communication","Response","Energy"]
     level = ["Good","Average","Low"]
     socialValues = [typing, communication, response, energy]
-    x = [37,84,131,174]
+    x = [37,84,131,178]
     for i in range(len(type)):
         for i2 in range(len(level)):
             print(type[i]+level[i2])
