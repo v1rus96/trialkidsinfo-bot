@@ -608,39 +608,43 @@ def process_callback(query):
     # for cat in ["T1","T2","T3","C1","C2","C3","R1","R2","R3","E1","E2","E3"]:
     #     for num in range(1,4):
     #         callback = cat+str(num)
-    if query.data == "edit" or query.data in ["T1","T2","T3","C1","C2","C3","R1","R2","R3","E1","E2","E3"]:
-        catIcons = ["T","C","R","E"]
-        catIC = ["⌨","💬","📣","⚡"]
-        # catVal = [3,2,3,2]
-        list = ["✳","✴","🅾"]
-        icons = ["✳","✴","🅾"]
-        keys = []
-        for category in range(4):
-            print(catIcons[category])
-            keys.append(types.InlineKeyboardButton(text=catIC[category], callback_data=catIC[category]))
-            for num in range(1,4):
-                if query.data == catIcons[category]+str(num):
-                    MessageModel.update_message(args={'kID': str(kID)}, set_query={ "$set": {socialTypes[category]: num} })
-                    # catVal[category] = num
-            for index in range(len(list)):
-                if socialValues[category] == index+1:
-                    list[index] = "☑"
-                    keys.append(types.InlineKeyboardButton(text=list[index], callback_data=catIcons[category]+str(index+1)))
-                    print(list[index])
-                    # print(index+1)
-                else:
-                    list[index] = icons[index]
-                    keys.append(types.InlineKeyboardButton(text=list[index], callback_data=catIcons[category]+str(index+1)))
-                    print(list[index])
-            # print(index+1)
-        keyboardmain = types.InlineKeyboardMarkup(row_width=4)
-        back = types.InlineKeyboardButton(text="🔙", callback_data="backFromSocial")
-        keyboardmain.add(*keys, back)
-        bot.answer_callback_query(callback_query_id=query.id)
-        bot.edit_message_reply_markup(
-                            chat_id=chat_id,
-                            message_id=message_id,
-                            reply_markup=keyboardmain)
+    try:
+        if query.data == "edit" or query.data in ["T1","T2","T3","C1","C2","C3","R1","R2","R3","E1","E2","E3"]:
+            catIcons = ["T","C","R","E"]
+            catIC = ["⌨","💬","📣","⚡"]
+            # catVal = [3,2,3,2]
+            list = ["✳","✴","🅾"]
+            icons = ["✳","✴","🅾"]
+            keys = []
+            for category in range(4):
+                print(catIcons[category])
+                keys.append(types.InlineKeyboardButton(text=catIC[category], callback_data=catIC[category]))
+                for num in range(1,4):
+                    if query.data == catIcons[category]+str(num):
+                        MessageModel.update_message(args={'kID': str(kID)}, set_query={ "$set": {socialTypes[category]: num} })
+                        # catVal[category] = num
+                for index in range(len(list)):
+                    if socialValues[category] == index+1:
+                        list[index] = "☑"
+                        keys.append(types.InlineKeyboardButton(text=list[index], callback_data=catIcons[category]+str(index+1)))
+                        print(list[index])
+                        # print(index+1)
+                    else:
+                        list[index] = icons[index]
+                        keys.append(types.InlineKeyboardButton(text=list[index], callback_data=catIcons[category]+str(index+1)))
+                        print(list[index])
+                # print(index+1)
+            keyboardmain = types.InlineKeyboardMarkup(row_width=4)
+            back = types.InlineKeyboardButton(text="🔙", callback_data="backFromSocial")
+            keyboardmain.add(*keys, back)
+            bot.answer_callback_query(callback_query_id=query.id)
+            bot.edit_message_reply_markup(
+                                chat_id=chat_id,
+                                message_id=message_id,
+                                reply_markup=keyboardmain)
+    except Exception as e:
+        print(e)
+
     if query.data == "backFromSocial":
         keyboardmain = types.InlineKeyboardMarkup(row_width=3)
         first_button = types.InlineKeyboardButton(text="Order", switch_inline_query_current_chat=" order")
