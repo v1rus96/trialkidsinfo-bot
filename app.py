@@ -100,7 +100,7 @@ def generateImage(kID):
             if i2+1 == socialValues[i]:
                 social = Image.open("images/"+type[i]+level[i2]+".png")
                 img.paste(social, (x[i], 368), social)
-    if url is not "None":
+    if url != 'None':
         imga = detect_face(url)
         photoLoad = Image.open(BytesIO(imga))
         img.paste(photoLoad, (49, 149))
