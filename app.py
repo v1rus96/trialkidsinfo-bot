@@ -49,6 +49,7 @@ class User:
         self.response = 0
         self.energy = 0
         self.assign = "None"
+        self.family = "-"
         self.date = None
         self.photo = None
         self.session = None
@@ -84,6 +85,7 @@ def generateImage(kID):
     communication = find['communication']
     response = find['response']
     energy = find['energy']
+    family = find['family']
     print(find)
     img = Image.new("RGB", (500, 583), color="red")
     background = Image.open("images/background.png")
@@ -114,6 +116,7 @@ def generateImage(kID):
     fnt2 = ImageFont.truetype('images/Quicksand-Bold.ttf', 35)
     draw.text((63, 92), "KIDO"+kID, (255, 255, 255), font=fnt) 
     draw.text((355, 27), age, (255, 255, 255), font=fnt1)
+    draw.text((441, 27), family, (255, 255, 255), font=fnt1)
     draw.text((121, 27), name, (255, 255, 255), font=fnt1)
     draw.text((313, 96), brain, (255, 255, 255), font=fnt1)
     draw.text((313, 149), game, (255, 255, 255), font=fnt1)
@@ -207,9 +210,7 @@ def process_age_step(message):
 
 
 def process_sex_step(message):
-    print("sex")
     try:
-        print("try sex")
         chat_id = message.chat.id
         sex = message.text
         user = user_dict[chat_id]
@@ -410,6 +411,7 @@ def process_done(chat_id):
             'response': user.response,
             'energy': user.energy,
             'assignedTo': user.assign,
+            'family': user.family,
             'date': user.date,
             'photo': user.photo,
             'session': user.session
@@ -569,6 +571,31 @@ def query_text(query):
             bot.answer_inline_query(query.id, results_array)
         except Exception as e:
             print("{!s}\n{!s}".format(type(e), str(e)))
+    elif (query.query.find('family') != -1):
+        digits_pattern = re.compile(r'^[0-9]+ assign', re.MULTILINE)
+        try:
+            matches = re.match(digits_pattern, query.query)
+            num1, num2 = matches.group().split()
+        except AttributeError as ex:
+            return print(ex)
+
+        tasks = ["A", "B", "C","D","E","F"]
+        results_array = []
+        try:
+            for val in tasks: 
+                print(val)
+                try:
+                    results_array.append(types.InlineQueryResultArticle(
+                        id=val, title=val,
+                        description="Результат: {!s}".format(val),
+                        input_message_content=types.InputTextMessageContent(
+                            message_text="{!s} + {!s}".format(num1, num2))
+                    ))
+                except Exception as e:
+                    print(e)
+            bot.answer_inline_query(query.id, results_array)
+        except Exception as e:
+            print("{!s}\n{!s}".format(type(e), str(e)))
 
 
 @bot.chosen_inline_handler(lambda chosen_inline_result: True)
@@ -588,6 +615,12 @@ def test_chosen(chosen_inline_result):
     elif action == 'assign':
         MessageModel.update_message(args={'kID': str(kID)}, set_query={
                                     "$set": {'assignedTo': chosen_inline_result.result_id}})
+        bot.edit_message_media(media=types.InputMediaPhoto(generateImage(kID=kID)),
+                               chat_id=chat_id,
+                               message_id=message_id)
+    elif action == 'family':
+        MessageModel.update_message(args={'kID': str(kID)}, set_query={
+                                    "$set": {'family': chosen_inline_result.result_id}})
         bot.edit_message_media(media=types.InputMediaPhoto(generateImage(kID=kID)),
                                chat_id=chat_id,
                                message_id=message_id)
