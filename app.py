@@ -416,16 +416,8 @@ def process_done(chat_id):
             'photo': user.photo,
             'session': user.session
         })
-        keyboardmain = types.InlineKeyboardMarkup(row_width=3)
-        first_button = types.InlineKeyboardButton(
-            text="Order", switch_inline_query_current_chat=user.id + " order")
-        second_button = types.InlineKeyboardButton(
-            text="Tasks", callback_data="tasks")
-        third_button = types.InlineKeyboardButton(
-            text="Edit", callback_data="edit")
-        keyboardmain.add(first_button, second_button, third_button)
         sent = bot.send_photo(
-            chat_id=-1001341610441, photo=generateImage(kID=user.id), reply_markup=keyboardmain)
+            chat_id=-1001341610441, photo=generateImage(kID=user.id), reply_markup=mainKeyboard(user.id))
         bot.send_message(chat_id, 'Nice to meet you ' + user.name + '\n Age:' +
                          str(user.age) + '\n Sex:' + user.sex, reply_markup=keyboard())
         MessageModel.update_message(args={'kID': user.id}, set_query={
@@ -437,6 +429,16 @@ bot.enable_save_next_step_handlers(delay=2)
 
 bot.load_next_step_handlers()
 
+def mainKeyboard(kID):
+    keyboardmain = types.InlineKeyboardMarkup(row_width=3)
+    first_button = types.InlineKeyboardButton(
+        text="Order", switch_inline_query_current_chat=kID + " order")
+    second_button = types.InlineKeyboardButton(
+        text="Tasks", callback_data="tasks")
+    third_button = types.InlineKeyboardButton(
+        text="Edit", callback_data="edit")
+    keyboardmain.add(first_button, second_button, third_button)
+    return keyboardmain
 
 def keyboard():
     markup = types.ReplyKeyboardMarkup(
@@ -554,7 +556,7 @@ def query_text(query):
         except AttributeError as ex:
             return print(ex)
 
-        tasks = ["Keycy", "Huawa", "Joyce", "Thousand"]
+        tasks = ["Keycy", "Huawa", "Tima", "Thousand"]
         results_array = []
         try:
             for val in tasks: 
@@ -617,7 +619,8 @@ def test_chosen(chosen_inline_result):
                                     "$set": {'assignedTo': chosen_inline_result.result_id}})
         bot.edit_message_media(media=types.InputMediaPhoto(generateImage(kID=kID)),
                                chat_id=chat_id,
-                               message_id=message_id)
+                               message_id=message_id,
+                               reply_markup=mainKeyboard(kID))
     elif action == 'family':
         MessageModel.update_message(args={'kID': str(kID)}, set_query={
                                     "$set": {'family': chosen_inline_result.result_id}})
