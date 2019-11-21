@@ -554,7 +554,7 @@ def query_text(query):
         except AttributeError as ex:
             return print(ex)
 
-        tasks = ["Keycy", "Huawa", "Joyce"]
+        tasks = ["Keycy", "Huawa", "Joyce", "Thousand"]
         results_array = []
         try:
             for val in tasks: 
@@ -572,7 +572,7 @@ def query_text(query):
         except Exception as e:
             print("{!s}\n{!s}".format(type(e), str(e)))
     elif (query.query.find('family') != -1):
-        digits_pattern = re.compile(r'^[0-9]+ assign', re.MULTILINE)
+        digits_pattern = re.compile(r'^[0-9]+ family', re.MULTILINE)
         try:
             matches = re.match(digits_pattern, query.query)
             num1, num2 = matches.group().split()
